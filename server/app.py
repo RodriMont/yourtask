@@ -1,7 +1,6 @@
 from flask import Flask, request
 import pymysql
 import json
-from model import Utente
 
 db = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="1234", database="yourtask", autocommit=True)
 app = Flask(__name__)
@@ -69,7 +68,7 @@ def login():
 def get_user_by_email(email:str):
     query = "SELECT * FROM utente WHERE email= %s"
     cursor.execute(query, (email))
-    user = cursor.fetchall();
+    user = cursor.fetchall()
     return user
 
 
