@@ -37,6 +37,8 @@ export async function registrazione() {
       data
     );
 
+    console.log(request)
+
     if (!request.data.ok) {
       alert(`Email: ${email} gia in uso`);
       return false;
