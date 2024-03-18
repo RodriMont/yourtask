@@ -11,7 +11,7 @@ cursor = db.cursor()
 
 @app.route("/registrazione", methods=["POST"])
 def registrazione_utente():
-    data = request.get_json();
+    data = request.get_json()
     #cusor = db.cursor()
     username = data["username"]
     email = data["email"]
@@ -69,10 +69,9 @@ def login():
 def get_user_by_email(email:str):
     query = "SELECT * FROM utente WHERE email= %s"
     cursor.execute(query, (email))
-    user = cursor.fetchall();
+    user = cursor.fetchall()
+
     return user
 
-
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
