@@ -1,10 +1,11 @@
 from flask import Flask, request
+from flask_cors import CORS
 import pymysql
 import json
 
 db = pymysql.connect(host="127.0.0.1", port=3306, user="root", password="1234", database="yourtask", autocommit=True)
 app = Flask(__name__)
-
+CORS(app)
 cursor = db.cursor()
 
 
@@ -22,6 +23,8 @@ def registrazione_utente():
 
     try:
         user = get_user_by_email(email)
+
+        
         if(len(user) == 0):
             query = "INSERT INTO utente(username, email, password) VALUES (%s, %s, %s )"
             cursor.execute(query, (username, email, password))
@@ -69,10 +72,6 @@ def get_user_by_email(email:str):
     query = "SELECT * FROM utente WHERE email= %s"
     cursor.execute(query, (email))
     user = cursor.fetchall()
-<<<<<<< HEAD
-=======
-
->>>>>>> f1381960d0b2594f4752cb47239093aae12cb626
     return user
 
 if __name__ == "__main__":
