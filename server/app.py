@@ -69,10 +69,6 @@ def get_user_by_email(email:str):
     query = "SELECT * FROM utente WHERE email= %s"
     cursor.execute(query, (email))
     user = cursor.fetchall()
-<<<<<<< HEAD
-=======
-
->>>>>>> f1381960d0b2594f4752cb47239093aae12cb626
     return user
 
 if __name__ == "__main__":
