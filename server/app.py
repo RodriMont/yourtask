@@ -93,5 +93,33 @@ def task_utente():
 
     return json.dumps(tasks)
 
+@app.route("/utenti_task")
+def utenti_task():
+    id_task = request.args.get('id_task')
+    id_progetto = request.args.get('id_progetto')
+
+    cursor.execute(f"""select utente.id, utente.username, utente.email, utente.password
+                       from taskutente
+                       inner join utente
+                       on taskutente.id_utente = utente.id
+                       inner join task
+                       on taskutente.id_task = task.id
+                       where taskutente.id_task = {id_task} and task.id_progetto = {id_progetto}""")
+
+    rows = cursor.fetchall()
+    utenti = []
+
+    for row in rows:
+        id = row[0]
+        username = row[1]
+        email = row[2]
+        password = row[3]
+
+        utente = Utente(id, username, email, password)
+        utenti.append(utente.__dict__)
+
+    return json.dumps(utenti)
+    
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
