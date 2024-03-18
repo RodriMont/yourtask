@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import pymysql
 import json
 from model import *
@@ -18,6 +18,10 @@ cursor = connection.cursor()
 @app.route('/')
 def index():
     return "Hello World!"
+
+#=================================================================================================================================
+# GET
+#=================================================================================================================================
 
 @app.route("/progetti_utente")
 def progetti_utente():
@@ -45,7 +49,7 @@ def progetti_utente():
     return json.dumps(progetti)
 
 @app.route("/utente_email")
-def utente_email():
+def get_utente_email():
     email = request.args.get('email')
 
     cursor.execute(f"""select id, username, email, password
@@ -67,7 +71,7 @@ def utente_email():
     return json.dumps(utenti)
 
 @app.route("/task_utente")
-def task_utente():
+def get_task_utente():
     id_utente = request.args.get('id_utente')
     id_progetto = request.args.get('id_progetto')
 
@@ -94,7 +98,7 @@ def task_utente():
     return json.dumps(tasks)
 
 @app.route("/utenti_task")
-def utenti_task():
+def get_utenti_task():
     id_task = request.args.get('id_task')
     id_progetto = request.args.get('id_progetto')
 
@@ -119,7 +123,38 @@ def utenti_task():
         utenti.append(utente.__dict__)
 
     return json.dumps(utenti)
+
+#=================================================================================================================================
+# DELETE
+#=================================================================================================================================    
+
+@app.route("/utenti/<int:id>", methods=["DELETE"])
+def delete_user(id):
+    try:
+        with connection.cursor() as cursor:
+            sql = "delete from utente where id = %s"
+            cursor.execute(sql, (id))
+
+        connection.commit()
+
+        return jsonify({"message": "Utente eliminato con successo", "code": 200})
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"message:": "Errore nell'eliminiazione dell'utente", "code": 500})
     
+@app.route("/progetti/<int:id>", methods=["DELETE"])
+def delete_progetto(id):
+    try:
+        with connection.cursor() as cursor:
+            sql = "delete from progetto where id = %s"
+            cursor.execute(sql, (id))
+
+        connection.commit()
+
+        return jsonify({"message": "Progetto eliminato con successo", "code": 200})
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
