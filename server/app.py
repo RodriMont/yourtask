@@ -9,6 +9,7 @@ db = pymysql.connect(host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com",
                      password="12345678", 
                      database="yourtask", 
                      autocommit=True)
+
 app = Flask(__name__)
 CORS(app)
 connection = db.cursor()
