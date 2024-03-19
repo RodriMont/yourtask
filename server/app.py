@@ -4,14 +4,15 @@ import pymysql
 import json
 from model import Progetto, Task, Utente
 
-connection = pymysql.connect(
-    host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com",
-    user="rodri",
-    password="12345678",
-    database="yourtask",
-    port=3306
-)
+db = pymysql.connect(host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com", 
+                     port=3306, user="rodri", 
+                     password="12345678", 
+                     database="yourtask", 
+                     autocommit=True)
+
 app = Flask(__name__)
+CORS(app)
+connection = db.cursor()
 
 
 #=================================================================================================================================
