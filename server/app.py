@@ -195,11 +195,9 @@ def get_user_by_email(email:str):
 @app.route("/utenti/<int:id>", methods=["DELETE"])
 def delete_user(id):
     try:
-        with connection.cursor() as cursor:
-            sql = "delete from utente where id = %s"
-            cursor.execute(sql, (id))
-
-        connection.commit()
+        sql = "delete from utente where id = %s"
+        connection.execute(sql, (id))
+        db.commit()
 
         return jsonify({"message": "Utente eliminato con successo", "code": 200})
     except Exception as e:
@@ -209,16 +207,32 @@ def delete_user(id):
 @app.route("/progetti/<int:id>", methods=["DELETE"])
 def delete_progetto(id):
     try:
-        with connection.cursor() as cursor:
-            sql = "delete from progetto where id = %s"
-            cursor.execute(sql, (id))
-
-        connection.commit()
+        sql = "delete from progetto where id = %s"
+        connection.execute(sql, (id))
+        db.commit()
 
         return jsonify({"message": "Progetto eliminato con successo", "code": 200})
     except Exception as e:
         connection.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500})
+
+
+
+#UPDATE
+@app.route('/update_user/<int:id>', methods = ['PUT'])
+def update_user(id):
+    try:
+        data = request.json
+        sql = "UPDATE utente SET username = %s, email = %s where id= %s"
+        connection.execute(sql, (data['username'] , data['email'] , id))
+        db.commit()
+    
+        return jsonify ({'message': 'Data updated successfully' })
+    except Exception as e : 
+        db.rollback()
+        print(e.__str__())
+        return jsonify ({'error' : str(e)})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
