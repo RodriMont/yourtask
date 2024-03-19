@@ -4,15 +4,14 @@ import pymysql
 import json
 from model import Progetto, Task, Utente
 
-connection = pymysql.connect(
-    host="127.0.0.1",
-    user="root",
-    password="Vittoria117!",
-    database="yourtask",
-    port=3306
-)
+db = pymysql.connect(host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com", 
+                     port=3306, user="rodri", 
+                     password="12345678", 
+                     database="yourtask", 
+                     autocommit=True)
 app = Flask(__name__)
-
+CORS(app)
+connection = db.cursor()
 
 #=================================================================================================================================
 # GET
@@ -22,11 +21,11 @@ app = Flask(__name__)
 def progetti_utente():
     id_utente = request.args.get('id')
 
-    connection.execute(f"""select progetto.id, progetto.nome_progetto, progetto.data_avvio, progetto.data_scadenza, progetto.budget
-                    from utenteprogetto
-                    inner join progetto
-                    on utenteprogetto.id_progetto = progetto.id
-                    where utenteprogetto.id_utente = {id_utente}""")
+    connection.execute(f"""SELECT progetto.id, progetto.nome_progetto,  progetto.data_avvio, 
+                       progetto.data_scadenza, progetto.budget
+                        FROM utenteprogetto
+                        INNER JOIN progetto ON utenteprogetto.id_progetto = progetto.id
+                        WHERE utenteprogetto.id_utente = valore_id_utente;= {id_utente}""")
     
     rows = connection.fetchall()
     progetti = []
@@ -220,8 +219,7 @@ def delete_progetto(id):
         connection.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500})
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+
     
 
 #=================================================================================================================================
@@ -234,7 +232,7 @@ def update_user(id):
     try:
         data = request.json
         with connection.cursor() as cursor:
-            sql = "UPDATE utenti SET username = %s, email = %s where id= %s"
+            sql = "UPDATE utente SET username = %s, email = %s where id= %s"
             cursor.execute(sql, (data['username'] , data['email'] , id))
         connection.commit()
     
@@ -243,3 +241,5 @@ def update_user(id):
         connection.rollback()
         return jsonify ({'error' : str(e)}) , 500
     
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
