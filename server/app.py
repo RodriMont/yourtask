@@ -4,14 +4,14 @@ import pymysql
 import json
 from model import Progetto, Task, Utente
 
-db = pymysql.connect(host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com", 
-                     port=3306, user="rodri", 
-                     password="12345678", 
-                     database="yourtask", 
-                     autocommit=True)
+connection = pymysql.connect(
+    host="127.0.0.1",
+    user="root",
+    password="Vittoria117!",
+    database="yourtask",
+    port=3306
+)
 app = Flask(__name__)
-CORS(app)
-connection = db.cursor()
 
 
 #=================================================================================================================================
@@ -188,8 +188,9 @@ def get_user_by_email(email:str):
     connection.execute(query, (email))
     user = connection.fetchall()
     return user
-
-
+#=================================================================================================================================
+# DELETE
+#=================================================================================================================================
 
 @app.route("/utenti/<int:id>", methods=["DELETE"])
 def delete_user(id):
@@ -221,3 +222,24 @@ def delete_progetto(id):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+    
+
+#=================================================================================================================================
+# PUT
+#=================================================================================================================================
+
+
+@app.route('/update_user/<int:id>', methods = ['PUT'])
+def update_user(id):
+    try:
+        data = request.json
+        with connection.cursor() as cursor:
+            sql = "UPDATE utenti SET username = %s, email = %s where id= %s"
+            cursor.execute(sql, (data['username'] , data['email'] , id))
+        connection.commit()
+    
+        return jsonify ({'message': 'Data updated successfully' })
+    except Exception as e : 
+        connection.rollback()
+        return jsonify ({'error' : str(e)}) , 500
+    
