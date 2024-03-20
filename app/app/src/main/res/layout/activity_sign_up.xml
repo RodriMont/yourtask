@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/signup_password_shape"
         android:layout_marginStart="16dp"
-        android:text="Email"/>
+        android:text="Ripeti password"/>
 
     <View
         android:id="@+id/signup_repeat_password_shape"
