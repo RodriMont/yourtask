@@ -255,5 +255,65 @@ def delete_ruolo(id):
         db.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500})
 
+#=================================================================================================================================
+# PUT
+#================================================================================================================================= 
+
+# Modifica le informazioni di un utente, dato il suo id
+@app.route("/utenti/<int:id>", methods = ["PUT"])
+def modifica_utente(id):
+    data = request.json
+
+    if data["username"] != None:
+        set_query = "password = %s"
+    elif data["password"] != None:
+        set_query = "username = %s"
+
+    try:
+        with db.cursor() as cursor:
+            sql = f"update utenti set {set_query} where id = %s"
+            cursor.execute(sql, (data["username"], data["password"], id))
+
+        db.commit()
+
+        return jsonify({"message": "Utente modificato con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella modifica dell'utente", "code": 500})
+
+# Modifica un progetto, dato il suo id
+@app.route("/progetti/<int:id>", methods = ["PUT"])
+def modifica_progetto(id):
+    data = request.json
+
+    try:
+        with db.cursor() as cursor:
+            sql = "update progetti set nome_progetto = %s, data_avvio = %s, data_scadenza = %s, budget = %s where id = %s"
+            cursor.execute(sql, (data["nome_progetto"], data["data_avvio"], data["data_scadenza"], data["budget"], id))
+
+        db.commit()
+
+        return jsonify({"message": "Progetto modificato con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella modifica del progetto", "code": 500})
+
+# Modifica un task, dato il suo id
+@app.route("/task/<int:id>", methods = ["PUT"])
+def modifica_task(id):
+    data = request.json
+
+    try:
+        with db.cursor() as cursor:
+            sql = "update task set nome_task = %s, data_avvio = %s, data_scadenza = %s, priorita = %s where id = %s"
+            cursor.execute(sql, (data["nome_task"], data["data_avvio"], data["data_scadenza"], data["priorita"], id))
+
+        db.commit()
+
+        return jsonify({"message": "Task modificato con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella modifica del task", "code": 500})
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
