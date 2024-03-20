@@ -264,21 +264,24 @@ def delete_ruolo(id):
 def modifica_utente(id):
     data = request.json
 
-    if data["username"] != None:
+    if "password" in data:
         set_query = "password = %s"
-    elif data["password"] != None:
+        column = "password"
+    elif "username" in data:
         set_query = "username = %s"
+        column = "username"
 
     try:
         with db.cursor() as cursor:
             sql = f"update utenti set {set_query} where id = %s"
-            cursor.execute(sql, (data["username"], data["password"], id))
+            cursor.execute(sql, (data[column], id))
 
         db.commit()
 
         return jsonify({"message": "Utente modificato con successo", "code": 200})
     except Exception as e:
         db.rollback()
+        print(str(e))
         return jsonify({"message:": "Errore nella modifica dell'utente", "code": 500})
 
 # Modifica un progetto, dato il suo id
