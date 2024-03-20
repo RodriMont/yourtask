@@ -6,9 +6,107 @@
     android:layout_height="match_parent"
     tools:context=".SignUpActivity">
 
+    <!-- Username -->
     <TextView
+        android:id="@+id/signup_username_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="username"/>
+        android:layout_marginStart="16dp"
+        android:text="Username"/>
+
+    <View
+        android:id="@+id/signup_username_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/signup_username_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <EditText
+        android:id="@+id/signup_username_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_username_label"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"/>
+
+    <!-- Email -->
+    <TextView
+        android:id="@+id/signup_email_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_username_shape"
+        android:layout_marginStart="16dp"
+        android:text="Email"/>
+
+    <View
+        android:id="@+id/signup_email_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/signup_email_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <EditText
+        android:id="@+id/signup_email_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_email_label"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"/>
+
+    <!-- Password -->
+    <TextView
+        android:id="@+id/signup_password_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_email_shape"
+        android:layout_marginStart="16dp"
+        android:text="Password"/>
+
+    <View
+        android:id="@+id/signup_password_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/signup_password_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <EditText
+        android:id="@+id/signup_password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_password_label"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"/>
+
+    <!-- Repeat Password-->
+    <TextView
+        android:id="@+id/signup_repeat_password_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_password_shape"
+        android:layout_marginStart="16dp"
+        android:text="Email"/>
+
+    <View
+        android:id="@+id/signup_repeat_password_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/signup_repeat_password_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <EditText
+        android:id="@+id/signup_repeat_password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_repeat_password_label"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"/>
 
 </RelativeLayout>
