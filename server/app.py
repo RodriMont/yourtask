@@ -23,8 +23,9 @@ def index():
 # GET
 #=================================================================================================================================
 
+# Ritorna tutti i progetti a cui sta partecipando l'utente, dato il suo id
 @app.route("/progetti_utente")
-def progetti_utente():
+def get_progetti_utente():
     id_utente = request.args.get('id')
 
     cursor.execute(f"""select progetti.id, progetti.nome_progetto, progetti.data_avvio, progetti.data_scadenza, progetti.budget
@@ -48,8 +49,9 @@ def progetti_utente():
 
     return json.dumps(progetti)
 
-@app.route("/utente_email")
-def get_utente_email():
+# Ritorna le informazioni di un utente data la sua email
+@app.route("/utente")
+def get_utente():
     email = request.args.get('email')
 
     cursor.execute(f"""select id, username, email, password
@@ -70,6 +72,7 @@ def get_utente_email():
 
     return json.dumps(utenti)
 
+# Ritorna tutti i task che l'utente deve svolgere all'interno di un progetto, dato il suo id e l'id del progetto
 @app.route("/task_utente")
 def get_task_utente():
     id_utente = request.args.get('id_utente')
@@ -97,6 +100,7 @@ def get_task_utente():
 
     return json.dumps(tasks)
 
+# Ritorna tutti gli utenti a cui è stato assegnato un determinato task, dato il suo id e l'id del progetto
 @app.route("/utenti_task")
 def get_utenti_task():
     id_task = request.args.get('id_task')
@@ -128,6 +132,7 @@ def get_utenti_task():
 # DELETE
 #=================================================================================================================================    
 
+# Cancella un utente, dato il suo id
 @app.route("/utenti/<int:id>", methods = ["DELETE"])
 def delete_user(id):
     try:
@@ -142,6 +147,7 @@ def delete_user(id):
         connection.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione dell'utente", "code": 500})
     
+# Cancella un progetto, dato il suo id
 @app.route("/progetti/<int:id>", methods=["DELETE"])
 def delete_progetto(id):
     try:
@@ -156,6 +162,7 @@ def delete_progetto(id):
         connection.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500})
 
+# Cancella un task, dato il suo id
 @app.route("/task/<int:id>", methods = ["DELETE"])
 def delete_task(id):
     try:
@@ -170,6 +177,7 @@ def delete_task(id):
         connection.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione del task", "code": 500})
     
+# Cancella un ruolo, dato il suo id
 @app.route("/ruoli/<int:id>", methods = ["DELETE"])
 def delete_ruolo(id):
     try:
@@ -187,6 +195,62 @@ def delete_ruolo(id):
 #=================================================================================================================================
 # PUT
 #================================================================================================================================= 
+
+# Modifica le informazioni di un utente, dato il suo id
+@app.route("/utenti/<int:id>", methods = ["PUT"])
+def modifica_utente(id):
+    data = request.json
+
+    if data["username"] != None:
+        set_query = "password = %s"
+    elif data["password"] != None:
+        set_query = "username = %s"
+
+    try:
+        with connection.cursor() as cursor:
+            sql = f"update utenti set {set_query} where id = %s"
+            cursor.execute(sql, (data["username"], data["password"], id))
+
+        connection.commit()
+
+        return jsonify({"message": "Utente modificato con successo", "code": 200})
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"message:": "Errore nella modifica dell'utente", "code": 500})
+
+# Modifica un progetto, dato il suo id
+@app.route("/progetti/<int:id>", methods = ["PUT"])
+def modifica_progetto(id):
+    data = request.json
+
+    try:
+        with connection.cursor() as cursor:
+            sql = "update progetti set nome_progetto = %s, data_avvio = %s, data_scadenza = %s, budget = %s where id = %s"
+            cursor.execute(sql, (data["nome_progetto"], data["data_avvio"], data["data_scadenza"], data["budget"], id))
+
+        connection.commit()
+
+        return jsonify({"message": "Progetto modificato con successo", "code": 200})
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"message:": "Errore nella modifica del progetto", "code": 500})
+
+# Modifica un task, dato il suo id
+@app.route("/task/<int:id>", methods = ["PUT"])
+def modifica_task(id):
+    data = request.json
+
+    try:
+        with connection.cursor() as cursor:
+            sql = "update task set nome_task = %s, data_avvio = %s, data_scadenza = %s, priorita = %s where id = %s"
+            cursor.execute(sql, (data["nome_task"], data["data_avvio"], data["data_scadenza"], data["priorita"], id))
+
+        connection.commit()
+
+        return jsonify({"message": "Task modificato con successo", "code": 200})
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"message:": "Errore nella modifica del task", "code": 500})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
