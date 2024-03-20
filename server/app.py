@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pymysql
 import json
-from model import Progetto, Task, Utente
+from model import *
 
 db = pymysql.connect(host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com", 
                      port=3306, user="rodri", 
@@ -12,24 +12,24 @@ db = pymysql.connect(host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com",
 
 app = Flask(__name__)
 CORS(app)
-connection = db.cursor()
-
+cursor = db.cursor()
 
 #=================================================================================================================================
 # GET
 #=================================================================================================================================
 
+# Ritorna tutti i progetti a cui sta partecipando l'utente, dato il suo id
 @app.route("/progetti_utente")
-def progetti_utente():
+def get_progetti_utente():
     id_utente = request.args.get('id')
 
-    connection.execute(f"""select progetto.id, progetto.nome_progetto, progetto.data_avvio, progetto.data_scadenza, progetto.budget
-                    from utenteprogetto
-                    inner join progetto
-                    on utenteprogetto.id_progetto = progetto.id
-                    where utenteprogetto.id_utente = {id_utente}""")
+    cursor.execute(f"""select progetti.id, progetti.nome_progetto, progetti.data_avvio, progetti.data_scadenza, progetti.budget
+                    from progettiutente
+                    inner join progetti
+                    on progettiutente.id_progetto = progetti.id
+                    where progettiutente.id_utente = {id_utente}""")
     
-    rows = connection.fetchall()
+    rows = cursor.fetchall()
     progetti = []
 
     for row in rows:
@@ -44,15 +44,16 @@ def progetti_utente():
 
     return json.dumps(progetti)
 
-@app.route("/utente_email")
-def get_utente_email():
+# Ritorna le informazioni di un utente data la sua email
+@app.route("/utente")
+def get_utente():
     email = request.args.get('email')
 
-    connection.execute(f"""select id, username, email, password
-                       from utente
+    cursor.execute(f"""select id, username, email, password
+                       from utenti
                        where email = \"{email}\"""")
     
-    rows = connection.fetchall()
+    rows = cursor.fetchall()
     utenti = []
 
     for row in rows:
@@ -66,18 +67,19 @@ def get_utente_email():
 
     return json.dumps(utenti)
 
+# Ritorna tutti i task che l'utente deve svolgere all'interno di un progetto, dato il suo id e l'id del progetto
 @app.route("/task_utente")
 def get_task_utente():
     id_utente = request.args.get('id_utente')
     id_progetto = request.args.get('id_progetto')
 
-    connection.execute(f"""select task.id, task.nome_task, task.data_avvio, task.data_scadenza, task.priorita, task.id_progetto
+    db.execute(f"""select task.id, task.nome_task, task.data_avvio, task.data_scadenza, task.priorita, task.id_progetto
                        from taskutente
                         inner join task
                         on task.id = taskutente.id_task
                         where id_utente = {id_utente} and task.id_progetto = {id_progetto}""")
 
-    rows = connection.fetchall()
+    rows = cursor.fetchall()
     tasks = []
 
     for row in rows:
@@ -93,21 +95,21 @@ def get_task_utente():
 
     return json.dumps(tasks)
 
-
+# Ritorna tutti gli utenti a cui è stato assegnato un determinato task, dato il suo id e l'id del progetto
 @app.route("/utenti_task")
 def get_utenti_task():
     id_task = request.args.get('id_task')
     id_progetto = request.args.get('id_progetto')
 
-    connection.execute(f"""select utente.id, utente.username, utente.email, utente.password
+    cursor.execute(f"""select utenti.id, utenti.username, utenti.email, utenti.password
                        from taskutente
-                       inner join utente
-                       on taskutente.id_utente = utente.id
+                       inner join utenti
+                       on taskutente.id_utente = utenti.id
                        inner join task
                        on taskutente.id_task = task.id
                        where taskutente.id_task = {id_task} and task.id_progetto = {id_progetto}""")
 
-    rows = connection.fetchall()
+    rows = cursor.fetchall()
     utenti = []
 
     for row in rows:
@@ -125,7 +127,6 @@ def get_utenti_task():
 # POST
 #=================================================================================================================================    
 
-
 @app.route("/registrazione", methods=["POST"])
 def registrazione_utente():
     data = request.get_json()
@@ -142,8 +143,8 @@ def registrazione_utente():
 
         
         if(len(user) == 0):
-            query = "INSERT INTO utente(username, email, password) VALUES (%s, %s, %s )"
-            connection.execute(query, (username, email, password))
+            query = "INSERT INTO utente(username, email, password) VALUES (%s, %s, %s)"
+            cursor.execute(query, (username, email, password))
 
             res["ok"] = True
             res["msg"] = "Usuario Creato "
@@ -186,53 +187,73 @@ def login():
 
 def get_user_by_email(email:str):
     query = "SELECT * FROM utente WHERE email= %s"
-    connection.execute(query, (email))
-    user = connection.fetchall()
+    cursor.execute(query, (email))
+    user = cursor.fetchall()
     return user
 
+#=================================================================================================================================
+# DELETE
+#=================================================================================================================================    
 
-
-@app.route("/utenti/<int:id>", methods=["DELETE"])
+# Cancella un utente, dato il suo id
+@app.route("/utenti/<int:id>", methods = ["DELETE"])
 def delete_user(id):
     try:
-        sql = "delete from utente where id = %s"
-        connection.execute(sql, (id))
+        with db.cursor() as cursor:
+            sql = "delete from utenti where id = %s"
+            cursor.execute(sql, (id))
+
         db.commit()
 
         return jsonify({"message": "Utente eliminato con successo", "code": 200})
     except Exception as e:
-        connection.rollback()
+        db.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione dell'utente", "code": 500})
     
+# Cancella un progetto, dato il suo id
 @app.route("/progetti/<int:id>", methods=["DELETE"])
 def delete_progetto(id):
     try:
-        sql = "delete from progetto where id = %s"
-        connection.execute(sql, (id))
+        with db.cursor() as cursor:
+            sql = "delete from progetti where id = %s"
+            cursor.execute(sql, (id))
+
         db.commit()
 
         return jsonify({"message": "Progetto eliminato con successo", "code": 200})
     except Exception as e:
-        connection.rollback()
+        db.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500})
 
-
-
-#UPDATE
-@app.route('/update_user/<int:id>', methods = ['PUT'])
-def update_user(id):
+# Cancella un task, dato il suo id
+@app.route("/task/<int:id>", methods = ["DELETE"])
+def delete_task(id):
     try:
-        data = request.json
-        sql = "UPDATE utente SET username = %s, email = %s where id= %s"
-        connection.execute(sql, (data['username'] , data['email'] , id))
-        db.commit()
-    
-        return jsonify ({'message': 'Data updated successfully' })
-    except Exception as e : 
-        db.rollback()
-        print(e.__str__())
-        return jsonify ({'error' : str(e)})
+        with db.cursor() as cursor:
+            sql = "delete from task where id = %s"
+            cursor.execute(sql, (id))
 
+        db.commit()
+
+        return jsonify({"message": "Task eliminato con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nell'eliminiazione del task", "code": 500})
+    
+# Cancella un ruolo, dato il suo id
+@app.route("/ruoli/<int:id>", methods = ["DELETE"])
+def delete_ruolo(id):
+    try:
+        with db.cursor() as cursor:
+            sql = "delete from ruoli where id = %s"
+            cursor.execute(sql, (id))
+
+        db.commit()
+
+        return jsonify({"message": "Ruolo eliminato con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
