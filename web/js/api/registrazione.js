@@ -17,15 +17,15 @@ export async function registrazione() {
   };
   try {
 
-    const request = await axios.post(
+    const {data: dataRequest} = await axios.post(
       "http://127.0.0.1:5000/registrazione",
       data
     );
 
-    console.log(request)
+    console.log(dataRequest)
 
-    if (!request.data.ok) {
-      alert(`Email: ${email} gia in uso`);
+    if (!dataRequest.ok) {
+      alert(dataRequest["message"]);
       return false;
     }
 
