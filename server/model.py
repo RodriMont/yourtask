@@ -12,7 +12,6 @@ class Progetto:
         self.data_scadenza = data_scadenza
         self.budget = budget
 
-
 class Utente:
     id = None
     username = None
@@ -58,6 +57,22 @@ class RuoloUtente:
         self.id_ruolo = id_ruolo
         self.id_utente = id_utente
         self.id_task = id_task
+
+class ProgettiUtente:
+    id_progetto = None
+    id_utente = None
+
+    def __init__(self, id_progetto, id_utente):
+        self.id_progetto = id_progetto
+        self.id_utente = id_utente
+
+class TaskUtente:
+    id_task = None
+    id_utente = None
+
+    def __init__(self, id_task, id_utente):
+        self.id_task = id_task
+        self.id_utente = id_utente
 
 class Lavori:
     id_utente = None
