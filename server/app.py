@@ -27,11 +27,11 @@ def index():
 def progetti_utente():
     id_utente = request.args.get('id')
 
-    cursor.execute(f"""select progetto.id, progetto.nome_progetto, progetto.data_avvio, progetto.data_scadenza, progetto.budget
-                    from utenteprogetto
-                    inner join progetto
-                    on utenteprogetto.id_progetto = progetto.id
-                    where utenteprogetto.id_utente = {id_utente}""")
+    cursor.execute(f"""select progetti.id, progetti.nome_progetto, progetti.data_avvio, progetti.data_scadenza, progetti.budget
+                    from progettiutente
+                    inner join progetti
+                    on progettiutente.id_progetto = progetti.id
+                    where progettiutente.id_utente = {id_utente}""")
     
     rows = cursor.fetchall()
     progetti = []
@@ -53,7 +53,7 @@ def get_utente_email():
     email = request.args.get('email')
 
     cursor.execute(f"""select id, username, email, password
-                       from utente
+                       from utenti
                        where email = \"{email}\"""")
     
     rows = cursor.fetchall()
@@ -102,10 +102,10 @@ def get_utenti_task():
     id_task = request.args.get('id_task')
     id_progetto = request.args.get('id_progetto')
 
-    cursor.execute(f"""select utente.id, utente.username, utente.email, utente.password
+    cursor.execute(f"""select utenti.id, utenti.username, utenti.email, utenti.password
                        from taskutente
-                       inner join utente
-                       on taskutente.id_utente = utente.id
+                       inner join utenti
+                       on taskutente.id_utente = utenti.id
                        inner join task
                        on taskutente.id_task = task.id
                        where taskutente.id_task = {id_task} and task.id_progetto = {id_progetto}""")
@@ -128,11 +128,11 @@ def get_utenti_task():
 # DELETE
 #=================================================================================================================================    
 
-@app.route("/utenti/<int:id>", methods=["DELETE"])
+@app.route("/utenti/<int:id>", methods = ["DELETE"])
 def delete_user(id):
     try:
         with connection.cursor() as cursor:
-            sql = "delete from utente where id = %s"
+            sql = "delete from utenti where id = %s"
             cursor.execute(sql, (id))
 
         connection.commit()
@@ -146,7 +146,7 @@ def delete_user(id):
 def delete_progetto(id):
     try:
         with connection.cursor() as cursor:
-            sql = "delete from progetto where id = %s"
+            sql = "delete from progetti where id = %s"
             cursor.execute(sql, (id))
 
         connection.commit()
@@ -155,6 +155,38 @@ def delete_progetto(id):
     except Exception as e:
         connection.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500})
+
+@app.route("/task/<int:id>", methods = ["DELETE"])
+def delete_task(id):
+    try:
+        with connection.cursor() as cursor:
+            sql = "delete from task where id = %s"
+            cursor.execute(sql, (id))
+
+        connection.commit()
+
+        return jsonify({"message": "Task eliminato con successo", "code": 200})
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"message:": "Errore nell'eliminiazione del task", "code": 500})
+    
+@app.route("/ruoli/<int:id>", methods = ["DELETE"])
+def delete_ruolo(id):
+    try:
+        with connection.cursor() as cursor:
+            sql = "delete from ruoli where id = %s"
+            cursor.execute(sql, (id))
+
+        connection.commit()
+
+        return jsonify({"message": "Ruolo eliminato con successo", "code": 200})
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500})
+
+#=================================================================================================================================
+# PUT
+#================================================================================================================================= 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
