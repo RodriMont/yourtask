@@ -143,20 +143,23 @@ def registrazione_utente():
 
         
         if(len(user) == 0):
-            query = "INSERT INTO utente(username, email, password) VALUES (%s, %s, %s)"
+            query = "INSERT INTO utenti(username, email, password) VALUES (%s, %s, %s)"
             cursor.execute(query, (username, email, password))
 
             res["ok"] = True
-            res["msg"] = "Usuario Creato "
+            res["message"] = "Usuario Creato "
+            res["code"] = 200
             db.commit()
         else:
             res["ok"] = False
-            res["msg"] = "Usuario non creato, email usato"
+            res["message"] = "Usuario non creato, email usato"
+            res["code"] = 200
 
     except Exception as e:
         print(e)
         res["ok"] = False
-        res["msg"] = f"Errore server: {e}"
+        res["message"] = f"Errore server: {e}"
+        res["code"] = 500
 
     return json.dumps(res)
 
@@ -167,26 +170,39 @@ def login():
     password = data["password"]
 
     res = {
-        "ok": False
+        "message": "",
+        "code": 400,
+        "auth": False
     }
 
     try:
         utente_db = get_user_by_email(email)
         if(len(utente_db) == 0):
-            res["ok"] = False
+            res["message"] = "Usuario non trovato"
+            res["code"] = 200
+            res["auth"] = False
         else:
             utente_db = utente_db[0]
+            
             if(utente_db[3] == password):
-                res["ok"] = True
-
+                res["code"] = 200
+                res["message"] = "Password corretta"
+                res["auth"] = False
+            else:
+                res["code"] = 200
+                res["message"] = "Password non corretta",
+                res["auth"] = True
 
     except Exception as e:
         print(f"Error: {e}")
+        res["auth"] = False
+        res["code"] = 500
+        res["message"] = "Server error"
 
     return res
 
 def get_user_by_email(email:str):
-    query = "SELECT * FROM utente WHERE email= %s"
+    query = "SELECT * FROM utenti WHERE email= %s"
     cursor.execute(query, (email))
     user = cursor.fetchall()
     return user
@@ -320,3 +336,4 @@ def modifica_task(id):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+    
