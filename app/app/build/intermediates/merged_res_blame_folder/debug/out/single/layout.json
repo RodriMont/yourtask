@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\Users\\GabrieleD'Alessandro\\.gradle\\daemon\\8.2\\com.example.yourtask.app-mergeDebugResources-44:\\layout\\fragment_profile.xml",
+        "source": "C:\\Users\\GabrieleD'Alessandro\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\layout\\fragment_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\GabrieleD'Alessandro\\.gradle\\daemon\\8.2\\com.example.yourtask.app-mergeDebugResources-44:\\layout\\activity_login.xml",
+        "source": "C:\\Users\\GabrieleD'Alessandro\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\GabrieleD'Alessandro\\.gradle\\daemon\\8.2\\com.example.yourtask.app-mergeDebugResources-44:\\layout\\activity_sign_up.xml",
+        "source": "C:\\Users\\GabrieleD'Alessandro\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\layout\\activity_sign_up.xml"
+    },
+    {
+        "merged": "com.example.yourtask.app-mergeDebugResources-44:/layout/fragment_profile.xml",
+        "source": "com.example.yourtask.app-main-47:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\GabrieleD'Alessandro\\.gradle\\daemon\\8.2\\com.example.yourtask.app-mergeDebugResources-44:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\GabrieleD'Alessandro\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\layout\\activity_main.xml"
+    }
+]

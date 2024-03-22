@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".SignUpActivity">
+
+    <ImageView
+        android:id="@+id/signup_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/logo"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/signup_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_logo"
+        android:layout_centerHorizontal="true"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:text="Registrati"/>
+
+    <!-- Username -->
+    <TextView
+        android:id="@+id/signup_username_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_title"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Username"/>
+
+    <View
+        android:id="@+id/signup_username_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/signup_username_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <EditText
+        android:id="@+id/signup_username_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_username_label"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:inputType="text"
+        android:maxLines="1"
+        android:background="@null" />
+
+    <!-- Email -->
+    <TextView
+        android:id="@+id/signup_email_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_username_shape"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Email"/>
+
+    <View
+        android:id="@+id/signup_email_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/signup_email_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <EditText
+        android:id="@+id/signup_email_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_email_label"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:inputType="text"
+        android:maxLines="1"
+        android:background="@null"/>
+
+    <!-- Password -->
+    <TextView
+        android:id="@+id/signup_password_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_email_shape"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Password"/>
+
+    <View
+        android:id="@+id/signup_password_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/signup_password_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <EditText
+        android:id="@+id/signup_password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_password_label"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:background="@null"/>
+
+    <!-- Repeat Password-->
+    <TextView
+        android:id="@+id/signup_repeat_password_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_password_shape"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Ripeti password"/>
+
+    <View
+        android:id="@+id/signup_repeat_password_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/signup_repeat_password_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <EditText
+        android:id="@+id/signup_repeat_password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_repeat_password_label"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:background="@null"/>
+
+    <LinearLayout
+        android:id="@+id/signup_arleady_signed_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/signup_repeat_password_shape"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/signup_arleady_signed_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/signup_repeat_password_shape"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="Hai già un account?"/>
+
+        <TextView
+            android:id="@+id/signup_arleady_signed_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/signup_repeat_password_shape"
+            android:layout_toEndOf="@id/signup_arleady_signed_label"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:text=" Effettua il login"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signup_arleady_signed_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:textColor="#FFFFFF"
+        android:text="Registrati"
+        android:background="@drawable/rounded_button"/>
+</RelativeLayout>
