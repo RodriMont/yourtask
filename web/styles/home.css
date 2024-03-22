@@ -100,7 +100,7 @@
 }
 
 .puntini {
-  position:absolute;
-  height:300px;
-  right:380px;
+  display: inline;
+  margin-top:-60px;
+  margin-left: 10px;
 }
