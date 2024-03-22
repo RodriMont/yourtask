@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/navigation_back"
+        android:title="Indietro"
+        android:icon="@drawable/icon_back"/>
+    <item
         android:id="@+id/navigation_home"
         android:title="Home"
         android:icon="@drawable/icon_home"/>
-    <!--
     <item
-        android:id="@+id/navigation_dashboard"
-        android:title="Dashboard"
-        android:icon="@drawable/ic_dashboard"/>
-    <item
-        android:id="@+id/navigation_notifications"
-        android:title="Notifications"
-        android:icon="@drawable/ic_notifications"/>
-        -->
+        android:id="@+id/navigation_profile"
+        android:title="Profilo"
+        android:icon="@drawable/icon_profile"/>
 </menu>
