@@ -88,3 +88,20 @@
     margin-left:175px;
     margin-top:-71px;
 }
+
+.cerchio {
+   /* transition: 1s;*/
+    background-color:rgb(255, 203, 107);
+    height: 61px;
+    width:65px;
+    border-radius: 100%;
+    margin-top: -62px;
+    opacity: 0;
+}
+.cerchio:hover{
+    opacity: 1;
+}
+
+.tasto {
+    margin-top: -90px;
+}
