@@ -75,3 +75,16 @@
     margin-left: 200px;
     margin-top: -50px;
 }
+
+.livello {
+    display:flex;
+    margin-top: -70px;
+    margin-bottom: 90px;
+    margin-right: 130px;
+    margin-left: -155px;
+}
+
+.more {
+    margin-left:175px;
+    margin-top:-71px;
+}
