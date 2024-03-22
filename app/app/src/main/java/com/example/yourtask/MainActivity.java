@@ -22,19 +22,15 @@
         private BottomNavigationView bottomNavigationMenu;
 
         @Override
-        protected void onCreate(Bundle savedInstanceState)
-        {
+        protected void onCreate(Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-
             getSupportActionBar().hide();
 
             bottomNavigationMenu = (BottomNavigationView)findViewById(R.id.bottom_navigation_bar);
-            bottomNavigationMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener()
-            {
+            bottomNavigationMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
                 @Override
-                public boolean onNavigationItemSelected(MenuItem item)
-                {
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     int id = item.getItemId();
                     item.setChecked(true);
 
@@ -44,13 +40,16 @@
                         changeFragment(new HomepageFragment());
                     else if (id == R.id.navigation_profile)
                         changeFragment(new ProfileFragment());
-
                     return false;
+
                 }
             });
-
-
         }
+
+
+
+
+
 
         public boolean changeFragment(Fragment fragment)
         {
