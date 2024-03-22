@@ -46,6 +46,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="b9e4a020-410a-4c30-bb28-fb623b8399d6" name="Changes" comment="homepage fatto">
       <change afterPath="$PROJECT_DIR$/.gradle/8.2/checksums/checksums.lock" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.gradle/8.2/checksums/md5-checksums.bin" afterDir="false" />
@@ -512,6 +513,12 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/ic_launcher_background.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../web/index.html" afterDir="false" />
+=======
+    <list default="true" id="b9e4a020-410a-4c30-bb28-fb623b8399d6" name="Changes" comment="?">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 49d7e48147bf20d57d03bd3cfdbd1fe5cbe303c7
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -599,9 +606,12 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "Merging main",
     "last_opened_file_path": "C:/Users/GabrieleD'Alessandro/OneDrive - ITS Angelo Rizzoli/Desktop/ProjectWork/git/yourtask/app/app/src/main/res/drawable",
+<<<<<<< HEAD
     "project.structure.last.edited": "SDK Location",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.0",
+=======
+>>>>>>> 49d7e48147bf20d57d03bd3cfdbd1fe5cbe303c7
     "settings.editor.selected.configurable": "AndroidSdkUpdater"
   }
 }]]></component>
