@@ -43,7 +43,6 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_edittext"/>
 
-    <!-- Email -->
     <EditText
         android:id="@+id/signup_username_edittext"
         android:layout_width="match_parent"
@@ -56,6 +55,7 @@
         android:maxLines="1"
         android:background="@null" />
 
+    <!-- Email -->
     <TextView
         android:id="@+id/signup_email_label"
         android:layout_width="wrap_content"
@@ -172,7 +172,7 @@
             android:layout_below="@id/signup_repeat_password_shape"
             android:layout_toEndOf="@id/signup_arleady_signed_label"
             android:layout_marginTop="12dp"
-            android:textColor="#121271"
+            android:textColor="@color/blue"
             android:textStyle="bold"
             android:text=" Effettua il login"/>
 
