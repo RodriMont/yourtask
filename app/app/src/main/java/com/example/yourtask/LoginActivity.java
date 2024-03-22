@@ -1,4 +1,4 @@
-package com.example.login;
+package com.example.yourtask;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.yourtask.R;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     EditText username;
     EditText password;
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
 
         username = findViewById(R.id.signup_username_edittext);
@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (username.getText().toString().equals("Admin")&&password.getText().toString().equals("Admin")){
-                    Toast.makeText(MainActivity.this, "Login Successo!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Successo!!", Toast.LENGTH_SHORT).show();
                 } else  {
-                    Toast.makeText(MainActivity.this, "Login Fallito!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Fallito!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
