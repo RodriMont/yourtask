@@ -154,9 +154,13 @@
 
         <ListView
             android:id="@+id/new_task_collaborators_listview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="12dp"
+            android:dividerHeight="12dp"
+            android:divider="@null"/>
 
         <AutoCompleteTextView
             android:id="@+id/new_task_collaborators_autocomplete"

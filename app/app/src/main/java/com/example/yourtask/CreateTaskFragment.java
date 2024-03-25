@@ -17,7 +17,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.yourtask.adapters.CollaboratorsAdapter;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class CreateTaskFragment extends Fragment
 {
@@ -35,11 +38,14 @@ public class CreateTaskFragment extends Fragment
         ImageView start_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_start_date_calendar_icon);
         ImageView end_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_end_date_calendar_icon);
         AutoCompleteTextView users_autocomplete = (AutoCompleteTextView)view.findViewById(R.id.new_task_collaborators_autocomplete);
-        ListView users_listview = (ListView)view.findViewById(R.id.new_task_collaborators_listview);
+        ListView collaborators_listview = (ListView)view.findViewById(R.id.new_task_collaborators_listview);
+
+        CollaboratorsAdapter collaboratorsAdapter = new CollaboratorsAdapter(getContext(), new ArrayList<String>());
+        collaborators_listview.setAdapter(collaboratorsAdapter);
 
         users_autocomplete.setThreshold(1);
 
-        String[] test = {"abc", "cde", "fgh", "ijk", "lmn", "opq", "rst", "uvw", "xyz"};
+        String[] test = {"example1@mail.dom", "example2@mail.dom", "example3@mail.dom", "example4@mail.dom", "example5@mail.dom"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, test);
 
         users_autocomplete.setAdapter(adapter);
@@ -49,7 +55,9 @@ public class CreateTaskFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-
+                collaboratorsAdapter.add(parent.getItemAtPosition(position).toString());
+                collaboratorsAdapter.notifyDataSetChanged();
+                users_autocomplete.setText("");
             }
         });
 
