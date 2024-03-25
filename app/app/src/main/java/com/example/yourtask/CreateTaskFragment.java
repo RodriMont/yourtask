@@ -34,8 +34,8 @@ public class CreateTaskFragment extends Fragment
 
         ImageView start_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_start_date_calendar_icon);
         ImageView end_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_end_date_calendar_icon);
-        AutoCompleteTextView users_autocomplete = (AutoCompleteTextView)view.findViewById(R.id.new_task_users_autocomplete);
-        ListView users_listview = (ListView)view.findViewById(R.id.new_task_users_listview);
+        AutoCompleteTextView users_autocomplete = (AutoCompleteTextView)view.findViewById(R.id.new_task_collaborators_autocomplete);
+        ListView users_listview = (ListView)view.findViewById(R.id.new_task_collaborators_listview);
 
         users_autocomplete.setThreshold(1);
 
