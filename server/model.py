@@ -40,13 +40,15 @@ class Task:
     data_avvio = None
     data_scadenza = None
     priorita = None
+    id_progetto = None
 
-    def __init__(self, id, nome_task, data_avvio, data_scadenza, priorita):
+    def __init__(self, id, nome_task, data_avvio, data_scadenza, priorita, id_progetto):
         self.id = id
         self.nome_task = nome_task
         self.data_avvio = data_avvio
         self.data_scadenza = data_scadenza
         self.priorita = priorita
+        self.id_progetto = id_progetto
 
 class RuoloUtente:
     id_ruolo = None
