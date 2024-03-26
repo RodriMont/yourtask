@@ -3051,6 +3051,8 @@ drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_search_black_24
 drawable icon_back
+drawable icon_calendar
+drawable icon_delete_collaborator
 drawable icon_home
 drawable icon_profile
 drawable logo
@@ -3129,6 +3131,7 @@ drawable notify_panel_notification_icon_bg
 drawable placeholder
 drawable plus_circle_outline
 drawable rounded_button
+drawable rounded_collaborator_container
 drawable rounded_corners
 drawable rounded_edittext
 drawable test_level_drawable
@@ -3256,6 +3259,8 @@ id clip_horizontal
 id clip_vertical
 id clockwise
 id closest
+id collaborators_listview_item_name_label
+id collaborators_listview_remove_item_button
 id collapseActionView
 id compress
 id confirm_button
@@ -3456,6 +3461,24 @@ id never
 id neverCompleteToEnd
 id neverCompleteToStart
 id new_project_label
+id new_task_collaborators_autocomplete
+id new_task_collaborators_label
+id new_task_collaborators_layout
+id new_task_collaborators_listview
+id new_task_create_button
+id new_task_date_layout
+id new_task_end_date_calendar_icon
+id new_task_end_date_edittext
+id new_task_end_date_label
+id new_task_end_date_layout
+id new_task_name_edittext
+id new_task_name_label
+id new_task_name_shape
+id new_task_start_date_calendar_icon
+id new_task_start_date_edittext
+id new_task_start_date_label
+id new_task_start_date_layout
+id new_task_title
 id noScroll
 id noState
 id none
@@ -3795,6 +3818,7 @@ layout abc_tooltip
 layout activity_login
 layout activity_main
 layout activity_sign_up
+layout collaborators_listview
 layout create_project_fragment
 layout custom_dialog
 layout design_bottom_navigation_item
@@ -3812,6 +3836,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout fragment_create_task
 layout fragment_profile
 layout homepage_fragment
 layout m3_alert_dialog
