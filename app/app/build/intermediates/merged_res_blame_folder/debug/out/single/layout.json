@@ -12,12 +12,20 @@
         "source": "com.example.yourtask.app-main-47:/layout/homepage_fragment.xml"
     },
     {
+        "merged": "com.example.yourtask.app-mergeDebugResources-44:/layout/collaborators_listview.xml",
+        "source": "com.example.yourtask.app-main-47:/layout/collaborators_listview.xml"
+    },
+    {
         "merged": "com.example.yourtask.app-mergeDebugResources-44:/layout/activity_sign_up.xml",
         "source": "com.example.yourtask.app-main-47:/layout/activity_sign_up.xml"
     },
     {
         "merged": "com.example.yourtask.app-mergeDebugResources-44:/layout/activity_login.xml",
         "source": "com.example.yourtask.app-main-47:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.example.yourtask.app-mergeDebugResources-44:/layout/fragment_create_task.xml",
+        "source": "com.example.yourtask.app-main-47:/layout/fragment_create_task.xml"
     },
     {
         "merged": "com.example.yourtask.app-mergeDebugResources-44:/layout/fragment_profile.xml",
