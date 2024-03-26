@@ -37,27 +37,26 @@ public class CreateTaskFragment extends Fragment
 
         ImageView start_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_start_date_calendar_icon);
         ImageView end_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_end_date_calendar_icon);
-        AutoCompleteTextView users_autocomplete = (AutoCompleteTextView)view.findViewById(R.id.new_task_collaborators_autocomplete);
+        AutoCompleteTextView collaborators_autocomplete = (AutoCompleteTextView)view.findViewById(R.id.new_task_collaborators_autocomplete);
         ListView collaborators_listview = (ListView)view.findViewById(R.id.new_task_collaborators_listview);
 
         CollaboratorsAdapter collaboratorsAdapter = new CollaboratorsAdapter(getContext(), new ArrayList<String>());
         collaborators_listview.setAdapter(collaboratorsAdapter);
 
-        users_autocomplete.setThreshold(1);
+        collaborators_autocomplete.setThreshold(1);
 
         String[] test = {"example1@mail.dom", "example2@mail.dom", "example3@mail.dom", "example4@mail.dom", "example5@mail.dom"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, test);
+        collaborators_autocomplete.setAdapter(adapter);
 
-        users_autocomplete.setAdapter(adapter);
-
-        users_autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        collaborators_autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 collaboratorsAdapter.add(parent.getItemAtPosition(position).toString());
                 collaboratorsAdapter.notifyDataSetChanged();
-                users_autocomplete.setText("");
+                collaborators_autocomplete.setText("");
             }
         });
 
