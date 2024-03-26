@@ -46,6 +46,9 @@ id new_task_end_date_layout
 id new_task_name_edittext
 id new_task_name_label
 id new_task_name_shape
+id new_task_priority_label
+id new_task_priority_shape
+id new_task_priority_spinner
 id new_task_start_date_calendar_icon
 id new_task_start_date_edittext
 id new_task_start_date_label
@@ -95,6 +98,7 @@ menu bottom_nav
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name
+string hello_blank_fragment
 string title_activity_main2
 string title_dashboard
 string title_home

@@ -3474,6 +3474,9 @@ id new_task_end_date_layout
 id new_task_name_edittext
 id new_task_name_label
 id new_task_name_shape
+id new_task_priority_label
+id new_task_priority_shape
+id new_task_priority_spinner
 id new_task_start_date_calendar_icon
 id new_task_start_date_edittext
 id new_task_start_date_label
@@ -3950,6 +3953,7 @@ string error_icon_content_description
 string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
+string hello_blank_fragment
 string hide_bottom_view_on_scroll_behavior
 string icon_content_description
 string item_view_role_description
