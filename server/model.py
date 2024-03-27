@@ -27,12 +27,12 @@ class Utente:
 class Ruolo:
     id = None
     nome_ruolo = None
-    id_task = None
+    id_progetto = None
 
-    def __init__(self, id, nome_ruolo, id_task):
+    def __init__(self, id, nome_ruolo, id_progetto):
         self.id = id
         self.nome_ruolo = nome_ruolo
-        self.id_task = id_task
+        self.id_progetto = id_progetto
 
 class Task:
     id = None
@@ -53,12 +53,10 @@ class Task:
 class RuoloUtente:
     id_ruolo = None
     id_utente = None
-    id_task = None
 
-    def __init__(self, id_ruolo, id_utente, id_task):
+    def __init__(self, id_ruolo, id_utente):
         self.id_ruolo = id_ruolo
         self.id_utente = id_utente
-        self.id_task = id_task
 
 class ProgettiUtente:
     id_progetto = None
