@@ -189,7 +189,7 @@ def login():
             if(utente_db[3] == password):
                 res["code"] = 200
                 res["message"] = "Password corretta"
-                res["auth"] = False
+                res["auth"] = True
             else:
                 res["code"] = 200
                 res["message"] = "Password non corretta",
