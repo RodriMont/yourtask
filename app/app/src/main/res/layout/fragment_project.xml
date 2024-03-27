@@ -89,7 +89,10 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="5"/>
+            android:layout_columnWeight="5"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:background="@null"/>
 
         <ImageView
             android:layout_width="0dp"
@@ -107,6 +110,8 @@
         android:layout_columnSpan="2"
         android:layout_marginTop="12dp"
         android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"/>
+        android:layout_marginEnd="12dp"
+        android:dividerHeight="12dp"
+        android:divider="@null"/>
 
 </GridLayout>
