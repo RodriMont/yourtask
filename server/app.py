@@ -124,6 +124,32 @@ def get_utenti_task():
 
     return json.dumps(utenti)
 
+@app.route("/ruolo_utente")
+def get_ruolo_utente():
+    id_utente = request.args.get('id_utente')
+    id_progetto = request.args.get('id_progetto')
+
+    cursor.execute(f"""select ruoli.id, ruoli.nome_ruolo, ruoli.id_progetto
+                       from ruoloutente
+                       inner join ruoli
+                       on ruoloutente.id_ruolo = ruoli.id
+                       inner join progetti
+                       on ruoli.id_progetto = progetti.id
+                       where ruoloutente.id_utente = {id_utente} and ruoli.id_progetto = {id_progetto}""")
+
+    rows = cursor.fetchall()
+    ruoli = []
+
+    for row in rows:
+        id_ruolo = row[0]
+        nome_ruolo = row[1]
+        id_progetto = row[2]
+
+        ruolo = Ruolo(id_ruolo, nome_ruolo, id_progetto)
+        ruoli.append(ruolo.__dict__)
+
+    return json.dumps(ruoli)
+
 #=================================================================================================================================
 # POST
 #=================================================================================================================================    
@@ -382,6 +408,25 @@ def modifica_task(id):
     except Exception as e:
         db.rollback()
         return jsonify({"message:": "Errore nella modifica del task", "code": 500})
+    
+@app.route("/ruoli/<int:id>", methods = ["PUT"])
+def modifica_ruolo(id):
+    data = request.json
+
+    try:
+        with db.cursor() as cursor:
+            sql = "update ruoli set nome_ruolo = %s where id = %s"
+            cursor.execute(sql, (data["nome_ruolo"], id))
+        
+        db.commit()
+
+        return jsonify({"message": "Ruolo modificato con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message": "Errore nella modifica del ruolo", "code": 500})
+    
+    
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
