@@ -54,7 +54,7 @@ def get_utente():
                        where email = \"{email}\"""")
     
     rows = cursor.fetchall()
-    #utenti = []
+    utenti = []
 
     for row in rows:
         id = row[0]
@@ -63,11 +63,10 @@ def get_utente():
         password = row[3]
 
         utente = Utente(id, username, email, password)
-        #utenti.append(utente.__dict__)
+        utenti.append(utente.__dict__)
 
-        return json.dumps(utente, default=vars)
-    
-    return json.dumps(None)
+    return json.dumps(utenti)
+
 
 # Ritorna tutti i task che l'utente deve svolgere all'interno di un progetto, dato il suo id e l'id del progetto
 @app.route("/task_utente")
