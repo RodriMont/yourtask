@@ -5,10 +5,10 @@ import json
 from model import *
 
 db = pymysql.connect(host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com", 
-                     port=3306, user="rodri", 
-                     password="12345678", 
-                     database="yourtask", 
-                     autocommit=True)
+                    port=3306, user="rodri", 
+                    password="12345678", 
+                    database="yourtask", 
+                    autocommit=True)
 
 app = Flask(__name__)
 CORS(app)
@@ -66,6 +66,7 @@ def get_utente():
         utenti.append(utente.__dict__)
 
     return json.dumps(utenti)
+
 
 # Ritorna tutti i task che l'utente deve svolgere all'interno di un progetto, dato il suo id e l'id del progetto
 @app.route("/task_utente")
@@ -133,6 +134,8 @@ def registrazione_utente():
     username = data["username"]
     email = data["email"]
     password = data["password"]
+
+    print(email)
 
     res = {
         "ok": False,
