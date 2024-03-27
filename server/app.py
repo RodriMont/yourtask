@@ -206,6 +206,60 @@ def get_user_by_email(email:str):
     user = cursor.fetchall()
     return user
 
+# Crea un nuovo progetto
+@app.route("/progetti", methods = ["POST"])
+def post_progetto():
+    data = request.json    
+
+    try:
+        with db.cursor() as cursor:
+            sql = """insert into progetti(nome_progetto, data_avvio, data_scadenza, budget)
+                     values (%s, %s, %s, %s)"""
+            cursor.execute(sql, (data["nome_progetto"], data["data_avvio"], data["data_scadenza"], data["budget"]))
+
+        db.commit()
+
+        return jsonify({"message": "Progetto creato con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella creazione del progetto", "code": 500})
+
+# Crea un nuovo task
+@app.route("/task", methods = ["POST"])
+def post_task():
+    data = request.json    
+
+    try:
+        with db.cursor() as cursor:
+            sql = """insert into task(nome_task, data_avvio, data_scadenza, priorita, id_progetto)
+                     values (%s, %s, %s, %s, %s)"""
+            cursor.execute(sql, (data["nome_task"], data["data_avvio"], data["data_scadenza"], data["priorita"], data["id_progetto"]))
+
+        db.commit()
+
+        return jsonify({"message": "Task creato con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella creazione del task", "code": 500})
+
+# Crea un nuovo ruolo
+@app.route("/ruoli", methods = ["POST"])
+def post_ruolo():
+    data = request.json    
+
+    try:
+        with db.cursor() as cursor:
+            sql = """insert into ruoli(nome_ruolo, id_progetto)
+                     values (%s, %s)"""
+            cursor.execute(sql, (data["nome_ruolo"], data["id_progetto"]))
+
+        db.commit()
+
+        return jsonify({"message": "Ruolo creato con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella creazione del ruolo", "code": 500})
+
 #=================================================================================================================================
 # DELETE
 #=================================================================================================================================    
@@ -279,17 +333,10 @@ def delete_ruolo(id):
 def modifica_utente(id):
     data = request.json
 
-    if "password" in data:
-        set_query = "password = %s"
-        column = "password"
-    elif "username" in data:
-        set_query = "username = %s"
-        column = "username"
-
     try:
         with db.cursor() as cursor:
-            sql = f"update utenti set {set_query} where id = %s"
-            cursor.execute(sql, (data[column], id))
+            sql = f"update utenti set username where id = %s"
+            cursor.execute(sql, (data["username"], id))
 
         db.commit()
 
