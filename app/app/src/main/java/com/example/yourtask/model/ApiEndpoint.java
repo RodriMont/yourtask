@@ -24,6 +24,12 @@ public interface ApiEndpoint {
 
         @POST("/registrazione")
         Call<User> postUtente(@Body User user);
+        @POST ("/progetti")
+        Call<Progetto> postProgetto(@Body Progetto progetto);
+        @POST("/task")
+        Call<Task> postTask(@Body Task task);
+        @POST("/ruoli")
+        Call<Ruolo> postRuolo(@Body Ruolo ruolo);
 
         @DELETE("/utenti/{id}")
         Call<User> deleteUtente(@Path("id")int id);
