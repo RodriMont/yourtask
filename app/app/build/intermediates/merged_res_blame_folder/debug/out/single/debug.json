@@ -28,8 +28,16 @@
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
+        "merged": "com.example.yourtask.app-merged_res-45:/layout_project_item.xml.flat",
+        "source": "com.example.yourtask.app-main-47:/layout/project_item.xml"
+    },
+    {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\layout_fragment_create_task.xml.flat",
+        "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\layout\\fragment_create_task.xml"
     },
     {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\menu_bottom_nav.xml.flat",
@@ -40,16 +48,16 @@
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_calendar_blank_outline.xml.flat",
+        "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\drawable\\calendar_blank_outline.xml"
     },
     {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_rounded_corners.xml.flat",
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\drawable\\rounded_corners.xml"
     },
     {
-        "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_calendar_blank_outline.xml.flat",
-        "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\drawable\\calendar_blank_outline.xml"
+        "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_icon_back.png.flat",
@@ -60,16 +68,16 @@
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\drawable\\magnify.xml"
     },
     {
+        "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\layout_task_item.xml.flat",
+        "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\layout\\task_item.xml"
+    },
+    {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_icon_home.png.flat",
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\drawable\\icon_home.png"
     },
     {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\mipmap-xxxhdpi\\ic_launcher.webp"
-    },
-    {
-        "merged": "com.example.yourtask.app-merged_res-45:/drawable_dots_vertical.xml.flat",
-        "source": "com.example.yourtask.app-main-47:/drawable/dots_vertical.xml"
     },
     {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_placeholder.png.flat",
@@ -100,6 +108,10 @@
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\mipmap-xhdpi\\ic_launcher.webp"
     },
     {
+        "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_icon_calendar.png.flat",
+        "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\drawable\\icon_calendar.png"
+    },
+    {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_dummy.png.flat",
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\drawable\\dummy.png"
     },
@@ -126,6 +138,10 @@
     {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_ic_launcher_foreground.xml.flat",
         "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\drawable_dots_vertical.xml.flat",
+        "source": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-main-47:\\drawable\\dots_vertical.xml"
     },
     {
         "merged": "C:\\Users\\RodrigoSebastianMont\\.gradle\\daemon\\8.2\\com.example.yourtask.app-merged_res-45:\\mipmap-hdpi_ic_launcher_round.webp.flat",
