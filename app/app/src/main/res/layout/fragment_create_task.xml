@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateTaskFragment">
+
+    <TextView
+        android:id="@+id/new_task_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:textSize="24sp"
+        android:text="Nuovo task"/>
+
+    <TextView
+        android:id="@+id/new_task_name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_task_title"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Nome task"/>
+
+    <View
+        android:id="@+id/new_task_name_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/new_task_name_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <EditText
+        android:id="@+id/new_task_name_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_task_name_label"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:inputType="text"
+        android:maxLines="1"
+        android:background="@null"/>
+
+    <GridLayout
+        android:id="@+id/new_task_date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@id/new_task_name_shape">
+
+        <TextView
+            android:id="@+id/new_task_start_date_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Data avvio"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="5"/>
+
+        <LinearLayout
+            android:id="@+id/new_task_start_date_layout"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@drawable/rounded_edittext"
+            android:layout_marginEnd="12dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_columnWeight="5"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/new_task_start_date_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_weight="2"
+                android:inputType="date"
+                android:maxLines="1"
+                android:background="@null"/>
+
+            <ImageView
+                android:id="@+id/new_task_start_date_calendar_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_calendar"
+                android:layout_weight="8"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/new_task_end_date_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Data scadenza"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="5"/>
+
+        <LinearLayout
+            android:id="@+id/new_task_end_date_layout"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:background="@drawable/rounded_edittext"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_columnWeight="5"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/new_task_end_date_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_weight="2"
+                android:inputType="date"
+                android:maxLines="1"
+                android:background="@null"/>
+
+            <ImageView
+                android:id="@+id/new_task_end_date_calendar_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_calendar"
+                android:layout_weight="8"/>
+
+        </LinearLayout>
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/new_task_collaborators_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_task_date_layout"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Partecipanti"/>
+
+    <LinearLayout
+        android:id="@+id/new_task_collaborators_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_task_collaborators_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/new_task_collaborators_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="12dp"
+            android:dividerHeight="12dp"
+            android:divider="@null"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/new_task_collaborators_autocomplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="@null"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/new_task_priority_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_below="@id/new_task_collaborators_layout"
+        android:text="Priorità"/>
+
+    <View
+        android:id="@+id/new_task_priority_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/new_task_priority_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <Spinner
+        android:id="@+id/new_task_priority_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_below="@id/new_task_priority_label"
+        android:overlapAnchor="false"/>
+
+    <Button
+        android:id="@+id/new_task_create_button"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_task_priority_spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:textColor="#FFFFFF"
+        android:text="Crea"
+        android:background="@drawable/rounded_button"/>
+</RelativeLayout>

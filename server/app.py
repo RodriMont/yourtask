@@ -144,7 +144,6 @@ def registrazione_utente():
 
     try:
         user = get_user_by_email(email)
-
         
         if(len(user) == 0):
             query = "INSERT INTO utenti(username, email, password) VALUES (%s, %s, %s)"
