@@ -5,7 +5,6 @@ import axios from "https://cdn.jsdelivr.net/npm/axios@1.3.5/+esm";
 export const login = async () => {
     const inputEmail = document.querySelector("#sing-in-email");
     const inputPassword = document.querySelector("#sing-in-pasword");
-
     const email = inputEmail.value;
     const password = inputPassword.value;
 
@@ -29,7 +28,11 @@ export const login = async () => {
             return
         }
 
-        alert(data.message)
+    
+        inputEmail.value = "";
+        inputPassword.value = "";
+        window.location.replace("./home.html");
+
 
     }catch(e){
        alert("Server error");
