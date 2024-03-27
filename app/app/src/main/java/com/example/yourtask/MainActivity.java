@@ -17,8 +17,7 @@ import android.widget.Button;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationMenu;
 
     @Override
@@ -47,8 +46,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public boolean changeFragment(Fragment fragment)
-    {
+    public boolean changeFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
         return true;
     }
