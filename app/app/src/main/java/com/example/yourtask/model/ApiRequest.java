@@ -140,19 +140,20 @@ public class ApiRequest {
     }
 
     //POST
-    public static void postUtente (User username) {
+    public static void postUtente (User username, ReceiveDataCallback<Integer> callback) {
 
         Call<User> nuovoUtente = apiService.postUtente(username);
         nuovoUtente.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 int statusCode = response.code();
+                callback.receiveData(statusCode);
 
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                callback.receiveData(500);
             }
         });
     }
