@@ -1,0 +1,31 @@
+.back-blue {
+    background-color:darkblue;
+}
+
+.text_bianco{
+    color: white !important;
+}
+
+.titolo {
+    text-align: center;
+    margin-top:50px;
+}
+
+.partecip {
+    display: flex;
+    gap: 10px;
+}
+
+.partecipanti {
+    margin-left:100px;
+    margin-top: 50px;
+    height: 70svh;
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.nome {
+    margin-top: 30px;
+}
