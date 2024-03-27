@@ -1,1 +1,4 @@
 server/.venv/
+app/app/build/
+app/.gradle/
+app/.idea/
