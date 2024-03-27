@@ -4,6 +4,8 @@ import pymysql
 import json
 from model import *
 
+##ciao
+
 db = pymysql.connect(host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com", 
                     port=3306, user="rodri", 
                     password="12345678", 
