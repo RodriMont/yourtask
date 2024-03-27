@@ -8,6 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
+
+import com.example.yourtask.adapters.ProjectAdapter;
+import com.example.yourtask.model.Project;
+
+import java.util.ArrayList;
 
 public class HomepageFragment extends Fragment
 {
@@ -31,6 +37,32 @@ public class HomepageFragment extends Fragment
             }
         });
 
+        ArrayList< Project > arrPorject = createProjectArray();
+
+        ProjectAdapter projectArrayAdapter = new ProjectAdapter(getContext() , R.layout.project_item, arrPorject );
+
+        ListView listView = view.findViewById(R.id.task_list);
+        listView.setAdapter(projectArrayAdapter);
+
+
+
         return view;
+    }
+
+    public ArrayList< Project> createProjectArray(){
+        ArrayList<Project> arr = new ArrayList<>();
+
+        Project p1 = new Project(1, "Task 1", "2023-01-10", "2023-01-15", 1360.2);
+        Project p2 = new Project(2, "Task 2", "2023-01-12", "2023-01-20", 13500);
+        Project p3 = new Project(3, "Task 3", "2023-01-14", "2023-01-18", 1800.3);
+
+        arr.add(p1);
+        arr.add(p2);
+        arr.add(p3);
+
+        return arr;
+
+
+
     }
 }

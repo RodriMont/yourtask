@@ -75,110 +75,17 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="315dp"
+    <ListView
+        android:id="@+id/task_list"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/project_button_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_corners"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp">
-
-        <LinearLayout
-            android:id="@+id/project_name_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/project_name_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:text="Nome Progetto"
-                android:textStyle="bold"/>
-
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="3 dots vertical"
-                android:src="@drawable/dots_vertical" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/project_name_layout"
-            android:layout_marginTop="0dp"
-            android:orientation="horizontal"
-            android:id="@+id/inizio_scadenza_textView"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="Inizio" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="Scadenza" />
+        android:layout_centerInParent="true"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="11dp">
 
 
-        </LinearLayout>
+    </ListView>
 
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/inizio_scadenza_textView"
-            android:layout_width="280dp"
-            android:baselineAligned="false"
-            android:layout_marginTop="10dp">
 
-            <LinearLayout
-                android:layout_width="61dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:contentDescription="3 dots vertical"
-                    android:src="@drawable/calendar_blank_outline" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="24-10-2000" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="5"
-                >
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:contentDescription="3 dots vertical"
-                    android:src="@drawable/calendar_blank_outline"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="24-10-2000"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
 </RelativeLayout>
