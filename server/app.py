@@ -73,7 +73,7 @@ def get_task_utente():
     id_utente = request.args.get('id_utente')
     id_progetto = request.args.get('id_progetto')
 
-    db.execute(f"""select task.id, task.nome_task, task.data_avvio, task.data_scadenza, task.priorita, task.id_progetto
+    cursor.execute(f"""select task.id, task.nome_task, task.data_avvio, task.data_scadenza, task.priorita, task.id_progetto
                        from taskutente
                         inner join task
                         on task.id = taskutente.id_task
