@@ -21,6 +21,8 @@ public interface ApiEndpoint {
         Call<ArrayList<Task>> getTaskUtente(@Query("id_utente")int id_utente, @Query("id_progetto")int id_progetto);
         @GET("/utenti_task")
         Call<ArrayList<User>> getUtentiTask(@Query("id_task")int id_task, @Query("id_progetto")int id_progetto);
+        @GET("/ruolo_utente")
+        Call<ArrayList<Ruolo>> getRuoloUtente(@Query("id_utente")int id_utente, @Query("id_progetto")int id_progetto);
 
         @POST("/registrazione")
         Call<User> postUtente(@Body User user);
@@ -37,6 +39,8 @@ public interface ApiEndpoint {
         Call<Progetto> deleteProgetto(@Path("id")int id);
         @DELETE("/task/{id}")
         Call<Task> deleteTask(@Path("id")int id);
+        @DELETE("/ruoli/{id}")
+        Call<Ruolo> deleteRuolo(@Path("id")int id);
 
         @PUT("/utenti/{id}")
         Call<User> putUtente(@Path("id")int id, @Body User user);
@@ -44,4 +48,6 @@ public interface ApiEndpoint {
         Call<Progetto> putProgetto(@Path("id")int id, @Body Progetto progetto);
         @PUT("/task/{id}")
         Call<Task> putTask(@Path("id")int id, @Body Task task);
+        @PUT("/ruoli/{id}")
+        Call<Ruolo> putRuolo(@Path("id")int id, @Body Ruolo ruolo);
 }

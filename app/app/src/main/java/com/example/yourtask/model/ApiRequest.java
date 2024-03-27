@@ -2,6 +2,7 @@ package com.example.yourtask.model;
 
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -16,6 +17,7 @@ public class ApiRequest {
     public static ArrayList<Progetto> progettiUtente;
     public static ArrayList<Task> taskUtente;
     public static ArrayList<User> utentiTask;
+    public static ArrayList<Ruolo> ruoloUtente;
     private static String baseurl;
     public static Retrofit retrofit;
     public static ApiEndpoint apiService;
@@ -92,6 +94,29 @@ public class ApiRequest {
         return taskUtente;
 
     }
+    public static ArrayList<Ruolo> getRuoloUtente (int id_utente, int id_progetto, ReceiveDataCallback<ArrayList<Ruolo>> callback) {
+
+        Call<ArrayList<Ruolo>> ruoli = apiService.getRuoloUtente(id_utente, id_progetto);
+        ruoli.enqueue(new Callback<ArrayList<Ruolo>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Ruolo>> call, Response<ArrayList<Ruolo>> response) {
+                int statusCode = response.code();
+                ApiRequest.ruoloUtente = response.body();
+
+                if (callback != null)
+                    callback.receiveData(ApiRequest.ruoloUtente);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Ruolo>> call, Throwable t) {
+
+            }
+        });
+
+        return ruoloUtente;
+    }
+
+
     public static ArrayList<User> getUtentiTask (int id_task, int id_progetto, ReceiveDataCallback<ArrayList<User>> callback) {
 
         Call<ArrayList<User>> utenti = apiService.getUtentiTask(id_task, id_progetto);
@@ -232,6 +257,22 @@ public class ApiRequest {
         });
     }
 
+    public static void deleteRuolo (int id) {
+        Call<Ruolo> cancRuolo = apiService.deleteRuolo(id);
+        cancRuolo.enqueue(new Callback<Ruolo>() {
+            @Override
+            public void onResponse(Call<Ruolo> call, Response<Ruolo> response) {
+                int statusCode = response.code();
+
+            }
+
+            @Override
+            public void onFailure(Call<Ruolo> call, Throwable t) {
+
+            }
+        });
+    }
+
     //PUT
     public static void putUtente (int id, User user) {
         Call<User> putUser = apiService.putUtente(id, user);
@@ -280,4 +321,22 @@ public class ApiRequest {
             }
         });
     }
+
+    public static void putRuolo (int id, Ruolo ruolo) {
+        Call<Ruolo> putRuolo = apiService.putRuolo(id, ruolo);
+        putRuolo.enqueue(new Callback<Ruolo>() {
+            @Override
+            public void onResponse(Call<Ruolo> call, Response<Ruolo> response) {
+                int statusCode = response.code();
+
+            }
+
+            @Override
+            public void onFailure(Call<Ruolo> call, Throwable t) {
+
+            }
+        });
+    }
 }
+
+
