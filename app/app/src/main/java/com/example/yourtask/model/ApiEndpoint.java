@@ -8,12 +8,13 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiEndpoint {
         @GET("/utente")
-        Call<User> getUser(@Query("email")String email);
+        Call<ArrayList<User>> getUser(@Query("email")String email);
         @GET("/progetti_utente")
         Call<ArrayList<Progetto>> getProgettiUtente(@Query("id")int id);
         @GET("/task_utente")
@@ -23,4 +24,24 @@ public interface ApiEndpoint {
 
         @POST("/registrazione")
         Call<User> postUtente(@Body User user);
+        @POST ("/progetti")
+        Call<Progetto> postProgetto(@Body Progetto progetto);
+        @POST("/task")
+        Call<Task> postTask(@Body Task task);
+        @POST("/ruoli")
+        Call<Ruolo> postRuolo(@Body Ruolo ruolo);
+
+        @DELETE("/utenti/{id}")
+        Call<User> deleteUtente(@Path("id")int id);
+        @DELETE("/progetti/{id}")
+        Call<Progetto> deleteProgetto(@Path("id")int id);
+        @DELETE("/task/{id}")
+        Call<Task> deleteTask(@Path("id")int id);
+
+        @PUT("/utenti/{id}")
+        Call<User> putUtente(@Path("id")int id, @Body User user);
+        @PUT("/progetti/{id}")
+        Call<Progetto> putProgetto(@Path("id")int id, @Body Progetto progetto);
+        @PUT("/task/{id}")
+        Call<Task> putTask(@Path("id")int id, @Body Task task);
 }
