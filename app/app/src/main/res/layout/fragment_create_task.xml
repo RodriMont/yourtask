@@ -11,10 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:text="Nuovo task"/>
 
-    <!-- Nome task -->
     <TextView
         android:id="@+id/new_task_name_label"
         android:layout_width="wrap_content"
@@ -133,4 +132,85 @@
 
         </LinearLayout>
     </GridLayout>
+
+    <TextView
+        android:id="@+id/new_task_collaborators_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_task_date_layout"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Partecipanti"/>
+
+    <LinearLayout
+        android:id="@+id/new_task_collaborators_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_task_collaborators_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/new_task_collaborators_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="12dp"
+            android:dividerHeight="12dp"
+            android:divider="@null"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/new_task_collaborators_autocomplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="@null"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/new_task_priority_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_below="@id/new_task_collaborators_layout"
+        android:text="Priorità"/>
+
+    <View
+        android:id="@+id/new_task_priority_shape"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/new_task_priority_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <Spinner
+        android:id="@+id/new_task_priority_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_below="@id/new_task_priority_label"
+        android:overlapAnchor="false"/>
+
+    <Button
+        android:id="@+id/new_task_create_button"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_task_priority_spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:textColor="#FFFFFF"
+        android:text="Crea"
+        android:background="@drawable/rounded_button"/>
 </RelativeLayout>
