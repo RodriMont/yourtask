@@ -1,4 +1,4 @@
-package com.example.yourtask;
+package com.example.yourtask.model;
 
 public class Project {
     public int id;

@@ -1,4 +1,4 @@
-package com.example.yourtask;
+package com.example.yourtask.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.yourtask.model.Project;
+import com.example.yourtask.R;
 
-public class ProjectAdapter extends ArrayAdapter<Project> {
+import java.util.ArrayList;
+
+public class ProjectAdapter extends ArrayAdapter< Project > {
     public ProjectAdapter(Context context, int resource, ArrayList<Project> objects) {
         super(context, resource, objects);
     }

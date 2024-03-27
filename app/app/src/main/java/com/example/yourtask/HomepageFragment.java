@@ -7,11 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
+import com.example.yourtask.adapters.ProjectAdapter;
+import com.example.yourtask.model.Project;
+
 import java.util.ArrayList;
 
 public class HomepageFragment extends Fragment
@@ -36,7 +37,7 @@ public class HomepageFragment extends Fragment
             }
         });
 
-        ArrayList<Project> arrPorject = createProjectArray();
+        ArrayList< Project > arrPorject = createProjectArray();
 
         ProjectAdapter projectArrayAdapter = new ProjectAdapter(getContext() , R.layout.project_item, arrPorject );
 
