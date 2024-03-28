@@ -23,7 +23,13 @@ threeDotsBtn.addEventListener("click", (e) => {
     
         window.location.href = "./partprogetto.html";
     })
-
 })
+progettoContainer.addEventListener("click", (e) => {
+    window.location.href = "./progetto.html";
+})
+
+
+
+
 
 

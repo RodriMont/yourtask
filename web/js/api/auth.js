@@ -15,11 +15,13 @@ export const login = async () => {
 
     if(!validateEmail(email)){
         alert("Email non valido");
-        return;
+        return; 
     }
 
     try{
         const {data} = await axios.post("http://127.0.0.1:5000/login", {email, password});
+
+
         if(!data.auth) {
             alert(data.message)
             return
@@ -27,14 +29,16 @@ export const login = async () => {
 
         inputEmail.value = "";
         inputPassword.value = "";
-        //window.location.href = "./home.html";
+        window.location.href = "./home.html";
 
         let userInfo = {
             email,
             auth: data.auth,
             id: data["id"]
         }
+        
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
     }catch(e){
        alert("Server error");
     }
