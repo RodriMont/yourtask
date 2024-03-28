@@ -32,6 +32,9 @@ public interface ApiEndpoint {
         Call<Task> postTask(@Body Task task);
         @POST("/ruoli")
         Call<Ruolo> postRuolo(@Body Ruolo ruolo);
+        @POST ("/login")
+        Call<User> postLogin(@Body User user);
+
 
         @DELETE("/utenti/{id}")
         Call<User> deleteUtente(@Path("id")int id);

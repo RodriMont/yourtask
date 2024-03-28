@@ -1,9 +1,9 @@
 import axios from "https://cdn.jsdelivr.net/npm/axios@1.3.5/+esm";
 
 export async function registrazione() {
-  const email = document.querySelector(".email");
-  const password = document.querySelector(".password");
-  const username = document.querySelector(".username");
+  const email = document.querySelector("#email");
+  const password = document.querySelector("#password");
+  const username = document.querySelector("#username");
 
   if ([email, password, username].includes("")) {
     alert("Tutti campi sono obbligatori");
@@ -29,11 +29,11 @@ export async function registrazione() {
       return false;
     }
 
-    const loginBtn = document.querySelector("#login");
-
-    loginBtn.click();
-
     alert("Usuario creato");
+
+    window.location.replace("./index.html");
+
+
 
     email.value = ""
     username.value = ""
