@@ -202,7 +202,8 @@ def login():
     res = {
         "message": "",
         "code": 400,
-        "auth": False
+        "auth": False,
+        "id": -1
     }
 
     try:
@@ -218,6 +219,8 @@ def login():
                 res["code"] = 200
                 res["message"] = "Password corretta"
                 res["auth"] = True
+                res["id"] = utente_db[0]
+                
             else:
                 res["code"] = 200
                 res["message"] = "Password non corretta",
@@ -231,11 +234,14 @@ def login():
 
     return res
 
+
 def get_user_by_email(email:str):
     query = "SELECT * FROM utenti WHERE email= %s"
     cursor.execute(query, (email))
     user = cursor.fetchall()
     return user
+
+
 
 # Crea un nuovo progetto
 @app.route("/progetti", methods = ["POST"])
