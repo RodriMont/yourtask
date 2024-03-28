@@ -27,14 +27,16 @@ public class ProjectFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_project, container, false);
 
-        ListView lv = (ListView)view.findViewById(R.id.project_in_tasks_listview);
+        ListView tasks_listview = (ListView)view.findViewById(R.id.project_in_tasks_listview);
 
         ArrayList<Task> tasks = new ArrayList<>();
         tasks.add(new Task(1, "ciao", "01-01-1970", "01-01-1970", 1, 1));
         tasks.add(new Task(1, "ciao", "01-01-1970", "01-01-1970", 1, 1));
 
         TasksAdapter ta = new TasksAdapter(getContext(), tasks);
-        lv.setAdapter(ta);
+        tasks_listview.setAdapter(ta);
+
+
 
         return view;
     }
