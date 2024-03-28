@@ -140,9 +140,9 @@ public class ApiRequest {
     }
 
     //POST
-    public static void postUtente (User username, ReceiveDataCallback<Integer> callback) {
+    public static void postUtente (User user, ReceiveDataCallback<Integer> callback) {
 
-        Call<User> nuovoUtente = apiService.postUtente(username);
+        Call<User> nuovoUtente = apiService.postUtente(user);
         nuovoUtente.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -151,6 +151,23 @@ public class ApiRequest {
 
             }
 
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                callback.receiveData(500);
+            }
+        });
+    }
+
+    public static void postLogin (User user, ReceiveDataCallback<Integer> callback) {
+
+        Call<User> utenteLogin = apiService.postLogin(user);
+        utenteLogin.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                int statusCode = response.code();
+                callback.receiveData(statusCode);
+
+            }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 callback.receiveData(500);
