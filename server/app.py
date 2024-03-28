@@ -175,13 +175,14 @@ def registrazione_utente():
             cursor.execute(query, (username, email, password))
 
             res["ok"] = True
-            res["message"] = "Usuario Creato "
+            res["message"] = "Utente creato "
             res["code"] = 200
             db.commit()
         else:
             res["ok"] = False
-            res["message"] = "Usuario non creato, email usato"
+            res["message"] = "Utente non creato, email già in utilizzo"
             res["code"] = 200
+            return json.dumps(res), 400
 
     except Exception as e:
         print(e)
@@ -206,7 +207,7 @@ def login():
     try:
         utente_db = get_user_by_email(email)
         if(len(utente_db) == 0):
-            res["message"] = "Usuario non trovato"
+            res["message"] = "Utente non trovato"
             res["code"] = 200
             res["auth"] = False
         else:
