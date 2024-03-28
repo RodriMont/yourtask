@@ -177,13 +177,14 @@ def registrazione_utente():
             cursor.execute(query, (username, email, password))
 
             res["ok"] = True
-            res["message"] = "Usuario Creato "
+            res["message"] = "Utente creato "
             res["code"] = 200
             db.commit()
         else:
             res["ok"] = False
-            res["message"] = "Usuario non creato, email usato"
+            res["message"] = "Utente non creato, email già in utilizzo"
             res["code"] = 200
+            return json.dumps(res), 400
 
     except Exception as e:
         print(e)
@@ -202,13 +203,14 @@ def login():
     res = {
         "message": "",
         "code": 400,
-        "auth": False
+        "auth": False,
+        "id": -1
     }
 
     try:
         utente_db = get_user_by_email(email)
         if(len(utente_db) == 0):
-            res["message"] = "Usuario non trovato"
+            res["message"] = "Utente non trovato"
             res["code"] = 200
             res["auth"] = False
         else:
@@ -218,6 +220,8 @@ def login():
                 res["code"] = 200
                 res["message"] = "Password corretta"
                 res["auth"] = True
+                res["id"] = utente_db[0]
+                
             else:
                 res["code"] = 200
                 res["message"] = "Password non corretta",
@@ -231,11 +235,14 @@ def login():
 
     return res
 
+
 def get_user_by_email(email:str):
     query = "SELECT * FROM utenti WHERE email= %s"
     cursor.execute(query, (email))
     user = cursor.fetchall()
     return user
+
+
 
 # Crea un nuovo progetto
 @app.route("/progetti", methods = ["POST"])

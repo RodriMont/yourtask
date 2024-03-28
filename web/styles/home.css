@@ -1,3 +1,9 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+
 .grid {
     display: flex;
     justify-content: space-between;
@@ -26,6 +32,7 @@
     height: 125px;
     border-radius: 15px; 
     border: 2px solid darkblue;
+    position: relative;
   }
 
   .bold{
@@ -103,4 +110,21 @@
   display: inline;
   margin-top:-60px;
   margin-left: 10px;
+}
+.puntini button{
+  margin: 0;
+  padding: 0;
+  border-style: none;
+  background: none;
+  
+}
+
+.popUp_membri{
+  position: absolute;
+  left: 43rem;
+  bottom: 4.7rem;
+  padding: .6rem;
+  background: #cacaca;
+  border-radius: 1rem;
+
 }
