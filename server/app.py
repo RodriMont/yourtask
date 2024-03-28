@@ -173,7 +173,7 @@ def registrazione_utente():
         user = get_user_by_email(email)
         
         if(len(user) == 0):
-            query = "INSERT INTO utenti(username, email, password) VALUES (%s, %s, %s)"
+            query = "INSERT INTO utenti(username, email,  password) VALUES (%s, %s, %s)"
             cursor.execute(query, (username, email, password))
 
             res["ok"] = True
