@@ -65,6 +65,12 @@ public class TasksAdapter extends ArrayAdapter<Task>
         else
             viewHolder = (ViewHolder)convertView.getTag();
 
+        Task item = getItem(position);
+
+        viewHolder.task_name_label.setText(item.nome_task);
+        viewHolder.start_date.setText(item.data_avvio);
+        viewHolder.end_date.setText(item.data_scadenza);
+
         return convertView;
     }
 }
