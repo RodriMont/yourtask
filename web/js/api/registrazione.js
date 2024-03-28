@@ -29,7 +29,7 @@ export async function registrazione() {
       return false;
     }
 
-    alert("Usuario creato");
+    alert("Utente creato");
 
     window.location.replace("./index.html");
 
