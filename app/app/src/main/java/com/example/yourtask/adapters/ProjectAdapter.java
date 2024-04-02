@@ -1,6 +1,7 @@
 package com.example.yourtask.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +15,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.yourtask.CreateProjectFragment;
+import com.example.yourtask.ProjectFragment;
+import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.Project;
 import com.example.yourtask.R;
+import com.example.yourtask.model.ReceiveDataCallback;
 
 import java.util.ArrayList;
 
@@ -56,6 +61,32 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
                     @Override
                     public boolean onMenuItemClick(MenuItem item)
                     {
+                        int id = item.getItemId();
+
+                        if (id == R.id.options_popup_menu_delete) {
+                            ApiRequest.deleteProgetto(project.id, new ReceiveDataCallback<Integer>() {
+                                @Override
+                                public void receiveData(Integer o) {
+                                    remove(project);
+                                    notifyDataSetChanged();
+                                }
+                            });
+                        }
+
+                        else if (id == R.id.options_popup_menu_edit) {
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean("edit", true);
+                            bundle.putInt("id", project.id);
+                            bundle.putString("nome_progetto", project.nome_progetto);
+                            bundle.putString("data_avvio", project.data_avvio);
+                            bundle.putString("data_scadenza", project.data_scadenza);
+                            bundle.putFloat("budget", project.budget);
+
+                            CreateProjectFragment createProject = new CreateProjectFragment();
+                            createProject.setArguments(bundle);
+
+                            ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createProject).commit();
+                        }
                         return true;
                     }
                 });

@@ -243,13 +243,13 @@ public class ApiRequest {
         });
     }
 
-    public static void deleteProgetto (int id) {
+    public static void deleteProgetto (int id, ReceiveDataCallback <Integer> callback) {
         Call<Progetto> cancProgetto = apiService.deleteProgetto(id);
         cancProgetto.enqueue(new Callback<Progetto>() {
             @Override
             public void onResponse(Call<Progetto> call, Response<Progetto> response) {
                 int statusCode = response.code();
-
+                callback.receiveData(statusCode);
             }
 
             @Override
@@ -292,13 +292,13 @@ public class ApiRequest {
     }
 
     //PUT
-    public static void putUtente (int id, User user) {
+    public static void putUtente (int id, User user, ReceiveDataCallback <Integer> callback) {
         Call<User> putUser = apiService.putUtente(id, user);
         putUser.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 int statusCode = response.code();
-
+                callback.receiveData(statusCode);
             }
 
             @Override
@@ -308,13 +308,13 @@ public class ApiRequest {
         });
     }
 
-    public static void putProgetto (int id, Progetto progetto) {
+    public static void putProgetto (int id, Progetto progetto, ReceiveDataCallback<Integer> callback) {
         Call<Progetto> putProgetto = apiService.putProgetto(id, progetto);
         putProgetto.enqueue(new Callback<Progetto>() {
             @Override
             public void onResponse(Call<Progetto> call, Response<Progetto> response) {
                 int statusCode = response.code();
-
+                callback.receiveData(statusCode);
             }
 
             @Override
