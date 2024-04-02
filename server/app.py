@@ -373,16 +373,16 @@ def modifica_utente(id):
 
     try:
         with db.cursor() as cursor:
-            sql = f"update utenti set username where id = %s"
+            sql = f"update utenti set username = %s where id = %s"
             cursor.execute(sql, (data["username"], id))
 
         db.commit()
 
-        return jsonify({"message": "Utente modificato con successo", "code": 200})
+        return jsonify({"message": "Utente modificato con successo", "code": 200}), 200
     except Exception as e:
         db.rollback()
         print(str(e))
-        return jsonify({"message:": "Errore nella modifica dell'utente", "code": 500})
+        return jsonify({"message:": "Errore nella modifica dell'utente", "code": 500}), 500
 
 # Modifica un progetto, dato il suo id
 @app.route("/progetti/<int:id>", methods = ["PUT"])
@@ -396,10 +396,10 @@ def modifica_progetto(id):
 
         db.commit()
 
-        return jsonify({"message": "Progetto modificato con successo", "code": 200})
+        return jsonify({"message": "Progetto modificato con successo", "code": 200}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nella modifica del progetto", "code": 500})
+        return jsonify({"message:": "Errore nella modifica del progetto", "code": 500}), 500
 
 # Modifica un task, dato il suo id
 @app.route("/task/<int:id>", methods = ["PUT"])
