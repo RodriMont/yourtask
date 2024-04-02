@@ -2,10 +2,12 @@ package com.example.yourtask.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -70,6 +72,26 @@ public class TasksAdapter extends ArrayAdapter<Task>
         viewHolder.task_name_label.setText(item.nome_task);
         viewHolder.start_date.setText(item.data_avvio);
         viewHolder.end_date.setText(item.data_scadenza);
+        viewHolder.options_icon.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                PopupMenu popupMenu = new PopupMenu(context, v);
+                popupMenu.getMenuInflater().inflate(R.menu.options_popup_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+                {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item)
+                    {
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
 
         return convertView;
     }
