@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.yourtask.adapters.TasksAdapter;
@@ -26,7 +27,10 @@ public class ProjectFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+
         View view = inflater.inflate(R.layout.fragment_project, container, false);
+
+        ImageView addTask = view.findViewById(R.id.add_new_task);
 
         ListView tasks_listview = (ListView)view.findViewById(R.id.project_in_tasks_listview);
 
@@ -36,6 +40,13 @@ public class ProjectFragment extends Fragment
 
         TasksAdapter tasks_adapter = new TasksAdapter(getContext(), tasks);
         tasks_listview.setAdapter(tasks_adapter);
+
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateTaskFragment()).commit();
+            }
+        });
 
         tasks_listview.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
