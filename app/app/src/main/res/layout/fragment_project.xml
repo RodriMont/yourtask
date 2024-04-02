@@ -33,6 +33,7 @@
         android:background="@drawable/rounded_edittext">
 
         <ImageView
+            android:id="@+id/add_new_task"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
