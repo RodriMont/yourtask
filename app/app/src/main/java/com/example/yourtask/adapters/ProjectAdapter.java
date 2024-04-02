@@ -29,9 +29,9 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
         }
 
         Progetto project = getItem(position);
-        TextView nomeTextView = (TextView) convertView.findViewById(R.id.project_name_textView);
-        TextView startTextView = (TextView) convertView.findViewById(R.id.start_project_textView);
-        TextView endTextView = (TextView) convertView.findViewById(R.id.end_project_textView);
+        TextView nomeTextView = (TextView) convertView.findViewById(R.id.project_listview_project_name_label);
+        TextView startTextView = (TextView) convertView.findViewById(R.id.project_listview_start_date);
+        TextView endTextView = (TextView) convertView.findViewById(R.id.project_listview_end_date);
 
         assert project != null;
 
