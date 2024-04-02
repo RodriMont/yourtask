@@ -175,7 +175,7 @@ public class ApiRequest {
         });
     }
 
-    public static void postProgetto (Progetto progetto) {
+    public static void postProgetto (Progetto progetto, ReceiveDataCallback <Integer> callback) {
 
         Call<Progetto> postProgetto = apiService.postProgetto(progetto);
         postProgetto.enqueue(new Callback<Progetto>() {
