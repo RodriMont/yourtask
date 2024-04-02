@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.yourtask.adapters.TasksAdapter;
+import com.example.yourtask.model.ApiRequest;
+import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.Task;
 
 import java.util.ArrayList;
@@ -26,16 +29,29 @@ public class ProjectFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+
         View view = inflater.inflate(R.layout.fragment_project, container, false);
+
+        ImageView addTask = view.findViewById(R.id.add_new_task);
 
         ListView tasks_listview = (ListView)view.findViewById(R.id.project_in_tasks_listview);
 
-        ArrayList<Task> tasks = new ArrayList<>();
-        tasks.add(new Task(1, "ciao", "01-01-1970", "01-01-1970", 1, 1));
-        tasks.add(new Task(1, "ciao", "01-01-1970", "01-01-1970", 1, 1));
+        ApiRequest.getTaskUtente(1, 1, new ReceiveDataCallback<ArrayList<Task>>()
+        {
+            @Override
+            public void receiveData(ArrayList<Task> o)
+            {
+                TasksAdapter tasks_adapter = new TasksAdapter(getContext(), o);
+                tasks_listview.setAdapter(tasks_adapter);
+            }
+        });
 
-        TasksAdapter tasks_adapter = new TasksAdapter(getContext(), tasks);
-        tasks_listview.setAdapter(tasks_adapter);
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateTaskFragment()).commit();
+            }
+        });
 
         tasks_listview.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
