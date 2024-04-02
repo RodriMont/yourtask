@@ -22,7 +22,7 @@ public class ApiRequest {
     public static Retrofit retrofit;
     public static ApiEndpoint apiService;
     public static void setup () {
-        baseurl = "http://192.168.0.116:5000";
+        baseurl = "http://192.168.0.112:5000";
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseurl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -182,7 +182,7 @@ public class ApiRequest {
             @Override
             public void onResponse(Call<Progetto> call, Response<Progetto> response) {
                 int statusCode = response.code();
-
+                callback.receiveData(statusCode);
             }
 
             @Override
@@ -192,14 +192,14 @@ public class ApiRequest {
         });
     }
 
-    public static void postTask (Task task) {
+    public static void postTask (Task task, ReceiveDataCallback <Integer> callback) {
 
         Call<Task> postTask = apiService.postTask(task);
         postTask.enqueue(new Callback<Task>() {
             @Override
             public void onResponse(Call<Task> call, Response<Task> response) {
                 int statusCode = response.code();
-
+                callback.receiveData(statusCode);
             }
 
             @Override
