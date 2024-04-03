@@ -216,6 +216,6 @@
         android:textColor="@color/white"
         android:layout_centerHorizontal="true"
         android:background="@drawable/rounded_button"
-        android:text="Crea Progetto"/>
+        android:text="Crea"/>
 
 </RelativeLayout>

@@ -1,5 +1,9 @@
 package com.example.yourtask;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -17,11 +21,10 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class CreateRoleFragment extends Fragment
 {
-    ImageView image;
-    RelativeLayout relativeLayout;
-
-    LinearLayout linearLayout;
-    int defaultColor;
+    private ImageView color_picker_button;
+    private LinearLayout color_layout;
+    private GradientDrawable gradient_color_layout_background;
+    private int currentColor = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -35,12 +38,14 @@ public class CreateRoleFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_create_role, container, false);
 
-        image = view.findViewById(R.id.btn);
-        linearLayout = view.findViewById(R.id.linear);
+        color_picker_button = view.findViewById(R.id.new_role_color_picker_button);
+        color_layout = view.findViewById(R.id.new_role_color_layout);
+        Drawable color_layout_background = ContextCompat.getDrawable(getContext(), R.drawable.rounded_edittext).mutate();
 
-        defaultColor = ContextCompat.getColor(getContext(), R.color.orange);
+        color_layout.setBackground(color_layout_background);
+        gradient_color_layout_background = (GradientDrawable)color_layout_background;
 
-        image.setOnClickListener(new View.OnClickListener()
+        color_picker_button.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -54,7 +59,7 @@ public class CreateRoleFragment extends Fragment
 
     public void openColorPicker()
     {
-        AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(getContext(), defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+        AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(getContext(), currentColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
             public void onCancel(AmbilWarnaDialog dialog)
             {
@@ -63,8 +68,15 @@ public class CreateRoleFragment extends Fragment
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color)
             {
-                defaultColor = color;
-                linearLayout.setBackgroundColor(defaultColor);
+                currentColor = color;
+                gradient_color_layout_background.setColor(color);
+
+                int brightness = Color.red(color) + Color.green(color) + Color.blue(color);
+
+                if (brightness <= 512)
+                    color_picker_button.setColorFilter(Color.rgb(255, 255, 255), PorterDuff.Mode.SRC_IN);
+                else
+                    color_picker_button.setColorFilter(Color.rgb(0, 0, 0), PorterDuff.Mode.SRC_IN);
             }
         });
 
