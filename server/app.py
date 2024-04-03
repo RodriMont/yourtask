@@ -126,6 +126,33 @@ def get_utenti_task():
 
     return json.dumps(utenti)
 
+# Ritorna tutti gli utenti che partecipano in un determinato progetto, dato il suo id e l'id del progetto
+@app.route("/utenti_progetto")
+def get_utenti_progetto():
+    id_progetto = request.args.get('id_progetto')
+
+    cursor.execute(f"""select utenti.id, utenti.username, utenti.email, utenti.password
+                       from progettiutente
+                       inner join utenti
+                       on progettiutente.id_utente = utenti.id
+                       inner join progetti
+                       on progettiutente.id_progetto = progetti.id
+                       where progettiutente.id_progetto = {id_progetto}""")
+
+    rows = cursor.fetchall()
+    utenti = []
+
+    for row in rows:
+        id = row[0]
+        username = row[1]
+        email = row[2]
+        password = row[3]
+
+        utente = Utente(id, username, email, password)
+        utenti.append(utente.__dict__)
+
+    return json.dumps(utenti)
+
 @app.route("/ruolo_utente")
 def get_ruolo_utente():
     id_utente = request.args.get('id_utente')
@@ -297,6 +324,42 @@ def post_ruolo():
     except Exception as e:
         db.rollback()
         return jsonify({"message:": "Errore nella creazione del ruolo", "code": 500})
+    
+#aggiunge utenti in un progetto
+@app.route("/utenti_progetto", methods = ["POST"])
+def post_utenti_progetto():
+    data = request.json    
+
+    try:
+        with db.cursor() as cursor:
+            sql = """insert into progettiutente(id_utente, id_progetto)
+                     values (%s, %s)"""
+            cursor.execute(sql, (data["id_utente"], data["id_progetto"]))
+
+        db.commit()
+
+        return jsonify({"message": "Utente aggiunto con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nell'aggiunta dell'utente", "code": 500})  
+    
+#aggiunge utenti in un task di un progetto
+@app.route("/utenti_task", methods = ["POST"])
+def post_utenti_task():
+    data = request.json    
+
+    try:
+        with db.cursor() as cursor:
+            sql = """insert into taskutente( id_task, id_utente)
+                     values (%s, %s)"""
+            cursor.execute(sql, (data["id_task"], data["id_utente"]))
+
+        db.commit()
+
+        return jsonify({"message": "Utente aggiunto con successo", "code": 200})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nell'aggiunta dell'utente", "code": 500})  
 
 #=================================================================================================================================
 # DELETE
