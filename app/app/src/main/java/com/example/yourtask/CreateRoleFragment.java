@@ -64,7 +64,7 @@ public class CreateRoleFragment extends Fragment
                     Toast.makeText(getContext(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else
                 {
-                    ApiRequest.postRuolo(new Ruolo(1, role_text, 1), new ReceiveDataCallback<Integer>()
+                    ApiRequest.postRuolo(new Ruolo(1, role_text, Integer.toHexString(currentColor).substring(2).toUpperCase(), 1), new ReceiveDataCallback<Integer>()
                     {
                         @Override
                         public void receiveData(Integer o)
