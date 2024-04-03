@@ -198,18 +198,18 @@ public class ApiRequest {
         });
     }
 
-    public static void postProgetto (Progetto progetto, ReceiveDataCallback <Integer> callback) {
+    public static void postProgetto (Progetto progetto, ReceiveDataCallback <ResponseBody> callback) {
 
-        Call<Progetto> postProgetto = apiService.postProgetto(progetto);
-        postProgetto.enqueue(new Callback<Progetto>() {
+        Call<ResponseBody> postProgetto = apiService.postProgetto(progetto);
+        postProgetto.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<Progetto> call, Response<Progetto> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int statusCode = response.code();
-                callback.receiveData(statusCode);
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<Progetto> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
         });
@@ -249,14 +249,14 @@ public class ApiRequest {
         });
     }
 
-    public static void postUtentiProgetto (UtentiProgetto utentiProgetto) {
+    public static void postUtentiProgetto (UtentiProgetto utentiProgetto, ReceiveDataCallback<Integer> callback) {
 
         Call<User> postUtentiProgetto = apiService.postUtentiProgetto(utentiProgetto);
         postUtentiProgetto.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 int statusCode = response.code();
-
+                callback.receiveData(statusCode);
             }
 
             @Override
