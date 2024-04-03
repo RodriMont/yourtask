@@ -17,6 +17,7 @@ public class ApiRequest {
     public static ArrayList<Progetto> progettiUtente;
     public static ArrayList<Task> taskUtente;
     public static ArrayList<User> utentiTask;
+    public static ArrayList<User> utentiProgetto;
     public static ArrayList<Ruolo> ruoloUtente;
     private static String baseurl;
     public static Retrofit retrofit;
@@ -139,6 +140,28 @@ public class ApiRequest {
         return utentiTask;
     }
 
+    public static ArrayList<User> getUtentiProgetto (int id_progetto, ReceiveDataCallback<ArrayList<User>> callback) {
+
+        Call<ArrayList<User>> utenti = apiService.getUtentiProgetto(id_progetto);
+        utenti.enqueue(new Callback<ArrayList<User>>() {
+            @Override
+            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
+                int statusCode = response.code();
+                ApiRequest.utentiProgetto = response.body();
+
+                if (callback != null)
+                    callback.receiveData(ApiRequest.utentiProgetto);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
+
+            }
+        });
+
+        return utentiProgetto;
+    }
+
     //POST
     public static void postUtente (User user, ReceiveDataCallback<Integer> callback) {
 
@@ -221,6 +244,40 @@ public class ApiRequest {
 
             @Override
             public void onFailure(Call<Ruolo> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public static void postUtentiProgetto (UtentiProgetto utentiProgetto) {
+
+        Call<User> postUtentiProgetto = apiService.postUtentiProgetto(utentiProgetto);
+        postUtentiProgetto.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                int statusCode = response.code();
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public static void postUtentiTask (UtentiTask utentiTask) {
+
+        Call<User> postUtentiTask = apiService.postUtentiTask(utentiTask);
+        postUtentiTask.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                int statusCode = response.code();
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
 
             }
         });

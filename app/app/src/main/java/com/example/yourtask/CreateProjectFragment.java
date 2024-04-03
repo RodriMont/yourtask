@@ -6,20 +6,26 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yourtask.adapters.CollaboratorsAdapter;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.ReceiveDataCallback;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class CreateProjectFragment extends Fragment
 {
@@ -36,11 +42,42 @@ public class CreateProjectFragment extends Fragment
         EditText dataAvvioEditText = view.findViewById(R.id.new_project_start_date_edittext);
         EditText dataScandenzaEditText = view.findViewById(R.id.new_project_end_date_edittext);
         EditText budgetEditText = view.findViewById(R.id.new_project_budget_editText);
+        EditText collaboratorsEditText = view.findViewById(R.id.new_project_collaborators_edittext);
+        ListView collaboratorsListView = view.findViewById(R.id.new_project_collaborators_listview);
+
+        CollaboratorsAdapter collaboratorsAdapter = new CollaboratorsAdapter(getContext(), new ArrayList<>());
+        collaboratorsListView.setAdapter(collaboratorsAdapter);
+
+        collaboratorsEditText.setOnKeyListener(new View.OnKeyListener()
+        {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    String item = collaboratorsEditText.getText().toString();
+
+                    if (!item.trim().equals(""))
+                    {
+                        collaboratorsAdapter.add(item);
+                        collaboratorsAdapter.notifyDataSetChanged();
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
 
         if (bundle != null) {
             nomeProgettoEditText.setText(bundle.getString("nome_progetto"));
-            dataAvvioEditText.setText(bundle.getString("data_avvio"));
-            dataScandenzaEditText.setText(bundle.getString("data_scadenza"));
+
+            String[] dataAvvioSplit = bundle.getString("data_avvio").split("-");
+            dataAvvioEditText.setText(String.format("%s/%s/%s", dataAvvioSplit[2], dataAvvioSplit[1], dataAvvioSplit[0]));
+
+            String[] dataScadenzaSplit = bundle.getString("data_scadenza").split("-");
+            dataScandenzaEditText.setText(String.format("%s/%s/%s", dataScadenzaSplit[2], dataScadenzaSplit[1], dataScadenzaSplit[0]));
+
             budgetEditText.setText(String.valueOf(bundle.getFloat("budget")));
         }
 
@@ -72,8 +109,13 @@ public class CreateProjectFragment extends Fragment
 
 
                 String nomeProgettoText = nomeProgettoEditText.getText().toString();
-                String dataAvvioText = dataAvvioEditText.getText().toString();
-                String dataScadenzaText = dataScandenzaEditText.getText().toString();
+
+                String[] dataAvvioSplit = dataAvvioEditText.getText().toString().split("/");
+                String dataAvvioText = String.format("%s-%s-%s", dataAvvioSplit[2], dataAvvioSplit[1], dataAvvioSplit[0]);
+
+                String[] dataScadenzaSplit = dataScandenzaEditText.getText().toString().split("/");
+                String dataScadenzaText = String.format("%s-%s-%s", dataScadenzaSplit[2], dataScadenzaSplit[1], dataScadenzaSplit[0]);
+
                 String budgetText = budgetEditText.getText().toString();
 
                 if (nomeProgettoText.equals("") || dataAvvioText.equals("") || dataScadenzaText.equals("") || budgetText.equals(""))
