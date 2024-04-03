@@ -158,7 +158,7 @@ def get_ruolo_utente():
     id_utente = request.args.get('id_utente')
     id_progetto = request.args.get('id_progetto')
 
-    cursor.execute(f"""select ruoli.id, ruoli.nome_ruolo, ruoli.id_progetto
+    cursor.execute(f"""select ruoli.id, ruoli.nome_ruolo, ruoli.colore, ruoli.id_progetto
                        from ruoloutente
                        inner join ruoli
                        on ruoloutente.id_ruolo = ruoli.id
@@ -172,9 +172,10 @@ def get_ruolo_utente():
     for row in rows:
         id_ruolo = row[0]
         nome_ruolo = row[1]
-        id_progetto = row[2]
+        colore = row[2]
+        id_progetto = row[3]
 
-        ruolo = Ruolo(id_ruolo, nome_ruolo, id_progetto)
+        ruolo = Ruolo(id_ruolo, nome_ruolo, colore, id_progetto)
         ruoli.append(ruolo.__dict__)
 
     return json.dumps(ruoli)
@@ -314,9 +315,9 @@ def post_ruolo():
 
     try:
         with db.cursor() as cursor:
-            sql = """insert into ruoli(nome_ruolo, id_progetto)
-                     values (%s, %s)"""
-            cursor.execute(sql, (data["nome_ruolo"], data["id_progetto"]))
+            sql = """insert into ruoli(nome_ruolo, colore, id_progetto)
+                     values (%s, %s, %s)"""
+            cursor.execute(sql, (data["nome_ruolo"], data["colore"], data["id_progetto"]))
 
         db.commit()
 
@@ -487,8 +488,8 @@ def modifica_ruolo(id):
 
     try:
         with db.cursor() as cursor:
-            sql = "update ruoli set nome_ruolo = %s where id = %s"
-            cursor.execute(sql, (data["nome_ruolo"], id))
+            sql = "update ruoli set nome_ruolo = %s, colore = %s where id = %s"
+            cursor.execute(sql, (data["nome_ruolo"], data["colore"], id))
         
         db.commit()
 

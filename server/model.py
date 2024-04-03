@@ -27,11 +27,13 @@ class Utente:
 class Ruolo:
     id = None
     nome_ruolo = None
+    colore = None
     id_progetto = None
 
-    def __init__(self, id, nome_ruolo, id_progetto):
+    def __init__(self, id, nome_ruolo, colore, id_progetto):
         self.id = id
         self.nome_ruolo = nome_ruolo
+        self.colore = colore
         self.id_progetto = id_progetto
 
 class Task:
