@@ -1,7 +1,6 @@
 package com.example.yourtask.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -29,7 +28,7 @@ public interface ApiEndpoint {
         @POST("/registrazione")
         Call<User> postUtente(@Body User user);
         @POST ("/progetti")
-        Call<Progetto> postProgetto(@Body Progetto progetto);
+        Call<ResponseBody> postProgetto(@Body Progetto progetto);
         @POST("/task")
         Call<Task> postTask(@Body Task task);
         @POST("/ruoli")
