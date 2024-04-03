@@ -23,9 +23,16 @@ import com.example.yourtask.adapters.CollaboratorsAdapter;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.ResponseBody;
+import com.example.yourtask.model.User;
+import com.example.yourtask.model.UtentiProgetto;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class CreateProjectFragment extends Fragment
 {
@@ -45,7 +52,8 @@ public class CreateProjectFragment extends Fragment
         EditText collaboratorsEditText = view.findViewById(R.id.new_project_collaborators_edittext);
         ListView collaboratorsListView = view.findViewById(R.id.new_project_collaborators_listview);
 
-        CollaboratorsAdapter collaboratorsAdapter = new CollaboratorsAdapter(getContext(), new ArrayList<>());
+        ArrayList<String> collaborators = new ArrayList<>();
+        CollaboratorsAdapter collaboratorsAdapter = new CollaboratorsAdapter(getContext(), collaborators);
         collaboratorsListView.setAdapter(collaboratorsAdapter);
 
         collaboratorsEditText.setOnKeyListener(new View.OnKeyListener()
@@ -59,7 +67,7 @@ public class CreateProjectFragment extends Fragment
 
                     if (!item.trim().equals(""))
                     {
-                        collaboratorsAdapter.add(item);
+                        collaborators.add(item);
                         collaboratorsAdapter.notifyDataSetChanged();
                         return true;
                     }
@@ -121,19 +129,39 @@ public class CreateProjectFragment extends Fragment
                 if (nomeProgettoText.equals("") || dataAvvioText.equals("") || dataScadenzaText.equals("") || budgetText.equals(""))
                     Toast.makeText(getActivity(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else if (bundle == null) {
-                    ApiRequest.postProgetto(new Progetto(1, nomeProgettoText, dataAvvioText, dataScadenzaText, Float.parseFloat(budgetText)), new ReceiveDataCallback<Integer>() {
+                    ApiRequest.postProgetto(new Progetto(1, nomeProgettoText, dataAvvioText, dataScadenzaText, Float.parseFloat(budgetText)), new ReceiveDataCallback<ResponseBody>() {
+                        public int id;
                         @Override
-                        public void receiveData(Integer o) {
-                            if (o == 200) {
-                                Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
-                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
+                        public void receiveData(ResponseBody o) {
+                            id = o.id;
+                            if (o.code == 200) {
+                                for (int i=0; i<collaborators.size();i++) {
+                                    Call<ArrayList<User>> call = ApiRequest.apiService.getUser(collaborators.get(i));
+                                    try {
+                                        Response<ArrayList<User>> response = call.execute();
+                                        ArrayList<User> utenti = response.body();
+                                        if (utenti.size() > 0) {
+                                            Call<User> call2 = ApiRequest.apiService.postUtentiProgetto(new UtentiProgetto(utenti.get(0).id, id));
+                                            Response<User> res = call2.execute();
+                                        }
+                                    }
+                                    catch(IOException e) {
+
+                                    }
+
+                                    Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
+                                    requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
+                                }
+
+
                             }
-                            else if (o == 400)
+                            else if (o.code == 400)
                                 Toast.makeText(getActivity(), "400", Toast.LENGTH_LONG).show();
-                            else if (o == 500)
+                            else if (o.code == 500)
                                 Toast.makeText(getActivity(), "500", Toast.LENGTH_LONG).show();
                         }
                     });
+
                 }
                 else {
                     Progetto progetto = new Progetto(bundle.getInt("id"), nomeProgettoText, dataAvvioText, dataScadenzaText, Float.parseFloat(budgetText));
