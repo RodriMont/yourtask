@@ -285,7 +285,7 @@ def post_progetto():
 
         db.commit()
 
-        return jsonify({"message": "Progetto creato con successo", "code": 200})
+        return jsonify({"message": "Progetto creato con successo", "code": 200, "id":cursor.lastrowid})
     except Exception as e:
         db.rollback()
         return jsonify({"message:": "Errore nella creazione del progetto", "code": 500})
