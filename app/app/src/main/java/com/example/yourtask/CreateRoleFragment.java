@@ -15,18 +15,19 @@ import android.widget.RelativeLayout;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
-
-public class CreateRoleFragment extends Fragment {
+public class CreateRoleFragment extends Fragment
+{
     ImageView image;
     RelativeLayout relativeLayout;
 
     LinearLayout linearLayout;
     int defaultColor;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        }
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,30 +38,31 @@ public class CreateRoleFragment extends Fragment {
         image = view.findViewById(R.id.btn);
         linearLayout = view.findViewById(R.id.linear);
 
-
         defaultColor = ContextCompat.getColor(getContext(), R.color.orange);
 
-        image.setOnClickListener(new View.OnClickListener(){
+        image.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-                    public  void onClick(View v){
+            public void onClick(View v)
+            {
                 openColorPicker();
-
             }
         });
 
         return view;
     }
 
-    public  void  openColorPicker()
+    public void openColorPicker()
     {
         AmbilWarnaDialog ambilWarnaDialog = new AmbilWarnaDialog(getContext(), defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
-            public void onCancel(AmbilWarnaDialog dialog) {
-
+            public void onCancel(AmbilWarnaDialog dialog)
+            {
             }
 
             @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
+            public void onOk(AmbilWarnaDialog dialog, int color)
+            {
                 defaultColor = color;
                 linearLayout.setBackgroundColor(defaultColor);
             }
