@@ -232,19 +232,19 @@ public class ApiRequest {
         });
     }
 
-    public static void postRuolo (Ruolo ruolo) {
+    public static void postRuolo (Ruolo ruolo, ReceiveDataCallback<Integer> callback) {
 
         Call<Ruolo> postRuolo = apiService.postRuolo(ruolo);
         postRuolo.enqueue(new Callback<Ruolo>() {
             @Override
             public void onResponse(Call<Ruolo> call, Response<Ruolo> response) {
                 int statusCode = response.code();
-
+                callback.receiveData(statusCode);
             }
 
             @Override
             public void onFailure(Call<Ruolo> call, Throwable t) {
-
+                callback.receiveData(500);
             }
         });
     }

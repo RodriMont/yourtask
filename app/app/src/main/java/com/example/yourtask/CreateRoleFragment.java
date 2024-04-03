@@ -13,9 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.example.yourtask.model.ApiRequest;
+import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.Ruolo;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -38,12 +44,43 @@ public class CreateRoleFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_create_role, container, false);
 
+        EditText role_edittext = view.findViewById(R.id.new_role_edittext);
         color_picker_button = view.findViewById(R.id.new_role_color_picker_button);
         color_layout = view.findViewById(R.id.new_role_color_layout);
+        Button create_button = view.findViewById(R.id.new_role_create_button);
         Drawable color_layout_background = ContextCompat.getDrawable(getContext(), R.drawable.rounded_edittext).mutate();
 
         color_layout.setBackground(color_layout_background);
         gradient_color_layout_background = (GradientDrawable)color_layout_background;
+
+        create_button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                String role_text = role_edittext.getText().toString();
+
+                if (role_text.trim().equals(""))
+                    Toast.makeText(getContext(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
+                else
+                {
+                    ApiRequest.postRuolo(new Ruolo(1, role_text, 1), new ReceiveDataCallback<Integer>()
+                    {
+                        @Override
+                        public void receiveData(Integer o)
+                        {
+                            if (o == 200)
+                            {
+                                Toast.makeText(getContext(), "200", Toast.LENGTH_LONG).show();
+                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
+                            }
+                            else if (o == 500)
+                                Toast.makeText(getContext(), "500", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
 
         color_picker_button.setOnClickListener(new View.OnClickListener()
         {
