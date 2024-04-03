@@ -39,8 +39,13 @@ public class CreateProjectFragment extends Fragment
 
         if (bundle != null) {
             nomeProgettoEditText.setText(bundle.getString("nome_progetto"));
-            dataAvvioEditText.setText(bundle.getString("data_avvio"));
-            dataScandenzaEditText.setText(bundle.getString("data_scadenza"));
+
+            String[] dataAvvioSplit = bundle.getString("data_avvio").split("-");
+            dataAvvioEditText.setText(String.format("%s/%s/%s", dataAvvioSplit[2], dataAvvioSplit[1], dataAvvioSplit[0]));
+
+            String[] dataScadenzaSplit = bundle.getString("data_scadenza").split("-");
+            dataScandenzaEditText.setText(String.format("%s/%s/%s", dataScadenzaSplit[2], dataScadenzaSplit[1], dataScadenzaSplit[0]));
+
             budgetEditText.setText(String.valueOf(bundle.getFloat("budget")));
         }
 
@@ -72,8 +77,13 @@ public class CreateProjectFragment extends Fragment
 
 
                 String nomeProgettoText = nomeProgettoEditText.getText().toString();
-                String dataAvvioText = dataAvvioEditText.getText().toString();
-                String dataScadenzaText = dataScandenzaEditText.getText().toString();
+
+                String[] dataAvvioSplit = dataAvvioEditText.getText().toString().split("/");
+                String dataAvvioText = String.format("%s-%s-%s", dataAvvioSplit[2], dataAvvioSplit[1], dataAvvioSplit[0]);
+
+                String[] dataScadenzaSplit = dataScandenzaEditText.getText().toString().split("/");
+                String dataScadenzaText = String.format("%s-%s-%s", dataScadenzaSplit[2], dataScadenzaSplit[1], dataScadenzaSplit[0]);
+
                 String budgetText = budgetEditText.getText().toString();
 
                 if (nomeProgettoText.equals("") || dataAvvioText.equals("") || dataScadenzaText.equals("") || budgetText.equals(""))
