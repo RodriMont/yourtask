@@ -120,12 +120,6 @@ public class CreateTaskFragment extends Fragment
 
         collaborators_autocomplete.setThreshold(1);
 
-        /*
-        String[] test = {"example1@mail.dom", "example2@mail.dom", "example3@mail.dom", "example4@mail.dom", "example5@mail.dom"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, test);
-        collaborators_autocomplete.setAdapter(adapter);
-        */
-
         collaborators_autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
