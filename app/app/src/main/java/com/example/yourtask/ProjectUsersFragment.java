@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.yourtask.adapters.CollaboratorsAdapter;
+import com.example.yourtask.adapters.UsersAdapter;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.User;
@@ -34,26 +36,40 @@ public class ProjectUsersFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.project_users_fragment, container, false);
 
+        EditText newCollaboratorsEditText = (EditText)view.findViewById(R.id.project_users_add_collaborators_edittext);
+        ListView newCollaboratorsListView = (ListView)view.findViewById(R.id.project_users_add_collaborators_listview);
+        ListView collaboratorsListView = (ListView)view.findViewById(R.id.project_users_collaborators_listview);
+
+        ArrayList<User> newCollaborators = new ArrayList<User>();
+        CollaboratorsAdapter newCollaboratorsAdapter = new CollaboratorsAdapter(getContext(), newCollaborators);
+        newCollaboratorsListView.setAdapter(newCollaboratorsAdapter);
+
         ArrayList<User> collaborators = new ArrayList<User>();
-        CollaboratorsAdapter collaboratorsAdapter = new CollaboratorsAdapter(getContext(), collaborators);
+        UsersAdapter collaboratorsAdapter = new UsersAdapter(getContext(), collaborators);
 
-        EditText collaboratorsEditText = (EditText)view.findViewById(R.id.project_users_add_collaborators_edittext);
-        ListView collaboratorsListView = (ListView)view.findViewById(R.id.project_users_add_collaborators_listview);
+        ApiRequest.getUtentiProgetto(1, new ReceiveDataCallback<ArrayList<User>>()
+        {
+            @Override
+            public void receiveData(ArrayList<User> o)
+            {
+                Toast.makeText(getContext(), String.valueOf(o.size()), Toast.LENGTH_LONG).show();
+                collaborators.addAll(o);
+                collaboratorsListView.setAdapter(collaboratorsAdapter);
+            }
+        });
 
-        collaboratorsListView.setAdapter(collaboratorsAdapter);
-
-        collaboratorsEditText.setOnKeyListener(new View.OnKeyListener()
+        newCollaboratorsEditText.setOnKeyListener(new View.OnKeyListener()
         {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event)
             {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
                 {
-                    String item = collaboratorsEditText.getText().toString();
+                    String item = newCollaboratorsEditText.getText().toString();
 
                     if (!item.trim().equals(""))
                     {
-                        collaboratorsEditText.setText("");
+                        newCollaboratorsEditText.setText("");
 
                         ApiRequest.getUtente(item, new ReceiveDataCallback<ArrayList<User>>()
                         {
@@ -61,11 +77,11 @@ public class ProjectUsersFragment extends Fragment
                             public void receiveData(ArrayList<User> o)
                             {
                                 if (o.size() == 0)
-                                    collaborators.add(new User(-1, "", item, ""));
+                                    newCollaborators.add(new User(-1, "", item, ""));
                                 else
-                                    collaborators.add(o.get(0));
+                                    newCollaborators.add(o.get(0));
 
-                                collaboratorsAdapter.notifyDataSetChanged();
+                                newCollaboratorsAdapter.notifyDataSetChanged();
                             }
                         });
 
