@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.User;
 
 import retrofit2.Call;
@@ -57,18 +58,18 @@ public class SignUpActivity extends AppCompatActivity
                 else if (!passwordText.equals(repasswordText))
                     Toast.makeText(SignUpActivity.this, "Le password non coincidono", Toast.LENGTH_LONG).show();
                 else {
-                    ApiRequest.postUtente(new User(1, userText, emailText, passwordText), new ReceiveDataCallback<Integer>() {
+                    ApiRequest.postUtente(new User(1, userText, emailText, passwordText), new ReceiveDataCallback<RequestResult>() {
                         @Override
-                        public void receiveData(Integer o) {
-                            if (o == 200) {
+                        public void receiveData(RequestResult o) {
+                            if (o.code == 200) {
                                 Toast.makeText(SignUpActivity.this, "200", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                 intent.putExtra("reg", true);
                                 startActivity(intent);
                             }
-                            else if (o == 400)
+                            else if (o.code == 400)
                                 Toast.makeText(SignUpActivity.this, "400", Toast.LENGTH_LONG).show();
-                            else if (o == 500)
+                            else if (o.code == 500)
                                 Toast.makeText(SignUpActivity.this, "500", Toast.LENGTH_LONG).show();
                         }
                     });

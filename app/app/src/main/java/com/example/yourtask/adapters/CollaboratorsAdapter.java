@@ -13,10 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.yourtask.R;
+import com.example.yourtask.model.User;
 
 import java.util.ArrayList;
 
-public class CollaboratorsAdapter extends ArrayAdapter<String>
+public class CollaboratorsAdapter extends ArrayAdapter<User>
 {
     private Context context;
 
@@ -26,7 +27,7 @@ public class CollaboratorsAdapter extends ArrayAdapter<String>
         public ImageView remove_item_button;
     }
 
-    public CollaboratorsAdapter(Context context, ArrayList<String> items)
+    public CollaboratorsAdapter(Context context, ArrayList<User> items)
     {
         super(context, R.layout.collaborators_listview, items);
         this.context = context;
@@ -51,8 +52,8 @@ public class CollaboratorsAdapter extends ArrayAdapter<String>
         else
             viewHolder = (ViewHolder)convertView.getTag();
 
-        String item = getItem(position);
-        viewHolder.item_name_label.setText(item);
+        User item = getItem(position);
+        viewHolder.item_name_label.setText(item.email);
 
         viewHolder.remove_item_button.setOnClickListener(new View.OnClickListener()
         {

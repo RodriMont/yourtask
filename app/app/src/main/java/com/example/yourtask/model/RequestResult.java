@@ -2,7 +2,7 @@ package com.example.yourtask.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ResponseBody {
+public class RequestResult {
     @SerializedName("code")
     public int code;
     @SerializedName("id")
@@ -10,7 +10,7 @@ public class ResponseBody {
     @SerializedName("message")
     public String message;
 
-    public ResponseBody(int code, int id, String message) {
+    public RequestResult(int code, int id, String message) {
         this.code = code;
         this.id = id;
         this.message = message;
