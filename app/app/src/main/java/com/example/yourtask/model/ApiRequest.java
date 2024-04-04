@@ -1,8 +1,5 @@
 package com.example.yourtask.model;
 
-import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -12,18 +9,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRequest {
-
-    private static ArrayList<User> user;
-    public static ArrayList<Progetto> progettiUtente;
-    public static ArrayList<Task> taskUtente;
-    public static ArrayList<User> utentiTask;
-    public static ArrayList<User> utentiProgetto;
-    public static ArrayList<Ruolo> ruoloUtente;
     private static String baseurl;
-    public static Retrofit retrofit;
-    public static ApiEndpoint apiService;
+    private static Retrofit retrofit;
+    private static ApiEndpoint apiService;
+
     public static void setup () {
-        baseurl = "http://192.168.0.112:5000";
+        baseurl = "http://192.168.0.106:5000";
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseurl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -32,151 +23,128 @@ public class ApiRequest {
     }
 
     //GET
-    public static ArrayList<User> getUtente (String email, ReceiveDataCallback <ArrayList<User>> callback)
+    public static void getUtente (String email, ReceiveDataCallback <ArrayList<User>> callback)
     {
-
         Call <ArrayList<User>> call = apiService.getUser(email);
         call.enqueue(new Callback <ArrayList<User>>() {
             @Override
             public void onResponse(Call <ArrayList<User>> call, Response <ArrayList<User>> response) {
-                ApiRequest.user = response.body();
-
-                if (callback != null)
-                    callback.receiveData(ApiRequest.user);
+                callback.receiveData(response.body());
             }
             @Override
             public void onFailure(Call <ArrayList<User>> call, Throwable t) {
-
+                callback.receiveData(null);
             }
         });
-
-        return user;
     }
 
-    public static ArrayList<Progetto> getProgettiUtente (int id, ReceiveDataCallback<ArrayList<Progetto>> callback) {
+    public static void getUtenti (ArrayList<String> email, ReceiveDataCallback <ArrayList<User>> callback)
+    {
+        Call <ArrayList<User>> call = apiService.getUsers(email);
+        call.enqueue(new Callback <ArrayList<User>>() {
+            @Override
+            public void onResponse(Call <ArrayList<User>> call, Response <ArrayList<User>> response) {
+                callback.receiveData(response.body());
+            }
+            @Override
+            public void onFailure(Call <ArrayList<User>> call, Throwable t) {
+                callback.receiveData(null);
+            }
+        });
+    }
+
+    public static void getProgettiUtente (int id, ReceiveDataCallback<ArrayList<Progetto>> callback) {
 
         Call<ArrayList<Progetto>> progetto = apiService.getProgettiUtente(id);
         progetto.enqueue(new Callback<ArrayList<Progetto>>() {
             @Override
             public void onResponse(Call<ArrayList<Progetto>> call, Response<ArrayList<Progetto>> response) {
-                int statusCode = response.code();
-                ApiRequest.progettiUtente = response.body();
-
-                if(callback != null)
-                    callback.receiveData(ApiRequest.progettiUtente);
+                callback.receiveData(response.body());
             }
             @Override
             public void onFailure(Call<ArrayList<Progetto>> call, Throwable t) {
-
+                callback.receiveData(null);
             }
         });
-
-        return progettiUtente;
     }
 
-    public static ArrayList<Task> getTaskUtente (int id_utente, int id_progetto, ReceiveDataCallback<ArrayList<Task>> callback) {
+    public static void getTaskUtente (int id_utente, int id_progetto, ReceiveDataCallback<ArrayList<Task>> callback) {
 
         Call<ArrayList<Task>> task = apiService.getTaskUtente(id_utente, id_progetto);
         task.enqueue(new Callback<ArrayList<Task>>() {
             @Override
             public void onResponse(Call<ArrayList<Task>> call, Response<ArrayList<Task>> response) {
-                int statusCode = response.code();
-                ApiRequest.taskUtente = response.body();
-
-                if(callback != null)
-                    callback.receiveData(ApiRequest.taskUtente);
+                callback.receiveData(response.body());
             }
             @Override
             public void onFailure(Call<ArrayList<Task>> call, Throwable t) {
-
+                callback.receiveData(null);
             }
         });
-
-        return taskUtente;
-
     }
-    public static ArrayList<Ruolo> getRuoloUtente (int id_utente, int id_progetto, ReceiveDataCallback<ArrayList<Ruolo>> callback) {
+
+    public static void getRuoloUtente (int id_utente, int id_progetto, ReceiveDataCallback<ArrayList<Ruolo>> callback) {
 
         Call<ArrayList<Ruolo>> ruoli = apiService.getRuoloUtente(id_utente, id_progetto);
         ruoli.enqueue(new Callback<ArrayList<Ruolo>>() {
             @Override
             public void onResponse(Call<ArrayList<Ruolo>> call, Response<ArrayList<Ruolo>> response) {
-                int statusCode = response.code();
-                ApiRequest.ruoloUtente = response.body();
-
-                if (callback != null)
-                    callback.receiveData(ApiRequest.ruoloUtente);
+                callback.receiveData(response.body());
             }
 
             @Override
             public void onFailure(Call<ArrayList<Ruolo>> call, Throwable t) {
-
+                callback.receiveData(null);
             }
         });
-
-        return ruoloUtente;
     }
 
 
-    public static ArrayList<User> getUtentiTask (int id_task, int id_progetto, ReceiveDataCallback<ArrayList<User>> callback) {
+    public static void getUtentiTask (int id_task, int id_progetto, ReceiveDataCallback<ArrayList<User>> callback) {
 
         Call<ArrayList<User>> utenti = apiService.getUtentiTask(id_task, id_progetto);
         utenti.enqueue(new Callback<ArrayList<User>>() {
             @Override
             public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
-                int statusCode = response.code();
-                ApiRequest.utentiTask = response.body();
-
-                if (callback != null)
-                    callback.receiveData(ApiRequest.utentiTask);
+                callback.receiveData(response.body());
             }
 
             @Override
             public void onFailure(Call<ArrayList<User>> call, Throwable t) {
-
+                callback.receiveData(null);
             }
         });
-
-        return utentiTask;
     }
 
-    public static ArrayList<User> getUtentiProgetto (int id_progetto, ReceiveDataCallback<ArrayList<User>> callback) {
+    public static void getUtentiProgetto (int id_progetto, ReceiveDataCallback<ArrayList<User>> callback) {
 
         Call<ArrayList<User>> utenti = apiService.getUtentiProgetto(id_progetto);
         utenti.enqueue(new Callback<ArrayList<User>>() {
             @Override
             public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
-                int statusCode = response.code();
-                ApiRequest.utentiProgetto = response.body();
-
-                if (callback != null)
-                    callback.receiveData(ApiRequest.utentiProgetto);
+                callback.receiveData(response.body());
             }
 
             @Override
             public void onFailure(Call<ArrayList<User>> call, Throwable t) {
-
+                callback.receiveData(null);
             }
         });
-
-        return utentiProgetto;
     }
 
     //POST
-    public static void postUtente (User user, ReceiveDataCallback<Integer> callback) {
+    public static void postUtente (User user, ReceiveDataCallback<RequestResult> callback) {
 
-        Call<User> nuovoUtente = apiService.postUtente(user);
-        nuovoUtente.enqueue(new Callback<User>() {
+        Call<RequestResult> call = apiService.postUtente(user);
+        call.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                int statusCode = response.code();
-                callback.receiveData(statusCode);
-
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                callback.receiveData(500);
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
@@ -198,58 +166,55 @@ public class ApiRequest {
         });
     }
 
-    public static void postProgetto (Progetto progetto, ReceiveDataCallback <ResponseBody> callback) {
+    public static void postProgetto (Progetto progetto, ReceiveDataCallback <RequestResult> callback) {
 
-        Call<ResponseBody> postProgetto = apiService.postProgetto(progetto);
-        postProgetto.enqueue(new Callback<ResponseBody>() {
+        Call<RequestResult> postProgetto = apiService.postProgetto(progetto);
+        postProgetto.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                int statusCode = response.code();
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
                 callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<RequestResult> call, Throwable t) {
 
             }
         });
     }
 
-    public static void postTask (Task task, ReceiveDataCallback <Integer> callback) {
+    public static void postTask (Task task, ReceiveDataCallback <RequestResult> callback) {
 
-        Call<Task> postTask = apiService.postTask(task);
-        postTask.enqueue(new Callback<Task>() {
+        Call<RequestResult> call = apiService.postTask(task);
+        call.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<Task> call, Response<Task> response) {
-                int statusCode = response.code();
-                callback.receiveData(statusCode);
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<Task> call, Throwable t) {
-
-            }
-        });
-    }
-
-    public static void postRuolo (Ruolo ruolo, ReceiveDataCallback<Integer> callback) {
-
-        Call<Ruolo> postRuolo = apiService.postRuolo(ruolo);
-        postRuolo.enqueue(new Callback<Ruolo>() {
-            @Override
-            public void onResponse(Call<Ruolo> call, Response<Ruolo> response) {
-                int statusCode = response.code();
-                callback.receiveData(statusCode);
-            }
-
-            @Override
-            public void onFailure(Call<Ruolo> call, Throwable t) {
-                callback.receiveData(500);
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
 
-    public static void postUtentiProgetto (UtentiProgetto utentiProgetto, ReceiveDataCallback<Integer> callback) {
+    public static void postRuolo (Ruolo ruolo, ReceiveDataCallback<RequestResult> callback) {
+
+        Call<RequestResult> call = apiService.postRuolo(ruolo);
+        call.enqueue(new Callback<RequestResult>() {
+            @Override
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
+            }
+        });
+    }
+
+    public static void postUtentiProgetto (ArrayList<UtentiProgetto> utentiProgetto, ReceiveDataCallback<Integer> callback) {
 
         Call<User> postUtentiProgetto = apiService.postUtentiProgetto(utentiProgetto);
         postUtentiProgetto.enqueue(new Callback<User>() {

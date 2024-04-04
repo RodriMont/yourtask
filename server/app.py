@@ -69,6 +69,36 @@ def get_utente():
 
     return json.dumps(utenti)
 
+# Ritorna le informazioni di tanti utenti date le email
+@app.route("/utenti")
+def get_utenti():
+    emails = request.args.getlist('email')
+    
+    where = ""
+
+    for i in range(0, len(emails)):
+        where += f"email = \"{emails[i]}\""
+
+        if i + 1 < len(emails):
+            where += " or "
+
+    cursor.execute(f"""select id, username, email, password
+                       from utenti
+                       where {where}""")
+    
+    rows = cursor.fetchall()
+    utenti = []
+
+    for row in rows:
+        id = row[0]
+        username = row[1]
+        email = row[2]
+        password = row[3]
+
+        utente = Utente(id, username, email, password)
+        utenti.append(utente.__dict__)
+
+    return json.dumps(utenti)
 
 # Ritorna tutti i task che l'utente deve svolgere all'interno di un progetto, dato il suo id e l'id del progetto
 @app.route("/task_utente")
@@ -285,7 +315,7 @@ def post_progetto():
 
         db.commit()
 
-        return jsonify({"message": "Progetto creato con successo", "code": 200})
+        return jsonify({"message": "Progetto creato con successo", "code": 200, "id":cursor.lastrowid})
     except Exception as e:
         db.rollback()
         return jsonify({"message:": "Errore nella creazione del progetto", "code": 500})
@@ -329,20 +359,30 @@ def post_ruolo():
 #aggiunge utenti in un progetto
 @app.route("/utenti_progetto", methods = ["POST"])
 def post_utenti_progetto():
-    data = request.json    
+    data = request.json
+
+    values = ""
+
+    for i in range(0, len(data)):
+        values += f"({data[i]["id_utente"]}, {data[i]["id_progetto"]})"
+
+        if i + 1 < len(data):
+            values += ","
+
+    print(values)
 
     try:
         with db.cursor() as cursor:
-            sql = """insert into progettiutente(id_utente, id_progetto)
-                     values (%s, %s)"""
-            cursor.execute(sql, (data["id_utente"], data["id_progetto"]))
+            sql = f"""insert into progettiutente(id_utente, id_progetto)
+                     values {values}"""
+            cursor.execute(sql)
 
         db.commit()
 
-        return jsonify({"message": "Utente aggiunto con successo", "code": 200})
+        return jsonify({"message": "Utenti aggiunti con successo al progetto", "code": 200}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'aggiunta dell'utente", "code": 500})  
+        return jsonify({"message:": "Errore nell'aggiunta degli utenti al progetto", "code": 500}), 500
     
 #aggiunge utenti in un task di un progetto
 @app.route("/utenti_task", methods = ["POST"])

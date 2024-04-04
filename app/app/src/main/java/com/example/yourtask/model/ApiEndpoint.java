@@ -14,6 +14,8 @@ import retrofit2.http.Query;
 public interface ApiEndpoint {
         @GET("/utente")
         Call<ArrayList<User>> getUser(@Query("email")String email);
+        @GET("/utenti")
+        Call<ArrayList<User>> getUsers(@Query("email")ArrayList<String> email);
         @GET("/progetti_utente")
         Call<ArrayList<Progetto>> getProgettiUtente(@Query("id")int id);
         @GET("/task_utente")
@@ -26,17 +28,17 @@ public interface ApiEndpoint {
         Call<ArrayList<Ruolo>> getRuoloUtente(@Query("id_utente")int id_utente, @Query("id_progetto")int id_progetto);
 
         @POST("/registrazione")
-        Call<User> postUtente(@Body User user);
+        Call<RequestResult> postUtente(@Body User user);
         @POST ("/progetti")
-        Call<ResponseBody> postProgetto(@Body Progetto progetto);
+        Call<RequestResult> postProgetto(@Body Progetto progetto);
         @POST("/task")
-        Call<Task> postTask(@Body Task task);
+        Call<RequestResult> postTask(@Body Task task);
         @POST("/ruoli")
-        Call<Ruolo> postRuolo(@Body Ruolo ruolo);
+        Call<RequestResult> postRuolo(@Body Ruolo ruolo);
         @POST ("/login")
         Call<User> postLogin(@Body User user);
         @POST("/utenti_progetto")
-        Call<User> postUtentiProgetto(@Body UtentiProgetto utentiProgetto);
+        Call<User> postUtentiProgetto(@Body ArrayList<UtentiProgetto> utentiProgetto);
         @POST("/utenti_task")
         Call<User> postUtentiTask(@Body UtentiTask utentiTask);
 
