@@ -52,7 +52,6 @@ public class ProjectUsersFragment extends Fragment
             @Override
             public void receiveData(ArrayList<User> o)
             {
-                Toast.makeText(getContext(), String.valueOf(o.size()), Toast.LENGTH_LONG).show();
                 collaborators.addAll(o);
                 collaboratorsListView.setAdapter(collaboratorsAdapter);
             }
