@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 public class CollaboratorsAdapter extends ArrayAdapter<User>
 {
     private Context context;
+    private ListView listView;
 
     private class ViewHolder
     {
@@ -33,10 +35,11 @@ public class CollaboratorsAdapter extends ArrayAdapter<User>
         public ImageView remove_item_button;
     }
 
-    public CollaboratorsAdapter(Context context, ArrayList<User> items)
+    public CollaboratorsAdapter(Context context, ArrayList<User> items, ListView listView)
     {
         super(context, R.layout.collaborators_listview, items);
         this.context = context;
+        this.listView = listView;
     }
 
     @Override
@@ -86,6 +89,13 @@ public class CollaboratorsAdapter extends ArrayAdapter<User>
             @Override
             public void onClick(View v)
             {
+                if (getCount() <= 3)
+                {
+                    ViewGroup.LayoutParams params = listView.getLayoutParams();
+                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    listView.setLayoutParams(params);
+                }
+
                 remove(item);
                 notifyDataSetChanged();
             }
