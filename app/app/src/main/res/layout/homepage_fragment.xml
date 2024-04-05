@@ -8,14 +8,17 @@
     tools:context=".HomepageFragment">
 
     <LinearLayout
+        android:id="@+id/homepage_profile_image_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
+        android:layout_marginTop="12dp"
         android:layout_row="0"
         android:layout_column="0"
         android:gravity="left">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/homepage_profile_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_columnWeight="1"
@@ -28,6 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_columnWeight="9"
+        android:layout_marginTop="12dp"
         android:layout_row="0"
         android:layout_column="1"
         android:gravity="center_vertical">
@@ -52,6 +56,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/homepage_create_project_button"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -108,17 +113,23 @@
 
     </GridLayout>
 
-    <ListView
-        android:id="@+id/project_in_tasks_listview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_row="3"
         android:layout_column="0"
         android:layout_columnSpan="2"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:dividerHeight="12dp"
-        android:divider="@null"/>
+        android:layout_rowWeight="1"
+        android:layout_marginBottom="64dp">
 
+        <ListView
+            android:id="@+id/homepage_projects_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:dividerHeight="12dp"
+            android:divider="@null"/>
+    </LinearLayout>
 </GridLayout>

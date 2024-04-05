@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yourtask.CreateProjectFragment;
 import com.example.yourtask.ProjectFragment;
+import com.example.yourtask.ProjectUsersFragment;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.Project;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 
 public class ProjectAdapter extends ArrayAdapter<Progetto> {
     private Context context;
-
 
     public ProjectAdapter(Context context, int resource, ArrayList<Progetto> objects) {
         super(context, resource, objects);
@@ -72,7 +72,6 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
                                 }
                             });
                         }
-
                         else if (id == R.id.options_popup_menu_edit) {
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("edit", true);
@@ -87,6 +86,18 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
 
                             ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createProject).commit();
                         }
+                        else if (id == R.id.options_popup_menu_show_users)
+                        {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("id", project.id);
+                            bundle.putString("nome_progetto", project.nome_progetto);
+
+                            ProjectUsersFragment projectUsers = new ProjectUsersFragment();
+                            projectUsers.setArguments(bundle);
+
+                            ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectUsers).commit();
+                        }
+
                         return true;
                     }
                 });

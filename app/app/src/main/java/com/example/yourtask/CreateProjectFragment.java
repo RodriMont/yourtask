@@ -27,6 +27,7 @@ import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.User;
+import com.example.yourtask.model.UtentiProgetto;
 import com.example.yourtask.utility.DateFormatter;
 
 import java.time.LocalDate;
@@ -90,12 +91,29 @@ public class CreateProjectFragment extends Fragment
                     Toast.makeText(getActivity(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else if (bundle == null) {
                     ApiRequest.postProgetto(new Progetto(1, nomeProgettoText, dataAvvioText, dataScadenzaText, Float.parseFloat(budgetText)), new ReceiveDataCallback<RequestResult>() {
+                        public int id_progetto;
+
                         @Override
                         public void receiveData(RequestResult o) {
+                            id_progetto = o.id;
+
                             if (o.code == 200)
                             {
-                                Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
-                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
+                                ArrayList<UtentiProgetto> creatore = new ArrayList<>();
+                                creatore.add(new UtentiProgetto(1, id_progetto));
+
+                                ApiRequest.postUtentiProgetto(creatore, new ReceiveDataCallback<Integer>()
+                                {
+                                    @Override
+                                    public void receiveData(Integer o)
+                                    {
+                                        if (o == 200)
+                                        {
+                                            Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
+                                            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
+                                        }
+                                    }
+                                });
                             }
                             else if (o.code == 400)
                                 Toast.makeText(getActivity(), "400", Toast.LENGTH_LONG).show();

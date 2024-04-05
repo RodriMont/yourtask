@@ -8,9 +8,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -21,6 +23,7 @@ import com.example.yourtask.adapters.UsersAdapter;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.User;
+import com.example.yourtask.model.UtentiProgetto;
 
 import java.util.ArrayList;
 
@@ -36,9 +39,17 @@ public class ProjectUsersFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.project_users_fragment, container, false);
 
+        Bundle bundle = getArguments();
+        final int id_progetto = bundle.getInt("id");
+        final String nome_progetto = bundle.getString("nome_progetto");
+
+        TextView projectName = (TextView)view.findViewById(R.id.project_users_name_title);
+        projectName.setText(nome_progetto);
+
         EditText newCollaboratorsEditText = (EditText)view.findViewById(R.id.project_users_add_collaborators_edittext);
         ListView newCollaboratorsListView = (ListView)view.findViewById(R.id.project_users_add_collaborators_listview);
         ListView collaboratorsListView = (ListView)view.findViewById(R.id.project_users_collaborators_listview);
+        Button collaboratorsButton = (Button)view.findViewById(R.id.project_users_collaborators_listview_button);
 
         ArrayList<User> newCollaborators = new ArrayList<User>();
         CollaboratorsAdapter newCollaboratorsAdapter = new CollaboratorsAdapter(getContext(), newCollaborators);
@@ -47,7 +58,7 @@ public class ProjectUsersFragment extends Fragment
         ArrayList<User> collaborators = new ArrayList<User>();
         UsersAdapter collaboratorsAdapter = new UsersAdapter(getContext(), collaborators);
 
-        ApiRequest.getUtentiProgetto(1, new ReceiveDataCallback<ArrayList<User>>()
+        ApiRequest.getUtentiProgetto(id_progetto, new ReceiveDataCallback<ArrayList<User>>()
         {
             @Override
             public void receiveData(ArrayList<User> o)
@@ -89,6 +100,32 @@ public class ProjectUsersFragment extends Fragment
                 }
 
                 return false;
+            }
+        });
+
+        collaboratorsButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                ArrayList<UtentiProgetto> utentiProgetto = new ArrayList<>();
+
+                for (int i = 0; i < collaborators.size(); i++)
+                {
+                    User user = collaborators.get(i);
+
+                    if (user.id != -1)
+                        utentiProgetto.add(new UtentiProgetto(user.id, id_progetto));
+                }
+
+                ApiRequest.postUtentiProgetto(utentiProgetto, new ReceiveDataCallback<Integer>()
+                {
+                    @Override
+                    public void receiveData(Integer o)
+                    {
+                        Toast.makeText(getContext(), "200", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 

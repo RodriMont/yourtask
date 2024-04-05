@@ -8,7 +8,7 @@
         android:id="@+id/project_users_name_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nome Progetto"
+        android:text="nome_progetto"
         android:textSize="30dp"
         android:layout_gravity="center"/>
 
@@ -38,7 +38,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="12dp"
             android:dividerHeight="12dp"
-            android:divider="@null"/>
+            android:divider="@null" />
 
         <EditText
             android:id="@+id/project_users_add_collaborators_edittext"

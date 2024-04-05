@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.yourtask.adapters.ProjectAdapter;
@@ -31,7 +32,7 @@ public class HomepageFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.homepage_fragment, container, false);
 
-        Button createProjectButton = (Button) view.findViewById(R.id.create_project_button);
+        LinearLayout createProjectButton = (LinearLayout) view.findViewById(R.id.homepage_create_project_button);
         createProjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +42,7 @@ public class HomepageFragment extends Fragment
             }
         });
 
-        ListView listView = view.findViewById(R.id.task_list);
+        ListView listView = view.findViewById(R.id.homepage_projects_listview);
         ApiRequest.getProgettiUtente(1, new ReceiveDataCallback<ArrayList<Progetto>>()
         {
             @Override
