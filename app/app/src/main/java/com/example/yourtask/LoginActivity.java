@@ -23,11 +23,13 @@ public class LoginActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     EditText username;
+    EditText email;
     EditText password;
     Button loginButton;
-EditText editText_name,textView_email;
-    private  static  final  String KEY_EMAIL = "email";
-    private static final  String SHARED_PREF_NAME = "mypref";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_ID = "id";
+    private static final String SHARED_PREF_NAME = "mypref";
 
 
     @Override
@@ -36,17 +38,17 @@ EditText editText_name,textView_email;
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
-        textView_email = findViewById(R.id.login_email_edittext);
+        EditText emailEditText = findViewById(R.id.login_email_edittext);
+        EditText passwordEditText = findViewById(R.id.login_password_edittext);
 
-        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
         String email = sharedPreferences.getString(KEY_EMAIL, null);
 
-        if (email != null )
-            textView_email.setText("email ID"+email);
-
-        EditText emailEditText = findViewById(R.id.login_email_edittext);
-        EditText passwordEditText = findViewById(R.id.login_password_edittext);
+        if (email != null) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
 
         TextView regist = findViewById(R.id.login_not_signed_button);
         Button login = findViewById(R.id.login_button);
@@ -65,22 +67,32 @@ EditText editText_name,textView_email;
                 String emailText = emailEditText.getText().toString();
                 String passwordText = passwordEditText.getText().toString();
 
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.apply();
+
+
                 if (emailText.equals("") || passwordText.equals(""))
                     Toast.makeText(LoginActivity.this, "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else {
-                    ApiRequest.postLogin(new User(0, null, emailText, passwordText), new ReceiveDataCallback<Integer>() {
+                    ApiRequest.getUtente(emailText, new ReceiveDataCallback<ArrayList<User>>() {
                         @Override
-                        public void receiveData(Integer o) {
-                            if (o == 200) {
-                                Toast.makeText(LoginActivity.this, "200", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("reg", true);
-                                startActivity(intent);
+                        public void receiveData(ArrayList<User> utenti) {
+                            if (utenti.size() > 0) {
+                                User utente = utenti.get(0);
+                                if (utente.password.equals(passwordText)) {
+                                    editor.putString(KEY_USERNAME,utente.username);
+                                    editor.putInt(KEY_ID, utente.id);
+                                    editor.apply();
+
+                                    Toast.makeText(LoginActivity.this, "200", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("reg", true);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    Toast.makeText(LoginActivity.this, "Password errata", Toast.LENGTH_LONG).show();
+                                }
                             }
-                            else if (o == 400)
-                                Toast.makeText(LoginActivity.this, "400", Toast.LENGTH_LONG).show();
-                            else if (o == 500)
-                                Toast.makeText(LoginActivity.this, "500", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
