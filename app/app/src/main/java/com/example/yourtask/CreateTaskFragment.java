@@ -117,7 +117,8 @@ public class CreateTaskFragment extends Fragment
 
         CollaboratorsAdapter collaborators_autocomplete_adapter = new CollaboratorsAdapter(
                 getContext(),
-                new ArrayList<User>());
+                new ArrayList<User>(),
+                collaborators_listview);
         collaborators_listview.setAdapter(collaborators_autocomplete_adapter);
 
         collaborators_autocomplete.setThreshold(1);
