@@ -8,9 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.example.yourtask.model.ApiRequest;
+import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.User;
 
 public class ProfileFragment extends Fragment
 {
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -24,10 +30,20 @@ public class ProfileFragment extends Fragment
 
         Button modificaProfilo = view.findViewById(R.id.apply_button);
 
+        EditText modificaUsernameEditText = view.findViewById(R.id.profile_username_edittext);
+
         modificaProfilo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
+                String modificaUsername = modificaUsernameEditText.getText().toString();
+
+                ApiRequest.putUtente(1, new User(1, modificaUsername, "", ""), new ReceiveDataCallback<Integer>() {
+                    @Override
+                    public void receiveData(Integer o) {
+                        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
+
+                    }
+                });
             }
         });
 

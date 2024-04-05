@@ -23,7 +23,9 @@ import com.example.yourtask.adapters.CollaboratorsAdapter;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.Task;
+import com.example.yourtask.model.User;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.time.LocalDate;
@@ -89,16 +91,16 @@ public class CreateTaskFragment extends Fragment
                 if (nomeTaskText.equals("") || dataAvvioText.equals("") || dataScadenzaText.equals(""))
                     Toast.makeText(getActivity(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else {
-                    ApiRequest.postTask(new Task(1, nomeTaskText, dataAvvio, dataScadenza, priorita, 1), new ReceiveDataCallback<Integer>() {
+                    ApiRequest.postTask(new Task(1, nomeTaskText, dataAvvio, dataScadenza, priorita, 1), new ReceiveDataCallback<RequestResult>() {
                         @Override
-                        public void receiveData(Integer o) {
-                            if (o == 200) {
+                        public void receiveData(RequestResult o) {
+                            if (o.code == 200) {
                                 Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProjectFragment()).commit();
                             }
-                            else if (o == 400)
+                            else if (o.code == 400)
                                 Toast.makeText(getActivity(), "400", Toast.LENGTH_LONG).show();
-                            else if (o == 500)
+                            else if (o.code == 500)
                                 Toast.makeText(getActivity(), "500", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -115,23 +117,17 @@ public class CreateTaskFragment extends Fragment
 
         CollaboratorsAdapter collaborators_autocomplete_adapter = new CollaboratorsAdapter(
                 getContext(),
-                new ArrayList<String>());
+                new ArrayList<User>());
         collaborators_listview.setAdapter(collaborators_autocomplete_adapter);
 
         collaborators_autocomplete.setThreshold(1);
-
-        /*
-        String[] test = {"example1@mail.dom", "example2@mail.dom", "example3@mail.dom", "example4@mail.dom", "example5@mail.dom"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, test);
-        collaborators_autocomplete.setAdapter(adapter);
-        */
 
         collaborators_autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                collaborators_autocomplete_adapter.add(parent.getItemAtPosition(position).toString());
+                collaborators_autocomplete_adapter.add((User)parent.getItemAtPosition(position));
                 collaborators_autocomplete_adapter.notifyDataSetChanged();
                 collaborators_autocomplete.setText("");
             }

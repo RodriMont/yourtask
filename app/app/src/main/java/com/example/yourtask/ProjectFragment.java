@@ -36,7 +36,9 @@ public class ProjectFragment extends Fragment
 
         ListView tasks_listview = (ListView)view.findViewById(R.id.project_in_tasks_listview);
 
-        ApiRequest.getTaskUtente(1, 1, new ReceiveDataCallback<ArrayList<Task>>()
+        Bundle bundle = getArguments();
+
+        ApiRequest.getTaskUtente(1, bundle.getInt("id"), new ReceiveDataCallback<ArrayList<Task>>()
         {
             @Override
             public void receiveData(ArrayList<Task> o)

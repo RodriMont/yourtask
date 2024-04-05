@@ -1,5 +1,7 @@
 package com.example.yourtask.model;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -25,5 +27,17 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof User)
+        {
+            User user = (User)obj;
+            return user.id == id && user.username.equals(username) && user.email.equals(email) && user.password.equals(password);
+        }
+        else
+            return false;
     }
 }

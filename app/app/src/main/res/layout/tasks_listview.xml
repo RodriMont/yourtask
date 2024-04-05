@@ -5,7 +5,7 @@
     android:rowCount="3"
     android:columnCount="3"
     android:padding="12dp"
-    android:background="@drawable/rounded_edittext">
+    android:background="@drawable/rounded_frame">
 
     <TextView
         android:id="@+id/tasks_listview_task_name_label"
@@ -15,7 +15,8 @@
         android:layout_column="0"
         android:layout_columnWeight="1"
         android:textSize="20sp"
-        android:text="nome_task"/>
+        android:text="nome_task"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:id="@+id/tasks_listview_priority_layout"

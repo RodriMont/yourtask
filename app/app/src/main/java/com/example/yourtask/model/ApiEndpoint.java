@@ -1,7 +1,6 @@
 package com.example.yourtask.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,25 +14,33 @@ import retrofit2.http.Query;
 public interface ApiEndpoint {
         @GET("/utente")
         Call<ArrayList<User>> getUser(@Query("email")String email);
+        @GET("/utenti")
+        Call<ArrayList<User>> getUsers(@Query("email")ArrayList<String> email);
         @GET("/progetti_utente")
         Call<ArrayList<Progetto>> getProgettiUtente(@Query("id")int id);
         @GET("/task_utente")
         Call<ArrayList<Task>> getTaskUtente(@Query("id_utente")int id_utente, @Query("id_progetto")int id_progetto);
         @GET("/utenti_task")
         Call<ArrayList<User>> getUtentiTask(@Query("id_task")int id_task, @Query("id_progetto")int id_progetto);
+        @GET("/utenti_progetto")
+        Call<ArrayList<User>> getUtentiProgetto(@Query("id_progetto")int id_progetto);
         @GET("/ruolo_utente")
         Call<ArrayList<Ruolo>> getRuoloUtente(@Query("id_utente")int id_utente, @Query("id_progetto")int id_progetto);
 
         @POST("/registrazione")
-        Call<User> postUtente(@Body User user);
+        Call<RequestResult> postUtente(@Body User user);
         @POST ("/progetti")
-        Call<Progetto> postProgetto(@Body Progetto progetto);
+        Call<RequestResult> postProgetto(@Body Progetto progetto);
         @POST("/task")
-        Call<Task> postTask(@Body Task task);
+        Call<RequestResult> postTask(@Body Task task);
         @POST("/ruoli")
-        Call<Ruolo> postRuolo(@Body Ruolo ruolo);
+        Call<RequestResult> postRuolo(@Body Ruolo ruolo);
         @POST ("/login")
         Call<User> postLogin(@Body User user);
+        @POST("/utenti_progetto")
+        Call<User> postUtentiProgetto(@Body ArrayList<UtentiProgetto> utentiProgetto);
+        @POST("/utenti_task")
+        Call<User> postUtentiTask(@Body UtentiTask utentiTask);
 
 
         @DELETE("/utenti/{id}")

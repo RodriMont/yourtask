@@ -1,112 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <RelativeLayout
-        android:layout_width="315dp"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:rowCount="3"
+    android:columnCount="3"
+    android:padding="12dp"
+    android:background="@drawable/rounded_frame">
+
+    <TextView
+        android:id="@+id/project_listview_project_name_label"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_corners"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp">
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_columnWeight="1"
+        android:textSize="20sp"
+        android:text="nome_progetto"
+        android:textStyle="bold"/>
 
-        <LinearLayout
-            android:id="@+id/project_name_layout"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/project_listview_options_layout"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:layout_columnWeight="1">
+
+        <ImageView
+            android:id="@+id/project_listview_options_icon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_gravity="end"
+            android:src="@drawable/dots_vertical"/>
 
-            <TextView
-                android:id="@+id/project_name_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:text="Nome Progetto"
-                android:textStyle="bold"/>
+    </LinearLayout>
 
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="3 dots vertical"
-                android:src="@drawable/dots_vertical" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/project_listview_start_date_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:text="Data avvio"
+        android:layout_marginTop="12dp"/>
 
-        <LinearLayout
-            android:layout_width="280dp"
+    <TextView
+        android:id="@+id/project_listview_end_date_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:text="Data scadenza"
+        android:layout_marginTop="12dp"/>
+
+    <LinearLayout
+        android:id="@+id/project_listview_start_date_layout"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:layout_marginTop="6dp">
+
+        <ImageView
+            android:id="@+id/project_listview_start_date_calendar_icon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/project_name_layout"
-            android:layout_marginTop="0dp"
-            android:orientation="horizontal"
-            android:id="@+id/inizio_scadenza_textView"
-            >
+            android:src="@drawable/calendar_blank_outline"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="Inizio" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="Scadenza" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/project_listview_start_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/inizio_scadenza_textView"
-            android:layout_width="280dp"
-            android:baselineAligned="false"
-            android:layout_marginTop="10dp">
+            android:text="01-01-1970"/>
 
-            <LinearLayout
-                android:layout_width="61dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:orientation="horizontal">
+    </LinearLayout>
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:contentDescription="3 dots vertical"
-                    android:src="@drawable/calendar_blank_outline" />
+    <LinearLayout
+        android:id="@+id/project_listview_end_date_layout"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="2"
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:layout_marginTop="6dp">
 
-                <TextView
-                    android:id="@+id/start_project_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="24-10-2000" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="5"
-                >
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:contentDescription="3 dots vertical"
-                    android:src="@drawable/calendar_blank_outline"
-                    />
+        <ImageView
+            android:id="@+id/project_listview_end_date_calendar_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/calendar_blank_outline"/>
 
-                <TextView
-                    android:id="@+id/end_project_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="24-10-2000"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/project_listview_end_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01-01-1970"/>
 
-</LinearLayout>
+    </LinearLayout>
+</GridLayout>

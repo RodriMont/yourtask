@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/project_users_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome Progetto"
+        android:textSize="30dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/project_users_add_collaborators_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Aggiungi partecipanti"/>
+
+    <LinearLayout
+        android:id="@+id/project_users_add_collaborators_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_edittext"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/project_users_add_collaborators_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="12dp"
+            android:dividerHeight="12dp"
+            android:divider="@null"/>
+
+        <EditText
+            android:id="@+id/project_users_add_collaborators_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="@null"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/project_users_collaborators_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Partecipanti"
+        android:textSize="24sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
+
+    <ListView
+        android:id="@+id/project_users_collaborators_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:dividerHeight="12dp"
+        android:divider="@null"/>
+
+    <Button
+        android:id="@+id/project_users_collaborators_listview_button"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="36dp"
+        android:textColor="#FFFFFF"
+        android:text="Applica"
+        android:background="@drawable/rounded_button"/>
+
+</LinearLayout>

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -40,6 +41,7 @@ public class HomepageFragment extends Fragment
             }
         });
 
+        ListView listView = view.findViewById(R.id.task_list);
         ApiRequest.getProgettiUtente(1, new ReceiveDataCallback<ArrayList<Progetto>>()
         {
             @Override
@@ -47,8 +49,22 @@ public class HomepageFragment extends Fragment
             {
                 ProjectAdapter projectArrayAdapter = new ProjectAdapter(getContext() , R.layout.project_item, o);
 
-                ListView listView = view.findViewById(R.id.task_list);
                 listView.setAdapter(projectArrayAdapter);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Progetto progetto = (Progetto) parent.getItemAtPosition(position);
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", progetto.id);
+
+                ProjectFragment project = new ProjectFragment();
+                project.setArguments(bundle);
+
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, project).commit();
             }
         });
 
