@@ -28,21 +28,6 @@ public class LoginActivity extends AppCompatActivity {
 EditText editText_name,textView_email;
     private  static  final  String KEY_EMAIL = "email";
     private static final  String SHARED_PREF_NAME = "mypref";
-    @Override
-    protected void  onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        textView_email = findViewById(R.id.login_email_edittext);
-
-        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
-
-        String email = SharedPreferences.getString(KEY_EMAIL, null);
-
-        if (email != null ){
-        textView_email.Setext("email ID"+email);
-        }
-    }
 
 
     @Override
@@ -50,6 +35,15 @@ EditText editText_name,textView_email;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
+
+        textView_email = findViewById(R.id.login_email_edittext);
+
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
+
+        String email = sharedPreferences.getString(KEY_EMAIL, null);
+
+        if (email != null )
+            textView_email.setText("email ID"+email);
 
         EditText emailEditText = findViewById(R.id.login_email_edittext);
         EditText passwordEditText = findViewById(R.id.login_password_edittext);
