@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,10 +35,9 @@ public class ProjectFragment extends Fragment
     {
 
         View view = inflater.inflate(R.layout.fragment_project, container, false);
-
-        ImageView addTask = view.findViewById(R.id.add_new_task);
-
-        ListView tasks_listview = (ListView)view.findViewById(R.id.project_in_tasks_listview);
+        LinearLayout addTask = view.findViewById(R.id.project_new_task_layout);
+        LinearLayout addRole = view.findViewById(R.id.project_new_role_layout);
+        ListView tasks_listview = (ListView)view.findViewById(R.id.project_tasks_listview);
 
         Bundle bundle = getArguments();
 
@@ -50,16 +50,16 @@ public class ProjectFragment extends Fragment
         TextView progetto = view.findViewById(R.id.project_title);
 
         if (id > 0) {
-            progetto.setText(bundle.getString("nome_progetto"));
-        ApiRequest.getTaskUtente(id, bundle.getInt("id"), new ReceiveDataCallback<ArrayList<Task>>()
-        {
-            @Override
-            public void receiveData(ArrayList<Task> o)
+            progetto.setText(bundle.getString("nome_progetto", "nome_progetto"));
+            ApiRequest.getTaskUtente(id, bundle.getInt("id"), new ReceiveDataCallback<ArrayList<Task>>()
             {
-                TasksAdapter tasks_adapter = new TasksAdapter(getContext(), o);
-                tasks_listview.setAdapter(tasks_adapter);
-            }
-        });
+                @Override
+                public void receiveData(ArrayList<Task> o)
+                {
+                    TasksAdapter tasks_adapter = new TasksAdapter(getContext(), o);
+                    tasks_listview.setAdapter(tasks_adapter);
+                }
+            });
         }
 
         addTask.setOnClickListener(new View.OnClickListener() {
@@ -69,29 +69,10 @@ public class ProjectFragment extends Fragment
             }
         });
 
-        tasks_listview.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        addRole.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Task item = (Task)parent.getItemAtPosition(position);
-
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("#EDIT", true);
-                bundle.putInt("id", item.id);
-                bundle.putString("nome_task", item.nome_task);
-                bundle.putString("data_avvio", item.data_avvio);
-                bundle.putString("data_scadenza", item.data_scadenza);
-                bundle.putInt("priorita", item.priorita);
-                bundle.putInt("id_progetto", item.id_progetto);
-
-                CreateTaskFragment createTaskFragment = new CreateTaskFragment();
-                createTaskFragment.setArguments(bundle);
-
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, createTaskFragment)
-                        .commit();
+            public void onClick(View v) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateRoleFragment()).commit();
             }
         });
 

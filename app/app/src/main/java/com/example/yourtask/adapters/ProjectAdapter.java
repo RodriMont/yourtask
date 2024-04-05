@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -16,11 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yourtask.CreateProjectFragment;
-import com.example.yourtask.ProjectFragment;
 import com.example.yourtask.ProjectUsersFragment;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
-import com.example.yourtask.model.Project;
 import com.example.yourtask.R;
 import com.example.yourtask.model.ReceiveDataCallback;
 

@@ -1,7 +1,6 @@
 package com.example.yourtask.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,15 +10,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.yourtask.CreateProjectFragment;
-import com.example.yourtask.ProjectUsersFragment;
 import com.example.yourtask.R;
-import com.example.yourtask.model.ApiRequest;
-import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.User;
 
 import java.util.ArrayList;
@@ -89,6 +80,8 @@ public class UsersAdapter extends ArrayAdapter<User>
                         return true;
                     }
                 });
+
+                popupMenu.show();
             }
         });
 
