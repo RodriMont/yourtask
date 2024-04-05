@@ -1,17 +1,25 @@
 package com.example.yourtask.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.yourtask.CreateProjectFragment;
+import com.example.yourtask.ProjectUsersFragment;
 import com.example.yourtask.R;
+import com.example.yourtask.model.ApiRequest;
+import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.User;
 
 import java.util.ArrayList;
@@ -57,6 +65,32 @@ public class UsersAdapter extends ArrayAdapter<User>
 
         User item = getItem(position);
         viewHolder.name.setText(item.username);
+
+        viewHolder.options_icon.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                PopupMenu popupMenu = new PopupMenu(context, v);
+                popupMenu.getMenuInflater().inflate(R.menu.user_options_popup_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+                {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item)
+                    {
+                        int id = item.getItemId();
+
+                        if (id == R.id.user_options_popup_menu_remove)
+                        {
+
+                        }
+
+                        return true;
+                    }
+                });
+            }
+        });
 
         return convertView;
     }
