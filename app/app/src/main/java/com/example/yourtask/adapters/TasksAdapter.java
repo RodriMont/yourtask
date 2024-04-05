@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.yourtask.R;
+import com.example.yourtask.model.ApiRequest;
+import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.Task;
 
 import java.util.ArrayList;
@@ -67,11 +69,11 @@ public class TasksAdapter extends ArrayAdapter<Task>
         else
             viewHolder = (ViewHolder)convertView.getTag();
 
-        Task item = getItem(position);
+        Task task = getItem(position);
 
-        viewHolder.task_name_label.setText(item.nome_task);
-        viewHolder.start_date.setText(item.data_avvio);
-        viewHolder.end_date.setText(item.data_scadenza);
+        viewHolder.task_name_label.setText(task.nome_task);
+        viewHolder.start_date.setText(task.data_avvio);
+        viewHolder.end_date.setText(task.data_scadenza);
         viewHolder.options_icon.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -85,6 +87,21 @@ public class TasksAdapter extends ArrayAdapter<Task>
                     @Override
                     public boolean onMenuItemClick(MenuItem item)
                     {
+                        int id = item.getItemId();
+
+                        if (id == R.id.options_popup_menu_delete)
+                        {
+                            ApiRequest.deleteTask(task.id, new ReceiveDataCallback<Integer>()
+                            {
+                                @Override
+                                public void receiveData(Integer o)
+                                {
+                                    remove(task);
+                                    notifyDataSetChanged();
+                                }
+                            });
+                        }
+
                         return true;
                     }
                 });

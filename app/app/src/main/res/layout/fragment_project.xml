@@ -20,6 +20,7 @@
         android:text="nome_progetto"/>
 
     <LinearLayout
+        android:id="@+id/project_new_task_layout"
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,13 +34,14 @@
         android:background="@drawable/rounded_edittext">
 
         <ImageView
-            android:id="@+id/add_new_task"
+            android:id="@+id/project_new_task_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:src="@drawable/plus_circle_outline"/>
 
         <TextView
+            android:id="@+id/project_new_task_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
@@ -48,6 +50,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/project_new_role_layout"
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -61,12 +64,14 @@
         android:background="@drawable/rounded_edittext">
 
         <ImageView
+            android:id="@+id/project_new_role_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:src="@drawable/plus_circle_outline"/>
 
         <TextView
+            android:id="@+id/project_new_role_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
@@ -75,6 +80,7 @@
     </LinearLayout>
 
     <GridLayout
+        android:id="@+id/project_search_bar_layout"
         android:columnCount="2"
         android:rowCount="1"
         android:layout_width="match_parent"
@@ -88,6 +94,7 @@
         android:background="@drawable/rounded_edittext">
 
         <EditText
+            android:id="@+id/project_search_bar_edittext"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="5"
@@ -96,6 +103,7 @@
             android:background="@null"/>
 
         <ImageView
+            android:id="@+id/project_search_bar_image"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_columnWeight="1"
@@ -104,6 +112,7 @@
     </GridLayout>
 
     <RelativeLayout
+        android:id="@+id/project_listview_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_rowWeight="1"
@@ -113,7 +122,7 @@
         android:layout_marginBottom="64dp">
 
         <ListView
-            android:id="@+id/project_in_tasks_listview"
+            android:id="@+id/project_tasks_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

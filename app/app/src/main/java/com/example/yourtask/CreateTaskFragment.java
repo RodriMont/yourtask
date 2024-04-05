@@ -53,8 +53,6 @@ public class CreateTaskFragment extends Fragment
 
         ImageView start_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_start_date_calendar_icon);
         ImageView end_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_end_date_calendar_icon);
-        AutoCompleteTextView collaborators_autocomplete = (AutoCompleteTextView)view.findViewById(R.id.new_task_collaborators_autocomplete);
-        ListView collaborators_listview = (ListView)view.findViewById(R.id.new_task_collaborators_listview);
         Spinner priority_spinner = (Spinner)view.findViewById(R.id.new_task_priority_spinner);
 
         priority_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -114,25 +112,6 @@ public class CreateTaskFragment extends Fragment
                 new String[] { "Bassa", "Media", "Alta"});
 
         priority_spinner.setAdapter(priority_spinner_arrayAdapter);
-
-        CollaboratorsAdapter collaborators_autocomplete_adapter = new CollaboratorsAdapter(
-                getContext(),
-                new ArrayList<User>(),
-                collaborators_listview);
-        collaborators_listview.setAdapter(collaborators_autocomplete_adapter);
-
-        collaborators_autocomplete.setThreshold(1);
-
-        collaborators_autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                collaborators_autocomplete_adapter.add((User)parent.getItemAtPosition(position));
-                collaborators_autocomplete_adapter.notifyDataSetChanged();
-                collaborators_autocomplete.setText("");
-            }
-        });
 
         start_date_calendar_icon.setOnClickListener(new View.OnClickListener()
         {

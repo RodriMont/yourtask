@@ -14,7 +14,7 @@ public class ApiRequest {
     private static ApiEndpoint apiService;
 
     public static void setup () {
-        baseurl = "http://192.168.0.106:5000";
+        baseurl = "http://192.168.0.108:5000";
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseurl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -281,18 +281,18 @@ public class ApiRequest {
         });
     }
 
-    public static void deleteTask (int id) {
+    public static void deleteTask (int id, ReceiveDataCallback<Integer> callback) {
         Call<Task> cancTask = apiService.deleteTask(id);
         cancTask.enqueue(new Callback<Task>() {
             @Override
             public void onResponse(Call<Task> call, Response<Task> response) {
                 int statusCode = response.code();
-
+                callback.receiveData(statusCode);
             }
 
             @Override
             public void onFailure(Call<Task> call, Throwable t) {
-
+                callback.receiveData(500);
             }
         });
     }
