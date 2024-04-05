@@ -82,6 +82,7 @@ public class HomepageFragment extends Fragment
                 Progetto progetto = (Progetto) parent.getItemAtPosition(position);
 
                 Bundle bundle = new Bundle();
+                bundle.putString("nome_progetto",progetto.nome_progetto);
                 bundle.putInt("id", progetto.id);
 
                 ProjectFragment project = new ProjectFragment();
