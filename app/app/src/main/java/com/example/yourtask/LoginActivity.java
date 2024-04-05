@@ -3,6 +3,7 @@ package com.example.yourtask;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,9 +20,14 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
+
+    SharedPreferences sharedPreferences;
     EditText username;
     EditText password;
     Button loginButton;
+EditText editText_name,textView_email;
+    private  static  final  String KEY_EMAIL = "email";
+    private static final  String SHARED_PREF_NAME = "mypref";
 
 
     @Override
@@ -29,6 +35,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
+
+        textView_email = findViewById(R.id.login_email_edittext);
+
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE);
+
+        String email = sharedPreferences.getString(KEY_EMAIL, null);
+
+        if (email != null )
+            textView_email.setText("email ID"+email);
 
         EditText emailEditText = findViewById(R.id.login_email_edittext);
         EditText passwordEditText = findViewById(R.id.login_password_edittext);
@@ -73,5 +88,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 }
