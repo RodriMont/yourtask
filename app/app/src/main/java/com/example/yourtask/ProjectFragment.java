@@ -1,5 +1,7 @@
 package com.example.yourtask;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.yourtask.adapters.TasksAdapter;
 import com.example.yourtask.model.ApiRequest;
@@ -38,7 +41,17 @@ public class ProjectFragment extends Fragment
 
         Bundle bundle = getArguments();
 
-        ApiRequest.getTaskUtente(1, bundle.getInt("id"), new ReceiveDataCallback<ArrayList<Task>>()
+        SharedPreferences sharedPreferences;
+        final String SHARED_PREF_NAME = "mypref";
+        sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        final String KEY_ID = "id";
+        int id = sharedPreferences.getInt(KEY_ID, 0);
+
+        TextView progetto = view.findViewById(R.id.project_title);
+
+        if (id > 0) {
+            progetto.setText(bundle.getString("nome_progetto"));
+        ApiRequest.getTaskUtente(id, bundle.getInt("id"), new ReceiveDataCallback<ArrayList<Task>>()
         {
             @Override
             public void receiveData(ArrayList<Task> o)
@@ -47,6 +60,7 @@ public class ProjectFragment extends Fragment
                 tasks_listview.setAdapter(tasks_adapter);
             }
         });
+        }
 
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
