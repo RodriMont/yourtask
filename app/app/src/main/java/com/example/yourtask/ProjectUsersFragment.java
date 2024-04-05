@@ -52,7 +52,7 @@ public class ProjectUsersFragment extends Fragment
         Button collaboratorsButton = (Button)view.findViewById(R.id.project_users_collaborators_listview_button);
 
         ArrayList<User> newCollaborators = new ArrayList<User>();
-        CollaboratorsAdapter newCollaboratorsAdapter = new CollaboratorsAdapter(getContext(), newCollaborators);
+        CollaboratorsAdapter newCollaboratorsAdapter = new CollaboratorsAdapter(getContext(), newCollaborators, newCollaboratorsListView);
         newCollaboratorsListView.setAdapter(newCollaboratorsAdapter);
 
         ArrayList<User> collaborators = new ArrayList<User>();
@@ -91,6 +91,13 @@ public class ProjectUsersFragment extends Fragment
                                 else
                                     newCollaborators.add(o.get(0));
 
+                                if (newCollaborators.size() > 3)
+                                {
+                                    ViewGroup.LayoutParams dimension = newCollaboratorsListView.getLayoutParams();
+                                    dimension.height = newCollaboratorsListView.getHeight();
+                                    newCollaboratorsListView.setLayoutParams(dimension);
+                                }
+
                                 newCollaboratorsAdapter.notifyDataSetChanged();
                             }
                         });
@@ -110,9 +117,9 @@ public class ProjectUsersFragment extends Fragment
             {
                 ArrayList<UtentiProgetto> utentiProgetto = new ArrayList<>();
 
-                for (int i = 0; i < collaborators.size(); i++)
+                for (int i = 0; i < newCollaborators.size(); i++)
                 {
-                    User user = collaborators.get(i);
+                    User user = newCollaborators.get(i);
 
                     if (user.id != -1)
                         utentiProgetto.add(new UtentiProgetto(user.id, id_progetto));
