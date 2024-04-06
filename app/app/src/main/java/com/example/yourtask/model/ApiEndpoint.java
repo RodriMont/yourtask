@@ -53,11 +53,11 @@ public interface ApiEndpoint {
         Call<RequestResult> deleteRuolo(@Path("id")int id);
 
         @PUT("/utenti/{id}")
-        Call<User> putUtente(@Path("id")int id, @Body User user);
+        Call<RequestResult> putUtente(@Path("id")int id, @Body User user);
         @PUT("/progetti/{id}")
-        Call<Progetto> putProgetto(@Path("id")int id, @Body Progetto progetto);
+        Call<RequestResult> putProgetto(@Path("id")int id, @Body Progetto progetto);
         @PUT("/task/{id}")
         Call<RequestResult> putTask(@Path("id")int id, @Body Task task);
         @PUT("/ruoli/{id}")
-        Call<Ruolo> putRuolo(@Path("id")int id, @Body Ruolo ruolo);
+        Call<RequestResult> putRuolo(@Path("id")int id, @Body Ruolo ruolo);
 }

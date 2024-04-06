@@ -20,6 +20,7 @@ import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
 import com.example.yourtask.R;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.RequestResult;
 
 import java.util.ArrayList;
 
@@ -61,9 +62,9 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
                         int id = item.getItemId();
 
                         if (id == R.id.options_popup_menu_delete) {
-                            ApiRequest.deleteProgetto(project.id, new ReceiveDataCallback<Integer>() {
+                            ApiRequest.deleteProgetto(project.id, new ReceiveDataCallback<RequestResult>() {
                                 @Override
-                                public void receiveData(Integer o) {
+                                public void receiveData(RequestResult o) {
                                     remove(project);
                                     notifyDataSetChanged();
                                 }

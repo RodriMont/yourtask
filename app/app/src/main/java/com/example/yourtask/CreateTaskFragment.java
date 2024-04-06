@@ -1,6 +1,8 @@
 package com.example.yourtask;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,7 @@ import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.Task;
 import com.example.yourtask.model.User;
+import com.example.yourtask.model.UtentiTask;
 import com.example.yourtask.utility.DateFormatter;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -48,6 +51,9 @@ public class CreateTaskFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_create_task, container, false);
 
         Bundle bundle = getArguments();
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        int id_utente = sharedPreferences.getInt("id", 0);
 
         Button newTask = view.findViewById(R.id.new_task_create_button);
         EditText nomeTaskEditText = view.findViewById(R.id.new_task_name_edittext);
@@ -97,11 +103,13 @@ public class CreateTaskFragment extends Fragment
                     Toast.makeText(getActivity(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else if (!bundle.containsKey("edit")) {
                     ApiRequest.postTask(new Task(bundle.getInt("id"), nomeTaskText, dataAvvioText, dataScadenzaText, priorita, bundle.getInt("id_progetto")), new ReceiveDataCallback<RequestResult>() {
+                        int id_task;
+
                         @Override
                         public void receiveData(RequestResult o) {
-                            if (o.code == 200) {
-                                Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
+                            id_task = o.id;
 
+                            if (o.code == 200) {
                                 Bundle returnBundle = new Bundle();
                                 returnBundle.putInt("id", bundle.getInt("id_progetto"));
                                 returnBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
@@ -109,7 +117,18 @@ public class CreateTaskFragment extends Fragment
                                 ProjectFragment projectFragment = new ProjectFragment();
                                 projectFragment.setArguments(returnBundle);
 
-                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectFragment).commit();
+                                ArrayList<UtentiTask> utentiTask = new ArrayList<>();
+                                utentiTask.add(new UtentiTask(id_task, id_utente));
+                                ApiRequest.postUtentiTask(utentiTask, new ReceiveDataCallback<RequestResult>() {
+                                    @Override
+                                    public void receiveData(RequestResult o) {
+                                        if (o.code == 200)
+                                        {
+                                            Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
+                                            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectFragment).commit();
+                                        }
+                                    }
+                                });
                             }
                             else if (o.code == 400)
                                 Toast.makeText(getActivity(), "400", Toast.LENGTH_LONG).show();
@@ -126,8 +145,6 @@ public class CreateTaskFragment extends Fragment
                         {
                             if (o.code == 200)
                             {
-                                Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
-
                                 Bundle returnBundle = new Bundle();
                                 returnBundle.putInt("id", bundle.getInt("id_progetto"));
                                 returnBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
@@ -135,6 +152,7 @@ public class CreateTaskFragment extends Fragment
                                 ProjectFragment projectFragment = new ProjectFragment();
                                 projectFragment.setArguments(returnBundle);
 
+                                Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectFragment).commit();
                             }
                             else if (o.code == 400)

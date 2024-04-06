@@ -308,34 +308,32 @@ public class ApiRequest {
     }
 
     //PUT
-    public static void putUtente (int id, User user, ReceiveDataCallback <Integer> callback) {
-        Call<User> putUser = apiService.putUtente(id, user);
-        putUser.enqueue(new Callback<User>() {
+    public static void putUtente (int id, User user, ReceiveDataCallback <RequestResult> callback) {
+        Call<RequestResult> putUser = apiService.putUtente(id, user);
+        putUser.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                int statusCode = response.code();
-                callback.receiveData(statusCode);
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
 
-    public static void putProgetto (int id, Progetto progetto, ReceiveDataCallback<Integer> callback) {
-        Call<Progetto> putProgetto = apiService.putProgetto(id, progetto);
-        putProgetto.enqueue(new Callback<Progetto>() {
+    public static void putProgetto (int id, Progetto progetto, ReceiveDataCallback<RequestResult> callback) {
+        Call<RequestResult> putProgetto = apiService.putProgetto(id, progetto);
+        putProgetto.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<Progetto> call, Response<Progetto> response) {
-                int statusCode = response.code();
-                callback.receiveData(statusCode);
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<Progetto> call, Throwable t) {
-
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
@@ -350,23 +348,22 @@ public class ApiRequest {
 
             @Override
             public void onFailure(Call<RequestResult> call, Throwable t) {
-
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
 
-    public static void putRuolo (int id, Ruolo ruolo) {
-        Call<Ruolo> putRuolo = apiService.putRuolo(id, ruolo);
-        putRuolo.enqueue(new Callback<Ruolo>() {
+    public static void putRuolo (int id, Ruolo ruolo, ReceiveDataCallback<RequestResult> callback) {
+        Call<RequestResult> putRuolo = apiService.putRuolo(id, ruolo);
+        putRuolo.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<Ruolo> call, Response<Ruolo> response) {
-                int statusCode = response.code();
-
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<Ruolo> call, Throwable t) {
-
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }

@@ -1,6 +1,8 @@
 package com.example.yourtask;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -41,6 +43,9 @@ public class CreateProjectFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.create_project_fragment, container, false);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        int id_utente = sharedPreferences.getInt("id", 0);
 
         Bundle bundle = getArguments();
 
@@ -100,7 +105,7 @@ public class CreateProjectFragment extends Fragment
                             if (o.code == 200)
                             {
                                 ArrayList<UtentiProgetto> creatore = new ArrayList<>();
-                                creatore.add(new UtentiProgetto(1, id_progetto));
+                                creatore.add(new UtentiProgetto(id_utente, id_progetto));
 
                                 ApiRequest.postUtentiProgetto(creatore, new ReceiveDataCallback<RequestResult>()
                                 {
@@ -125,14 +130,14 @@ public class CreateProjectFragment extends Fragment
                 }
                 else {
                     Progetto progetto = new Progetto(bundle.getInt("id"), nomeProgettoText, dataAvvioText, dataScadenzaText, Float.parseFloat(budgetText));
-                    ApiRequest.putProgetto(bundle.getInt("id"), progetto, new ReceiveDataCallback<Integer>() {
+                    ApiRequest.putProgetto(bundle.getInt("id"), progetto, new ReceiveDataCallback<RequestResult>() {
                         @Override
-                        public void receiveData(Integer o) {
-                            if (o == 200) {
+                        public void receiveData(RequestResult o) {
+                            if (o.code == 200) {
                                 Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
                             }
-                            else if (o == 500)
+                            else if (o.code == 500)
                                 Toast.makeText(getActivity(), "500", Toast.LENGTH_LONG).show();
                         }
                     });
