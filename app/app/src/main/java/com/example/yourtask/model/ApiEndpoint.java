@@ -57,7 +57,7 @@ public interface ApiEndpoint {
         @PUT("/progetti/{id}")
         Call<Progetto> putProgetto(@Path("id")int id, @Body Progetto progetto);
         @PUT("/task/{id}")
-        Call<Task> putTask(@Path("id")int id, @Body Task task);
+        Call<RequestResult> putTask(@Path("id")int id, @Body Task task);
         @PUT("/ruoli/{id}")
         Call<Ruolo> putRuolo(@Path("id")int id, @Body Ruolo ruolo);
 }

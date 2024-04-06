@@ -346,17 +346,16 @@ public class ApiRequest {
         });
     }
 
-    public static void putTask (int id, Task task) {
-        Call<Task> putTask = apiService.putTask(id, task);
-        putTask.enqueue(new Callback<Task>() {
+    public static void putTask (int id, Task task, ReceiveDataCallback<RequestResult> callback) {
+        Call<RequestResult> putTask = apiService.putTask(id, task);
+        putTask.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<Task> call, Response<Task> response) {
-                int statusCode = response.code();
-
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<Task> call, Throwable t) {
+            public void onFailure(Call<RequestResult> call, Throwable t) {
 
             }
         });

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.yourtask.adapters.TasksAdapter;
 import com.example.yourtask.model.ApiRequest;
+import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.Task;
 
@@ -56,7 +57,7 @@ public class ProjectFragment extends Fragment
                 @Override
                 public void receiveData(ArrayList<Task> o)
                 {
-                    TasksAdapter tasks_adapter = new TasksAdapter(getContext(), o);
+                    TasksAdapter tasks_adapter = new TasksAdapter(getContext(), o, bundle.getString("nome_progetto"));
                     tasks_listview.setAdapter(tasks_adapter);
                 }
             });
@@ -65,7 +66,14 @@ public class ProjectFragment extends Fragment
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateTaskFragment()).commit();
+                Bundle bundle = new Bundle();
+                bundle.putInt("id_progetto", bundle.getInt("id"));
+                bundle.putString("nome_progetto", bundle.getString("nome_progetto"));
+
+                CreateTaskFragment createTaskFragment = new CreateTaskFragment();
+                createTaskFragment.setArguments(bundle);
+
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createTaskFragment).commit();
             }
         });
 

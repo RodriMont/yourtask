@@ -26,6 +26,7 @@ import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.Task;
 import com.example.yourtask.model.User;
+import com.example.yourtask.utility.DateFormatter;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.time.LocalDate;
@@ -45,6 +46,8 @@ public class CreateTaskFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_create_task, container, false);
+
+        Bundle bundle = getArguments();
 
         Button newTask = view.findViewById(R.id.new_task_create_button);
         EditText nomeTaskEditText = view.findViewById(R.id.new_task_name_edittext);
@@ -77,24 +80,52 @@ public class CreateTaskFragment extends Fragment
             @Override
             public void onClick(View v) {
                 String nomeTaskText = nomeTaskEditText.getText().toString();
-                String dataAvvioText = dataAvvioEditText.getText().toString();
-                String dataScadenzaText = dataScandenzaEditText.getText().toString();
-
-                String[] dataAvvioSplit = dataAvvioText.split("/");
-                String dataAvvio = String.format("%s-%s-%s", dataAvvioSplit[2], dataAvvioSplit[1], dataAvvioSplit[0]);
-
-                String[] dataScadenzaSplit = dataAvvioText.split("/");
-                String dataScadenza = String.format("%s-%s-%s", dataScadenzaSplit[2], dataScadenzaSplit[1], dataScadenzaSplit[0]);
+                String dataAvvioText = DateFormatter.format(DateFormatter.DateFormat.TICK, dataAvvioEditText.getText().toString());
+                String dataScadenzaText = DateFormatter.format(DateFormatter.DateFormat.SLASH, dataScandenzaEditText.getText().toString());
 
                 if (nomeTaskText.equals("") || dataAvvioText.equals("") || dataScadenzaText.equals(""))
                     Toast.makeText(getActivity(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
-                else {
-                    ApiRequest.postTask(new Task(1, nomeTaskText, dataAvvio, dataScadenza, priorita, 1), new ReceiveDataCallback<RequestResult>() {
+                else if (!bundle.containsKey("edit")) {
+                    ApiRequest.postTask(new Task(bundle.getInt("id"), nomeTaskText, dataAvvioText, dataScadenzaText, priorita, 1), new ReceiveDataCallback<RequestResult>() {
                         @Override
                         public void receiveData(RequestResult o) {
                             if (o.code == 200) {
                                 Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
-                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProjectFragment()).commit();
+
+                                Bundle returnBundle = new Bundle();
+                                returnBundle.putInt("id", bundle.getInt("id_progetto"));
+                                returnBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
+
+                                ProjectFragment projectFragment = new ProjectFragment();
+                                projectFragment.setArguments(bundle);
+
+                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectFragment).commit();
+                            }
+                            else if (o.code == 400)
+                                Toast.makeText(getActivity(), "400", Toast.LENGTH_LONG).show();
+                            else if (o.code == 500)
+                                Toast.makeText(getActivity(), "500", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                else
+                {
+                    ApiRequest.putTask(bundle.getInt("id"), new Task(bundle.getInt("id"), bundle.getString("nome_task"), bundle.getString("data_avvio"), bundle.getString("data_scadenza"), bundle.getInt("priorita"), bundle.getInt("id_progetto")), new ReceiveDataCallback<RequestResult>() {
+                        @Override
+                        public void receiveData(RequestResult o)
+                        {
+                            if (o.code == 200)
+                            {
+                                Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
+
+                                Bundle returnBundle = new Bundle();
+                                returnBundle.putInt("id", bundle.getInt("id_progetto"));
+                                returnBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
+
+                                ProjectFragment projectFragment = new ProjectFragment();
+                                projectFragment.setArguments(bundle);
+
+                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectFragment).commit();
                             }
                             else if (o.code == 400)
                                 Toast.makeText(getActivity(), "400", Toast.LENGTH_LONG).show();

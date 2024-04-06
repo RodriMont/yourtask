@@ -1,6 +1,7 @@
 package com.example.yourtask.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.yourtask.CreateProjectFragment;
+import com.example.yourtask.CreateTaskFragment;
 import com.example.yourtask.R;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
@@ -23,6 +27,7 @@ import java.util.ArrayList;
 public class TasksAdapter extends ArrayAdapter<Task>
 {
     private Context context;
+    private String nome_progetto;
 
     private class ViewHolder
     {
@@ -37,10 +42,11 @@ public class TasksAdapter extends ArrayAdapter<Task>
         public TextView end_date;
     }
 
-    public TasksAdapter(Context context, ArrayList<Task> tasks)
+    public TasksAdapter(Context context, ArrayList<Task> tasks, String nome_progetto)
     {
         super(context, R.layout.tasks_listview, tasks);
         this.context = context;
+        this.nome_progetto = nome_progetto;
     }
 
     @Override
@@ -100,6 +106,23 @@ public class TasksAdapter extends ArrayAdapter<Task>
                                     notifyDataSetChanged();
                                 }
                             });
+                        }
+                        else if (id == R.id.options_popup_menu_edit)
+                        {
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean("edit", true);
+                            bundle.putInt("id", task.id);
+                            bundle.putString("nome_progetto", task.nome_task);
+                            bundle.putString("data_avvio", task.data_avvio);
+                            bundle.putString("data_scadenza", task.data_scadenza);
+                            bundle.putInt("priorita", task.priorita);
+                            bundle.putInt("id_progetto", task.id_progetto);
+                            bundle.putString("nome_progetto", nome_progetto);
+
+                            CreateTaskFragment createTask = new CreateTaskFragment();
+                            createTask.setArguments(bundle);
+
+                            ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createTask).commit();
                         }
 
                         return true;
