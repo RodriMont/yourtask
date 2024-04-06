@@ -112,7 +112,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("edit", true);
                             bundle.putInt("id", task.id);
-                            bundle.putString("nome_progetto", task.nome_task);
+                            bundle.putString("nome_task", task.nome_task);
                             bundle.putString("data_avvio", task.data_avvio);
                             bundle.putString("data_scadenza", task.data_scadenza);
                             bundle.putInt("priorita", task.priorita);

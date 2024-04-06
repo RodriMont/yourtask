@@ -13,14 +13,18 @@ public final class DateFormatter
         if (format == DateFormat.SLASH)
         {
             String[] dateSplit = date.split("-");
-            return String.format("%s/%s/%s", dateSplit[2], dateSplit[1], dateSplit[0]);
+
+            if (dateSplit.length == 3)
+                return String.format("%s/%s/%s", dateSplit[2], dateSplit[1], dateSplit[0]);
         }
         else if (format == DateFormat.TICK)
         {
             String[] dateSplit = date.split("/");
-            return String.format("%s-%s-%s", dateSplit[2], dateSplit[1], dateSplit[0]);
+
+            if (dateSplit.length == 3)
+                return String.format("%s-%s-%s", dateSplit[2], dateSplit[1], dateSplit[0]);
         }
 
-        return null;
+        return "";
     }
 }

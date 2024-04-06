@@ -87,7 +87,7 @@ public class CreateProjectFragment extends Fragment
                 String dataScadenzaText = DateFormatter.format(DateFormatter.DateFormat.TICK, dataScandenzaEditText.getText().toString());
                 String budgetText = budgetEditText.getText().toString();
 
-                if (nomeProgettoText.equals("") || dataAvvioText.equals("") || dataScadenzaText.equals("") || budgetText.equals(""))
+                if (nomeProgettoText.trim().equals("") || dataAvvioText.trim().equals("") || dataScadenzaText.trim().equals("") || budgetText.trim().equals(""))
                     Toast.makeText(getActivity(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else if (bundle == null) {
                     ApiRequest.postProgetto(new Progetto(1, nomeProgettoText, dataAvvioText, dataScadenzaText, Float.parseFloat(budgetText)), new ReceiveDataCallback<RequestResult>() {

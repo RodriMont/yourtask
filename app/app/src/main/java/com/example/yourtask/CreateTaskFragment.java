@@ -58,6 +58,16 @@ public class CreateTaskFragment extends Fragment
         ImageView end_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_end_date_calendar_icon);
         Spinner priority_spinner = (Spinner)view.findViewById(R.id.new_task_priority_spinner);
 
+        if (bundle.containsKey("edit"))
+        {
+            nomeTaskEditText.setText(bundle.getString("nome_task"));
+            dataAvvioEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_avvio")));
+            dataScandenzaEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_scadenza")));
+
+            int priorita = bundle.getInt("priorita");
+            priority_spinner.setSelection(Math.min(priorita, 3));
+        }
+
         priority_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -81,12 +91,12 @@ public class CreateTaskFragment extends Fragment
             public void onClick(View v) {
                 String nomeTaskText = nomeTaskEditText.getText().toString();
                 String dataAvvioText = DateFormatter.format(DateFormatter.DateFormat.TICK, dataAvvioEditText.getText().toString());
-                String dataScadenzaText = DateFormatter.format(DateFormatter.DateFormat.SLASH, dataScandenzaEditText.getText().toString());
+                String dataScadenzaText = DateFormatter.format(DateFormatter.DateFormat.TICK, dataScandenzaEditText.getText().toString());
 
-                if (nomeTaskText.equals("") || dataAvvioText.equals("") || dataScadenzaText.equals(""))
+                if (nomeTaskText.trim().equals("") || dataAvvioText.trim().equals("") || dataScadenzaText.trim().equals(""))
                     Toast.makeText(getActivity(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else if (!bundle.containsKey("edit")) {
-                    ApiRequest.postTask(new Task(bundle.getInt("id"), nomeTaskText, dataAvvioText, dataScadenzaText, priorita, 1), new ReceiveDataCallback<RequestResult>() {
+                    ApiRequest.postTask(new Task(bundle.getInt("id"), nomeTaskText, dataAvvioText, dataScadenzaText, priorita, bundle.getInt("id_progetto")), new ReceiveDataCallback<RequestResult>() {
                         @Override
                         public void receiveData(RequestResult o) {
                             if (o.code == 200) {
