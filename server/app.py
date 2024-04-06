@@ -333,10 +333,10 @@ def post_task():
 
         db.commit()
 
-        return jsonify({"message": "Task creato con successo", "code": 200, "id": cursor.lastrowid})
+        return jsonify({"message": "Task creato con successo", "code": 200, "id": cursor.lastrowid}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nella creazione del task", "code": 500, "id": -1})
+        return jsonify({"message:": "Errore nella creazione del task", "code": 500, "id": -1}), 500
 
 # Crea un nuovo ruolo
 @app.route("/ruoli", methods = ["POST"])
@@ -369,8 +369,6 @@ def post_utenti_progetto():
         if i + 1 < len(data):
             values += ","
 
-    print(values)
-
     try:
         with db.cursor() as cursor:
             sql = f"""insert into progettiutente(id_utente, id_progetto)
@@ -379,28 +377,36 @@ def post_utenti_progetto():
 
         db.commit()
 
-        return jsonify({"message": "Utenti aggiunti con successo al progetto", "code": 200}), 200
+        return jsonify({"message": "Utenti aggiunti con successo al progetto", "code": 200, "id": 0}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'aggiunta degli utenti al progetto", "code": 500}), 500
+        return jsonify({"message:": "Errore nell'aggiunta degli utenti al progetto", "code": 500, "id": -1}), 500
     
 #aggiunge utenti in un task di un progetto
 @app.route("/utenti_task", methods = ["POST"])
 def post_utenti_task():
-    data = request.json    
+    data = request.json
+
+    values = ""
+
+    for i in range(0, len(data)):
+        values += f"({data[i]["id_utente"]}, {data[i]["id_task"]})"
+
+        if i + 1 < len(data):
+            values += ","
 
     try:
         with db.cursor() as cursor:
-            sql = """insert into taskutente( id_task, id_utente)
-                     values (%s, %s)"""
-            cursor.execute(sql, (data["id_task"], data["id_utente"]))
+            sql = f"""insert into taskutente(id_utente, id_task)
+                     values {values}"""
+            cursor.execute(sql)
 
         db.commit()
 
-        return jsonify({"message": "Utente aggiunto con successo", "code": 200})
+        return jsonify({"message": "Utenti aggiunti con successo al task", "code": 200, "id": 0}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'aggiunta dell'utente", "code": 500})  
+        return jsonify({"message:": "Errore nell'aggiunta degli utenti al task", "code": 500, "id": -1}), 500 
 
 #=================================================================================================================================
 # DELETE
@@ -416,10 +422,10 @@ def delete_user(id):
 
         db.commit()
 
-        return jsonify({"message": "Utente eliminato con successo", "code": 200})
+        return jsonify({"message": "Utente eliminato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'eliminiazione dell'utente", "code": 500})
+        return jsonify({"message:": "Errore nell'eliminiazione dell'utente", "code": 500, "id": -1}), 500
     
 # Cancella un progetto, dato il suo id
 @app.route("/progetti/<int:id>", methods=["DELETE"])
@@ -431,10 +437,10 @@ def delete_progetto(id):
 
         db.commit()
 
-        return jsonify({"message": "Progetto eliminato con successo", "code": 200})
+        return jsonify({"message": "Progetto eliminato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500})
+        return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500, "id": -1}), 500
 
 # Cancella un task, dato il suo id
 @app.route("/task/<int:id>", methods = ["DELETE"])
@@ -446,10 +452,10 @@ def delete_task(id):
 
         db.commit()
 
-        return jsonify({"message": "Task eliminato con successo", "code": 200})
+        return jsonify({"message": "Task eliminato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'eliminiazione del task", "code": 500})
+        return jsonify({"message:": "Errore nell'eliminiazione del task", "code": 500, "id": -1}), 500
     
 # Cancella un ruolo, dato il suo id
 @app.route("/ruoli/<int:id>", methods = ["DELETE"])
@@ -461,10 +467,10 @@ def delete_ruolo(id):
 
         db.commit()
 
-        return jsonify({"message": "Ruolo eliminato con successo", "code": 200})
+        return jsonify({"message": "Ruolo eliminato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500})
+        return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500, "id": id}), 500
 
 #=================================================================================================================================
 # PUT
@@ -482,11 +488,11 @@ def modifica_utente(id):
 
         db.commit()
 
-        return jsonify({"message": "Utente modificato con successo", "code": 200}), 200
+        return jsonify({"message": "Utente modificato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
         print(str(e))
-        return jsonify({"message:": "Errore nella modifica dell'utente", "code": 500}), 500
+        return jsonify({"message:": "Errore nella modifica dell'utente", "code": 500, "id": -1}), 500
 
 # Modifica un progetto, dato il suo id
 @app.route("/progetti/<int:id>", methods = ["PUT"])
@@ -500,10 +506,10 @@ def modifica_progetto(id):
 
         db.commit()
 
-        return jsonify({"message": "Progetto modificato con successo", "code": 200}), 200
+        return jsonify({"message": "Progetto modificato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nella modifica del progetto", "code": 500}), 500
+        return jsonify({"message:": "Errore nella modifica del progetto", "code": 500, "id": -1}), 500
 
 # Modifica un task, dato il suo id
 @app.route("/task/<int:id>", methods = ["PUT"])
@@ -533,10 +539,10 @@ def modifica_ruolo(id):
         
         db.commit()
 
-        return jsonify({"message": "Ruolo modificato con successo", "code": 200})
+        return jsonify({"message": "Ruolo modificato con successo", "code": 200, "id": id})
     except Exception as e:
         db.rollback()
-        return jsonify({"message": "Errore nella modifica del ruolo", "code": 500})
+        return jsonify({"message": "Errore nella modifica del ruolo", "code": 500, "id": -1})
     
     
 

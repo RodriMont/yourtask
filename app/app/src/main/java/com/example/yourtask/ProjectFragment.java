@@ -66,12 +66,12 @@ public class ProjectFragment extends Fragment
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("id_progetto", bundle.getInt("id"));
-                bundle.putString("nome_progetto", bundle.getString("nome_progetto"));
+                Bundle giveBundle = new Bundle();
+                giveBundle.putInt("id_progetto", bundle.getInt("id"));
+                giveBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
 
                 CreateTaskFragment createTaskFragment = new CreateTaskFragment();
-                createTaskFragment.setArguments(bundle);
+                createTaskFragment.setArguments(giveBundle);
 
                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createTaskFragment).commit();
             }

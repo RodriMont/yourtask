@@ -107,7 +107,7 @@ public class CreateTaskFragment extends Fragment
                                 returnBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
 
                                 ProjectFragment projectFragment = new ProjectFragment();
-                                projectFragment.setArguments(bundle);
+                                projectFragment.setArguments(returnBundle);
 
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectFragment).commit();
                             }
@@ -133,7 +133,7 @@ public class CreateTaskFragment extends Fragment
                                 returnBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
 
                                 ProjectFragment projectFragment = new ProjectFragment();
-                                projectFragment.setArguments(bundle);
+                                projectFragment.setArguments(returnBundle);
 
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectFragment).commit();
                             }

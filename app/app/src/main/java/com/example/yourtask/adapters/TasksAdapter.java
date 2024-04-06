@@ -20,6 +20,7 @@ import com.example.yourtask.CreateTaskFragment;
 import com.example.yourtask.R;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.Task;
 
 import java.util.ArrayList;
@@ -97,10 +98,10 @@ public class TasksAdapter extends ArrayAdapter<Task>
 
                         if (id == R.id.options_popup_menu_delete)
                         {
-                            ApiRequest.deleteTask(task.id, new ReceiveDataCallback<Integer>()
+                            ApiRequest.deleteTask(task.id, new ReceiveDataCallback<RequestResult>()
                             {
                                 @Override
-                                public void receiveData(Integer o)
+                                public void receiveData(RequestResult o)
                                 {
                                     remove(task);
                                     notifyDataSetChanged();

@@ -38,19 +38,19 @@ public interface ApiEndpoint {
         @POST ("/login")
         Call<User> postLogin(@Body User user);
         @POST("/utenti_progetto")
-        Call<User> postUtentiProgetto(@Body ArrayList<UtentiProgetto> utentiProgetto);
+        Call<RequestResult> postUtentiProgetto(@Body ArrayList<UtentiProgetto> utentiProgetto);
         @POST("/utenti_task")
-        Call<User> postUtentiTask(@Body UtentiTask utentiTask);
+        Call<RequestResult> postUtentiTask(@Body ArrayList<UtentiTask> utentiTask);
 
 
         @DELETE("/utenti/{id}")
-        Call<User> deleteUtente(@Path("id")int id);
+        Call<RequestResult> deleteUtente(@Path("id")int id);
         @DELETE("/progetti/{id}")
-        Call<Progetto> deleteProgetto(@Path("id")int id);
+        Call<RequestResult> deleteProgetto(@Path("id")int id);
         @DELETE("/task/{id}")
-        Call<Task> deleteTask(@Path("id")int id);
+        Call<RequestResult> deleteTask(@Path("id")int id);
         @DELETE("/ruoli/{id}")
-        Call<Ruolo> deleteRuolo(@Path("id")int id);
+        Call<RequestResult> deleteRuolo(@Path("id")int id);
 
         @PUT("/utenti/{id}")
         Call<User> putUtente(@Path("id")int id, @Body User user);

@@ -17,6 +17,7 @@ import com.example.yourtask.adapters.CollaboratorsAdapter;
 import com.example.yourtask.adapters.UsersAdapter;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.User;
 import com.example.yourtask.model.UtentiProgetto;
 
@@ -121,10 +122,10 @@ public class ProjectUsersFragment extends Fragment
                         utentiProgetto.add(new UtentiProgetto(user.id, id_progetto));
                 }
 
-                ApiRequest.postUtentiProgetto(utentiProgetto, new ReceiveDataCallback<Integer>()
+                ApiRequest.postUtentiProgetto(utentiProgetto, new ReceiveDataCallback<RequestResult>()
                 {
                     @Override
-                    public void receiveData(Integer o)
+                    public void receiveData(RequestResult o)
                     {
                         Toast.makeText(getContext(), "200", Toast.LENGTH_LONG).show();
                     }

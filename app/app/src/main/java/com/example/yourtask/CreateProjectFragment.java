@@ -102,12 +102,12 @@ public class CreateProjectFragment extends Fragment
                                 ArrayList<UtentiProgetto> creatore = new ArrayList<>();
                                 creatore.add(new UtentiProgetto(1, id_progetto));
 
-                                ApiRequest.postUtentiProgetto(creatore, new ReceiveDataCallback<Integer>()
+                                ApiRequest.postUtentiProgetto(creatore, new ReceiveDataCallback<RequestResult>()
                                 {
                                     @Override
-                                    public void receiveData(Integer o)
+                                    public void receiveData(RequestResult o)
                                     {
-                                        if (o == 200)
+                                        if (o.code == 200)
                                         {
                                             Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
                                             requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();

@@ -214,101 +214,95 @@ public class ApiRequest {
         });
     }
 
-    public static void postUtentiProgetto (ArrayList<UtentiProgetto> utentiProgetto, ReceiveDataCallback<Integer> callback) {
+    public static void postUtentiProgetto (ArrayList<UtentiProgetto> utentiProgetto, ReceiveDataCallback<RequestResult> callback) {
 
-        Call<User> postUtentiProgetto = apiService.postUtentiProgetto(utentiProgetto);
-        postUtentiProgetto.enqueue(new Callback<User>() {
+        Call<RequestResult> postUtentiProgetto = apiService.postUtentiProgetto(utentiProgetto);
+        postUtentiProgetto.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                int statusCode = response.code();
-                callback.receiveData(statusCode);
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
 
-    public static void postUtentiTask (UtentiTask utentiTask) {
+    public static void postUtentiTask (ArrayList<UtentiTask> utentiTask, ReceiveDataCallback<RequestResult> callback) {
 
-        Call<User> postUtentiTask = apiService.postUtentiTask(utentiTask);
-        postUtentiTask.enqueue(new Callback<User>() {
+        Call<RequestResult> postUtentiTask = apiService.postUtentiTask(utentiTask);
+        postUtentiTask.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                int statusCode = response.code();
-
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
 
     //DELETE
-    public static void deleteUtente (int id) {
-        Call<User> canc = apiService.deleteUtente(id);
-        canc.enqueue(new Callback<User>() {
+    public static void deleteUtente (int id, ReceiveDataCallback<RequestResult> callback) {
+        Call<RequestResult> canc = apiService.deleteUtente(id);
+        canc.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                int statusCode = response.code();
-
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
-            }
-        });
-    }
-
-    public static void deleteProgetto (int id, ReceiveDataCallback <Integer> callback) {
-        Call<Progetto> cancProgetto = apiService.deleteProgetto(id);
-        cancProgetto.enqueue(new Callback<Progetto>() {
-            @Override
-            public void onResponse(Call<Progetto> call, Response<Progetto> response) {
-                int statusCode = response.code();
-                callback.receiveData(statusCode);
-            }
-
-            @Override
-            public void onFailure(Call<Progetto> call, Throwable t) {
-
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
 
-    public static void deleteTask (int id, ReceiveDataCallback<Integer> callback) {
-        Call<Task> cancTask = apiService.deleteTask(id);
-        cancTask.enqueue(new Callback<Task>() {
+    public static void deleteProgetto (int id, ReceiveDataCallback <RequestResult> callback) {
+        Call<RequestResult> cancProgetto = apiService.deleteProgetto(id);
+        cancProgetto.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<Task> call, Response<Task> response) {
-                int statusCode = response.code();
-                callback.receiveData(statusCode);
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<Task> call, Throwable t) {
-                callback.receiveData(500);
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
 
-    public static void deleteRuolo (int id) {
-        Call<Ruolo> cancRuolo = apiService.deleteRuolo(id);
-        cancRuolo.enqueue(new Callback<Ruolo>() {
+    public static void deleteTask (int id, ReceiveDataCallback<RequestResult> callback) {
+        Call<RequestResult> cancTask = apiService.deleteTask(id);
+        cancTask.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<Ruolo> call, Response<Ruolo> response) {
-                int statusCode = response.code();
-
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<Ruolo> call, Throwable t) {
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
+            }
+        });
+    }
 
+    public static void deleteRuolo (int id, ReceiveDataCallback<RequestResult> callback) {
+        Call<RequestResult> cancRuolo = apiService.deleteRuolo(id);
+        cancRuolo.enqueue(new Callback<RequestResult>() {
+            @Override
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }
