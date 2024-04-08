@@ -405,6 +405,24 @@ def post_utenti_task():
         db.rollback()
         return jsonify({"message:": "Errore nell'aggiunta degli utenti al task", "code": 500, "id": -1}), 200 
 
+# Crea un lavoro
+@app.route("/lavori", methods = ["POST"])
+def post_lavoro():
+    data = request.json    
+
+    try:
+        with db.cursor() as cursor:
+            sql = """insert into lavori(id_utente, id_progetto, id_task, id_ruolo)
+                     values (%s, %s, %s, %s)"""
+            cursor.execute(sql, (data["id_utente"], data["id_progetto"], data["id_task"], data["id_ruolo"]))
+
+        db.commit()
+
+        return jsonify({"message": "Lavoro creato con successo", "code": 200, "id": 0})
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella creazione del lavoro", "code": 500, "id": -1})
+    
 #=================================================================================================================================
 # DELETE
 #=================================================================================================================================    
