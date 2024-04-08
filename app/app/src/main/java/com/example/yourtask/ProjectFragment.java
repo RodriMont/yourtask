@@ -43,10 +43,8 @@ public class ProjectFragment extends Fragment
         Bundle bundle = getArguments();
 
         SharedPreferences sharedPreferences;
-        final String SHARED_PREF_NAME = "mypref";
-        sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        final String KEY_ID = "id";
-        int id = sharedPreferences.getInt(KEY_ID, 0);
+        sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        int id = sharedPreferences.getInt("id", 0);
 
         TextView progetto = view.findViewById(R.id.project_title);
 

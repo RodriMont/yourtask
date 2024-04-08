@@ -26,11 +26,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button loginButton;
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_USERNAME = "username";
-    private static final String KEY_ID = "id";
-    private static final String SHARED_PREF_NAME = "mypref";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +36,14 @@ public class LoginActivity extends AppCompatActivity {
         EditText emailEditText = findViewById(R.id.login_email_edittext);
         EditText passwordEditText = findViewById(R.id.login_password_edittext);
 
-        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
 
-        String email = sharedPreferences.getString(KEY_EMAIL, null);
+        int id = sharedPreferences.getInt("id", 0);
 
-        if (email != null) {
+        if (id != 0) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+            return;
         }
 
         TextView regist = findViewById(R.id.login_not_signed_button);
@@ -68,8 +64,6 @@ public class LoginActivity extends AppCompatActivity {
                 String passwordText = passwordEditText.getText().toString();
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.apply();
-
 
                 if (emailText.equals("") || passwordText.equals(""))
                     Toast.makeText(LoginActivity.this, "Campo obbligatorio", Toast.LENGTH_LONG).show();
@@ -80,19 +74,22 @@ public class LoginActivity extends AppCompatActivity {
                             if (utenti.size() > 0) {
                                 User utente = utenti.get(0);
                                 if (utente.password.equals(passwordText)) {
-                                    editor.putString(KEY_USERNAME,utente.username);
-                                    editor.putInt(KEY_ID, utente.id);
+                                    editor.putInt("id", utente.id);
+                                    editor.putString("username", utente.username);
+                                    editor.putString("email", utente.email);
+                                    editor.putString("password", utente.password);
                                     editor.apply();
 
                                     Toast.makeText(LoginActivity.this, "200", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.putExtra("reg", true);
                                     startActivity(intent);
                                 }
                                 else {
                                     Toast.makeText(LoginActivity.this, "Password errata", Toast.LENGTH_LONG).show();
                                 }
                             }
+                            else
+                                Toast.makeText(LoginActivity.this, "L'email inserita non esiste", Toast.LENGTH_LONG);
                         }
                     });
                 }

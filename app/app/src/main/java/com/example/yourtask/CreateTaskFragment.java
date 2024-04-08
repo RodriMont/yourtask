@@ -52,7 +52,7 @@ public class CreateTaskFragment extends Fragment
 
         Bundle bundle = getArguments();
 
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("login", Context.MODE_PRIVATE);
         int id_utente = sharedPreferences.getInt("id", 0);
 
         Button newTask = view.findViewById(R.id.new_task_create_button);

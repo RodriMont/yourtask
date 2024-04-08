@@ -26,11 +26,6 @@ import java.util.ArrayList;
 public class HomepageFragment extends Fragment
 {
     SharedPreferences sharedPreferences;
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_USERNAME = "username";
-    private static final String KEY_ID = "id";
-    private static final String SHARED_PREF_NAME = "mypref";
-
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -45,10 +40,12 @@ public class HomepageFragment extends Fragment
 
         TextView nomeUtente = view.findViewById(R.id.homepage_user_name);
 
-        sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        String username = sharedPreferences.getString(KEY_USERNAME,null);
-        String email = sharedPreferences.getString(KEY_EMAIL, null);
-        if (username != null) {
+        sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username",null);
+        String email = sharedPreferences.getString("email", null);
+
+        if (username != null)
+        {
             nomeUtente.setText(username);
         }
 
@@ -63,7 +60,7 @@ public class HomepageFragment extends Fragment
         });
 
         ListView listView = view.findViewById(R.id.homepage_projects_listview);
-        int id = sharedPreferences.getInt(KEY_ID, 0);
+        int id = sharedPreferences.getInt("id", 0);
 
         if (id > 0) {
             ApiRequest.getProgettiUtente(id, new ReceiveDataCallback<ArrayList<Progetto>>() {

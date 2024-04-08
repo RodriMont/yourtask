@@ -44,7 +44,7 @@ public class CreateProjectFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.create_project_fragment, container, false);
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
         int id_utente = sharedPreferences.getInt("id", 0);
 
         Bundle bundle = getArguments();
