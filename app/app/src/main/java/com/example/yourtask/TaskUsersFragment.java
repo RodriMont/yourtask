@@ -40,7 +40,6 @@ public class TaskUsersFragment extends Fragment
         Bundle bundle = getArguments();
 
         int id_task = bundle.getInt("id");
-        int id_progetto = bundle.getInt("id_progetto");
         String nome_task = bundle.getString("nome_task");
 
         TextView projectName = (TextView)view.findViewById(R.id.task_users_name_title);
