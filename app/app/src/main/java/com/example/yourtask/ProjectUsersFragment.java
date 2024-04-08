@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -129,9 +130,18 @@ public class ProjectUsersFragment extends Fragment
                     @Override
                     public void receiveData(RequestResult o)
                     {
-                        collaboratorsAdapter.notifyDataSetChanged();
-                        newCollaboratorsAdapter.clear();
-                        newCollaboratorsAdapter.notifyDataSetChanged();
+                        if (o.code == 500)
+                            Toast.makeText(getContext(), "Uno o più utenti è già inserito in questo progetto", Toast.LENGTH_LONG).show();
+                        else
+                        {
+                            collaboratorsAdapter.notifyDataSetChanged();
+                            newCollaboratorsAdapter.clear();
+                            newCollaboratorsAdapter.notifyDataSetChanged();
+
+                            ViewGroup.LayoutParams dimension = newCollaboratorsListView.getLayoutParams();
+                            dimension.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            newCollaboratorsListView.setLayoutParams(dimension);
+                        }
                     }
                 });
             }

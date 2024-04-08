@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -42,6 +44,7 @@ public class TaskUsersFragment extends Fragment
         Bundle bundle = getArguments();
 
         int id_task = bundle.getInt("id");
+        int id_progetto = bundle.getInt("id_progetto");
         String nome_task = bundle.getString("nome_task");
 
         TextView projectName = (TextView)view.findViewById(R.id.task_users_name_title);
@@ -51,8 +54,6 @@ public class TaskUsersFragment extends Fragment
         ListView newCollaboratorsListView = (ListView)view.findViewById(R.id.task_users_add_collaborators_listview);
         ListView collaboratorsListView = (ListView)view.findViewById(R.id.task_users_collaborators_listview);
         Button collaboratorsButton = (Button)view.findViewById(R.id.task_users_collaborators_listview_button);
-
-
 
         ArrayList<User> newCollaborators = new ArrayList<User>();
         CollaboratorsAdapter newCollaboratorsAdapter = new CollaboratorsAdapter(getContext(), newCollaborators, newCollaboratorsListView);
@@ -68,6 +69,19 @@ public class TaskUsersFragment extends Fragment
             {
                 collaborators.addAll(o);
                 collaboratorsListView.setAdapter(collaboratorsAdapter);
+
+                ApiRequest.getUtentiProgetto(id_progetto, new ReceiveDataCallback<ArrayList<User>>() {
+                    @Override
+                    public void receiveData(ArrayList<User> o)
+                    {
+                        ArrayList<String> userEmails = new ArrayList<>();
+
+                        for (User user : o)
+                            userEmails.add(user.email);
+
+                        newCollaboratorsAutocomplete.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, userEmails));
+                    }
+                });
             }
         });
 
@@ -87,10 +101,7 @@ public class TaskUsersFragment extends Fragment
                         @Override
                         public void receiveData(ArrayList<User> o)
                         {
-                            if (o.size() == 0)
-                                newCollaborators.add(new User(-1, "", item, ""));
-                            else
-                                newCollaborators.add(o.get(0));
+                            newCollaborators.add(o.get(0));
 
                             if (newCollaborators.size() > 3)
                             {
@@ -129,9 +140,18 @@ public class TaskUsersFragment extends Fragment
                     @Override
                     public void receiveData(RequestResult o)
                     {
-                        collaboratorsAdapter.notifyDataSetChanged();
-                        newCollaboratorsAdapter.clear();
-                        newCollaboratorsAdapter.notifyDataSetChanged();
+                        if (o.code == 500)
+                            Toast.makeText(getContext(), "Uno o più utenti è già inserito in questo task", Toast.LENGTH_LONG).show();
+                        else
+                        {
+                            collaboratorsAdapter.notifyDataSetChanged();
+                            newCollaboratorsAdapter.clear();
+                            newCollaboratorsAdapter.notifyDataSetChanged();
+
+                            ViewGroup.LayoutParams dimension = newCollaboratorsListView.getLayoutParams();
+                            dimension.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            newCollaboratorsListView.setLayoutParams(dimension);
+                        }
                     }
                 });
             }

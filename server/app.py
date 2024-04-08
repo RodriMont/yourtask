@@ -333,7 +333,7 @@ def post_task():
         return jsonify({"message": "Task creato con successo", "code": 200, "id": cursor.lastrowid}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nella creazione del task", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nella creazione del task", "code": 500, "id": -1}), 200
 
 # Crea un nuovo ruolo
 @app.route("/ruoli", methods = ["POST"])
@@ -377,7 +377,7 @@ def post_utenti_progetto():
         return jsonify({"message": "Utenti aggiunti con successo al progetto", "code": 200, "id": 0}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'aggiunta degli utenti al progetto", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nell'aggiunta degli utenti al progetto", "code": 500, "id": -1}), 200
     
 #aggiunge utenti in un task di un progetto
 @app.route("/utenti_task", methods = ["POST"])
@@ -403,7 +403,7 @@ def post_utenti_task():
         return jsonify({"message": "Utenti aggiunti con successo al task", "code": 200, "id": 0}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'aggiunta degli utenti al task", "code": 500, "id": -1}), 500 
+        return jsonify({"message:": "Errore nell'aggiunta degli utenti al task", "code": 500, "id": -1}), 200 
 
 #=================================================================================================================================
 # DELETE
@@ -422,7 +422,7 @@ def delete_user(id):
         return jsonify({"message": "Utente eliminato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'eliminiazione dell'utente", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nell'eliminiazione dell'utente", "code": 500, "id": -1}), 200
     
 # Cancella un progetto, dato il suo id
 @app.route("/progetti/<int:id>", methods=["DELETE"])
@@ -437,7 +437,7 @@ def delete_progetto(id):
         return jsonify({"message": "Progetto eliminato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nell'eliminiazione del progetto", "code": 500, "id": -1}), 200
 
 # Cancella un task, dato il suo id
 @app.route("/task/<int:id>", methods = ["DELETE"])
@@ -452,7 +452,7 @@ def delete_task(id):
         return jsonify({"message": "Task eliminato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'eliminiazione del task", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nell'eliminiazione del task", "code": 500, "id": -1}), 200
     
 # Cancella un ruolo, dato il suo id
 @app.route("/ruoli/<int:id>", methods = ["DELETE"])
@@ -467,7 +467,7 @@ def delete_ruolo(id):
         return jsonify({"message": "Ruolo eliminato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500, "id": id}), 500
+        return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500, "id": id}), 200
 
 # Rimuove un utente da un progetto, dato l'id del progetto e l'id dell'utente
 @app.route("/utente_progetto/<int:id_utente>/<int:id_progetto>", methods = ["DELETE"])
@@ -482,7 +482,7 @@ def delete_utente_progetto(id_utente, id_progetto):
         return jsonify({"message": "Utente rimosso dal progetto con successo", "code": 200, "id": id_utente}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nella rimozione dell'utente dal progetto", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nella rimozione dell'utente dal progetto", "code": 500, "id": -1}), 200
 
 # Rimuove un utente da un task, dato l'id del task e l'id dell'utente
 @app.route("/utente_task/<int:id_utente>/<int:id_task>", methods = ["DELETE"])
@@ -497,7 +497,7 @@ def delete_utente_task(id_utente, id_task):
         return jsonify({"message": "Utente rimosso dal task con successo", "code": 200, "id": id_utente}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nella rimozione dell'utente dal task", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nella rimozione dell'utente dal task", "code": 500, "id": -1}), 200
 
 #=================================================================================================================================
 # PUT
@@ -519,7 +519,7 @@ def modifica_utente(id):
     except Exception as e:
         db.rollback()
         print(str(e))
-        return jsonify({"message:": "Errore nella modifica dell'utente", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nella modifica dell'utente", "code": 500, "id": -1}), 200
 
 # Modifica un progetto, dato il suo id
 @app.route("/progetti/<int:id>", methods = ["PUT"])
@@ -536,7 +536,7 @@ def modifica_progetto(id):
         return jsonify({"message": "Progetto modificato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nella modifica del progetto", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nella modifica del progetto", "code": 500, "id": -1}), 200
 
 # Modifica un task, dato il suo id
 @app.route("/task/<int:id>", methods = ["PUT"])
@@ -553,7 +553,7 @@ def modifica_task(id):
         return jsonify({"message": "Task modificato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nella modifica del task", "code": 500, "id": -1}), 500
+        return jsonify({"message:": "Errore nella modifica del task", "code": 500, "id": -1}), 200
     
 @app.route("/ruoli/<int:id>", methods = ["PUT"])
 def modifica_ruolo(id):
@@ -566,10 +566,10 @@ def modifica_ruolo(id):
         
         db.commit()
 
-        return jsonify({"message": "Ruolo modificato con successo", "code": 200, "id": id})
+        return jsonify({"message": "Ruolo modificato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message": "Errore nella modifica del ruolo", "code": 500, "id": -1})
+        return jsonify({"message": "Errore nella modifica del ruolo", "code": 500, "id": -1}), 200
     
     
 

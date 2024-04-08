@@ -132,7 +132,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
                             Bundle bundle = new Bundle();
                             bundle.putInt("id", task.id);
                             bundle.putString("nome_task", task.nome_task);
-                            //bundle.putInt("id_progetto", task.id_progetto);
+                            bundle.putInt("id_progetto", task.id_progetto);
 
                             TaskUsersFragment taskUsers = new TaskUsersFragment();
                             taskUsers.setArguments(bundle);
