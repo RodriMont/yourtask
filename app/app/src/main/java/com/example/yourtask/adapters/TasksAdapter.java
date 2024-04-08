@@ -17,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yourtask.CreateProjectFragment;
 import com.example.yourtask.CreateTaskFragment;
+import com.example.yourtask.ProjectUsersFragment;
 import com.example.yourtask.R;
+import com.example.yourtask.TaskUsersFragment;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.RequestResult;
@@ -124,6 +126,18 @@ public class TasksAdapter extends ArrayAdapter<Task>
                             createTask.setArguments(bundle);
 
                             ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createTask).commit();
+                        }
+                        else if (id == R.id.options_popup_menu_show_users)
+                        {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("id", task.id);
+                            bundle.putString("nome_task", task.nome_task);
+                            //bundle.putInt("id_progetto", task.id_progetto);
+
+                            TaskUsersFragment taskUsers = new TaskUsersFragment();
+                            taskUsers.setArguments(bundle);
+
+                            ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, taskUsers).commit();
                         }
 
                         return true;

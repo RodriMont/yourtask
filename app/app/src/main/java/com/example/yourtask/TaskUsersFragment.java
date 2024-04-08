@@ -12,17 +12,20 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.yourtask.R;
 import com.example.yourtask.adapters.CollaboratorsAdapter;
 import com.example.yourtask.adapters.ProjectUsersAdapter;
+import com.example.yourtask.adapters.TaskUsersAdapter;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.User;
 import com.example.yourtask.model.UtentiProgetto;
+import com.example.yourtask.model.UtentiTask;
 
 import java.util.ArrayList;
 
-public class ProjectUsersFragment extends Fragment
+public class TaskUsersFragment extends Fragment
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -32,29 +35,30 @@ public class ProjectUsersFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.project_users_fragment, container, false);
+        View view = inflater.inflate(R.layout.task_users_fragment, container, false);
 
         Bundle bundle = getArguments();
 
-        int id_progetto = bundle.getInt("id");
-        String nome_progetto = bundle.getString("nome_progetto");
+        int id_task = bundle.getInt("id");
+        int id_progetto = bundle.getInt("id_progetto");
+        String nome_task = bundle.getString("nome_task");
 
-        TextView projectName = (TextView)view.findViewById(R.id.project_users_name_title);
-        projectName.setText(nome_progetto);
+        TextView projectName = (TextView)view.findViewById(R.id.task_users_name_title);
+        projectName.setText(nome_task);
 
-        EditText newCollaboratorsEditText = (EditText)view.findViewById(R.id.project_users_add_collaborators_edittext);
-        ListView newCollaboratorsListView = (ListView)view.findViewById(R.id.project_users_add_collaborators_listview);
-        ListView collaboratorsListView = (ListView)view.findViewById(R.id.project_users_collaborators_listview);
-        Button collaboratorsButton = (Button)view.findViewById(R.id.project_users_collaborators_listview_button);
+        EditText newCollaboratorsEditText = (EditText)view.findViewById(R.id.task_users_add_collaborators_edittext);
+        ListView newCollaboratorsListView = (ListView)view.findViewById(R.id.task_users_add_collaborators_listview);
+        ListView collaboratorsListView = (ListView)view.findViewById(R.id.task_users_collaborators_listview);
+        Button collaboratorsButton = (Button)view.findViewById(R.id.task_users_collaborators_listview_button);
 
         ArrayList<User> newCollaborators = new ArrayList<User>();
         CollaboratorsAdapter newCollaboratorsAdapter = new CollaboratorsAdapter(getContext(), newCollaborators, newCollaboratorsListView);
         newCollaboratorsListView.setAdapter(newCollaboratorsAdapter);
 
         ArrayList<User> collaborators = new ArrayList<User>();
-        ProjectUsersAdapter collaboratorsAdapter = new ProjectUsersAdapter(getContext(), collaborators, id_progetto);
+        TaskUsersAdapter collaboratorsAdapter = new TaskUsersAdapter(getContext(), collaborators, id_task);
 
-        ApiRequest.getUtentiProgetto(id_progetto, new ReceiveDataCallback<ArrayList<User>>()
+        ApiRequest.getUtentiTask(id_task, new ReceiveDataCallback<ArrayList<User>>()
         {
             @Override
             public void receiveData(ArrayList<User> o)
@@ -111,7 +115,7 @@ public class ProjectUsersFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                ArrayList<UtentiProgetto> utentiProgetto = new ArrayList<>();
+                ArrayList<UtentiTask> utentiTask = new ArrayList<>();
 
                 for (int i = 0; i < newCollaborators.size(); i++)
                 {
@@ -119,12 +123,12 @@ public class ProjectUsersFragment extends Fragment
 
                     if (user.id != -1)
                     {
-                        utentiProgetto.add(new UtentiProgetto(user.id, id_progetto));
+                        utentiTask.add(new UtentiTask(id_task, user.id));
                         collaborators.add(user);
                     }
                 }
 
-                ApiRequest.postUtentiProgetto(utentiProgetto, new ReceiveDataCallback<RequestResult>()
+                ApiRequest.postUtentiTask(utentiTask, new ReceiveDataCallback<RequestResult>()
                 {
                     @Override
                     public void receiveData(RequestResult o)

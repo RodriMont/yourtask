@@ -472,6 +472,36 @@ def delete_ruolo(id):
         db.rollback()
         return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500, "id": id}), 500
 
+# Rimuove un utente da un progetto, dato l'id del progetto e l'id dell'utente
+@app.route("/utente_progetto/<int:id_utente>/<int:id_progetto>", methods = ["DELETE"])
+def delete_utente_progetto(id_utente, id_progetto):
+    try:
+        with db.cursor() as cursor:
+            sql = "delete from progettiutente where id_utente = %s and id_progetto = %s"
+            cursor.execute(sql, (id_utente, id_progetto))
+
+        db.commit()
+
+        return jsonify({"message": "Utente rimosso dal progetto con successo", "code": 200, "id": id_utente}), 200
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella rimozione dell'utente dal progetto", "code": 500, "id": -1}), 500
+
+# Rimuove un utente da un task, dato l'id del task e l'id dell'utente
+@app.route("/utente_task/<int:id_utente>/<int:id_task>", methods = ["DELETE"])
+def delete_utente_task(id_utente, id_task):
+    try:
+        with db.cursor() as cursor:
+            sql = "delete from taskutente where id_utente = %s and id_task = %s"
+            cursor.execute(sql, (id_utente, id_task))
+
+        db.commit()
+
+        return jsonify({"message": "Utente rimosso dal task con successo", "code": 200, "id": id_utente}), 200
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella rimozione dell'utente dal task", "code": 500, "id": -1}), 500
+
 #=================================================================================================================================
 # PUT
 #================================================================================================================================= 

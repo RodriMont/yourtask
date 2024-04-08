@@ -100,9 +100,9 @@ public class ApiRequest {
     }
 
 
-    public static void getUtentiTask (int id_task, int id_progetto, ReceiveDataCallback<ArrayList<User>> callback) {
+    public static void getUtentiTask (int id_task, ReceiveDataCallback<ArrayList<User>> callback) {
 
-        Call<ArrayList<User>> utenti = apiService.getUtentiTask(id_task, id_progetto);
+        Call<ArrayList<User>> utenti = apiService.getUtentiTask(id_task);
         utenti.enqueue(new Callback<ArrayList<User>>() {
             @Override
             public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
@@ -309,6 +309,21 @@ public class ApiRequest {
 
     public static void deleteUtenteProgetto (int id_utente, int id_progetto, ReceiveDataCallback<RequestResult> callback) {
         Call<RequestResult> call = apiService.deleteUtenteProgetto(id_utente, id_progetto);
+        call.enqueue(new Callback<RequestResult>() {
+            @Override
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
+            }
+        });
+    }
+
+    public static void deleteUtenteTask (int id_utente, int id_task, ReceiveDataCallback<RequestResult> callback) {
+        Call<RequestResult> call = apiService.deleteUtenteTask(id_utente, id_task);
         call.enqueue(new Callback<RequestResult>() {
             @Override
             public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {

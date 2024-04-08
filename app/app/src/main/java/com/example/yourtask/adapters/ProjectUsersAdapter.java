@@ -1,7 +1,6 @@
 package com.example.yourtask.adapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -14,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yourtask.R;
 import com.example.yourtask.model.ApiRequest;
@@ -26,7 +24,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UsersAdapter extends ArrayAdapter<User>
+public class ProjectUsersAdapter extends ArrayAdapter<User>
 {
     private Context context;
     private final int id_progetto;
@@ -39,7 +37,7 @@ public class UsersAdapter extends ArrayAdapter<User>
         public ImageView options_icon;
     }
 
-    public UsersAdapter(Context context, ArrayList<User> items, int id_progetto)
+    public ProjectUsersAdapter(Context context, ArrayList<User> items, int id_progetto)
     {
         super(context, R.layout.project_users_listview, items);
         this.context = context;
