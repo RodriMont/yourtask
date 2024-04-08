@@ -133,18 +133,18 @@ public class ApiRequest {
     }
 
     //POST
-    public static void postUtente (User user, ReceiveDataCallback<RequestResult> callback) {
+    public static void postUtente (User user, ReceiveDataCallback<Integer> callback) {
 
-        Call<RequestResult> call = apiService.postUtente(user);
-        call.enqueue(new Callback<RequestResult>() {
+        Call<Integer> call = apiService.postUtente(user);
+        call.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
-                callback.receiveData(response.body());
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                callback.receiveData(response.code());
             }
 
             @Override
-            public void onFailure(Call<RequestResult> call, Throwable t) {
-                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
+            public void onFailure(Call<Integer> call, Throwable t) {
+                callback.receiveData(500);
             }
         });
     }

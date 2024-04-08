@@ -3,6 +3,7 @@ package com.example.yourtask;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,19 +58,14 @@ public class SignUpActivity extends AppCompatActivity
                 else if (!passwordText.equals(repasswordText))
                     Toast.makeText(SignUpActivity.this, "Le password non coincidono", Toast.LENGTH_LONG).show();
                 else {
-                    ApiRequest.postUtente(new User(1, userText, emailText, passwordText), new ReceiveDataCallback<RequestResult>() {
+                    ApiRequest.postUtente(new User(1, userText, emailText, passwordText), new ReceiveDataCallback<Integer>() {
                         @Override
-                        public void receiveData(RequestResult o) {
-                            if (o.code == 200) {
-                                Toast.makeText(SignUpActivity.this, "200", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                                intent.putExtra("reg", true);
+                        public void receiveData(Integer o) {
+                            if (o == 200)
+                            {
+                                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                                 startActivity(intent);
                             }
-                            else if (o.code == 400)
-                                Toast.makeText(SignUpActivity.this, "400", Toast.LENGTH_LONG).show();
-                            else if (o.code == 500)
-                                Toast.makeText(SignUpActivity.this, "500", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
