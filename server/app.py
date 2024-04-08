@@ -211,6 +211,23 @@ def get_ruolo_utente():
 # POST
 #=================================================================================================================================    
 
+@app.route("/utenti", methods = ["POST"])
+def post_utente():
+    data = request.json    
+
+    try:
+        with db.cursor() as cursor:
+            sql = """insert into utenti(username, email, password)
+                     values (%s, %s, %s)"""
+            cursor.execute(sql, (data["username"], data["email"], data["password"]))
+
+        db.commit()
+
+        return jsonify({"message": "Utente creato con successo", "code": 200, "id": cursor.lastrowid}), 200
+    except Exception as e:
+        db.rollback()
+        return jsonify({"message:": "Errore nella creazione dell'utente", "code": 500, "id": -1}), 200
+
 @app.route("/registrazione", methods=["POST"])
 def registrazione_utente():
     data = request.get_json()
@@ -227,7 +244,7 @@ def registrazione_utente():
     try:
         user = get_user_by_email(email)
         
-        if(len(user) == 0):
+        if len(user) == 0:
             query = "INSERT INTO utenti(username, email,  password) VALUES (%s, %s, %s)"
             cursor.execute(query, (username, email, password))
 
@@ -246,8 +263,9 @@ def registrazione_utente():
         res["ok"] = False
         res["message"] = f"Errore server: {e}"
         res["code"] = 500
+        return json.dumps(res), 500
 
-    return json.dumps(res)
+    return json.dumps(res), 200
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -348,10 +366,10 @@ def post_ruolo():
 
         db.commit()
 
-        return jsonify({"message": "Ruolo creato con successo", "code": 200})
+        return jsonify({"message": "Ruolo creato con successo", "code": 200, "id": cursor.lastrowid})
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nella creazione del ruolo", "code": 500})
+        return jsonify({"message:": "Errore nella creazione del ruolo", "code": 500, "id": -1})
     
 #aggiunge utenti in un progetto
 @app.route("/utenti_progetto", methods = ["POST"])
@@ -485,7 +503,7 @@ def delete_ruolo(id):
         return jsonify({"message": "Ruolo eliminato con successo", "code": 200, "id": id}), 200
     except Exception as e:
         db.rollback()
-        return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500, "id": id}), 200
+        return jsonify({"message:": "Errore nell'eliminiazione del ruolo", "code": 500, "id": -1}), 200
 
 # Rimuove un utente da un progetto, dato l'id del progetto e l'id dell'utente
 @app.route("/utente_progetto/<int:id_utente>/<int:id_progetto>", methods = ["DELETE"])
