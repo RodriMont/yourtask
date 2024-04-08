@@ -14,7 +14,7 @@ public class ApiRequest {
     private static ApiEndpoint apiService;
 
     public static void setup () {
-        baseurl = "http://192.168.35.18:5000";
+        baseurl = "http://192.168.0.102:5000";
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseurl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -295,6 +295,21 @@ public class ApiRequest {
     public static void deleteRuolo (int id, ReceiveDataCallback<RequestResult> callback) {
         Call<RequestResult> cancRuolo = apiService.deleteRuolo(id);
         cancRuolo.enqueue(new Callback<RequestResult>() {
+            @Override
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
+            }
+        });
+    }
+
+    public static void deleteUtenteProgetto (int id_utente, int id_progetto, ReceiveDataCallback<RequestResult> callback) {
+        Call<RequestResult> call = apiService.deleteUtenteProgetto(id_utente, id_progetto);
+        call.enqueue(new Callback<RequestResult>() {
             @Override
             public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
                 callback.receiveData(response.body());

@@ -51,6 +51,8 @@ public interface ApiEndpoint {
         Call<RequestResult> deleteTask(@Path("id")int id);
         @DELETE("/ruoli/{id}")
         Call<RequestResult> deleteRuolo(@Path("id")int id);
+        @DELETE("/utente_progetto/{id_utente}/{id_progetto}")
+        Call<RequestResult> deleteUtenteProgetto(@Path("id_utente")int id_utente, @Path("id_progetto")int id_progetto);
 
         @PUT("/utenti/{id}")
         Call<RequestResult> putUtente(@Path("id")int id, @Body User user);

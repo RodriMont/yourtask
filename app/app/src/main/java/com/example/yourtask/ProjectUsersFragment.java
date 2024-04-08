@@ -53,7 +53,7 @@ public class ProjectUsersFragment extends Fragment
         newCollaboratorsListView.setAdapter(newCollaboratorsAdapter);
 
         ArrayList<User> collaborators = new ArrayList<User>();
-        UsersAdapter collaboratorsAdapter = new UsersAdapter(getContext(), collaborators);
+        UsersAdapter collaboratorsAdapter = new UsersAdapter(getContext(), collaborators, id_progetto);
 
         ApiRequest.getUtentiProgetto(id_progetto, new ReceiveDataCallback<ArrayList<User>>()
         {
@@ -119,7 +119,10 @@ public class ProjectUsersFragment extends Fragment
                     User user = newCollaborators.get(i);
 
                     if (user.id != -1)
+                    {
                         utentiProgetto.add(new UtentiProgetto(user.id, id_progetto));
+                        collaborators.add(user);
+                    }
                 }
 
                 ApiRequest.postUtentiProgetto(utentiProgetto, new ReceiveDataCallback<RequestResult>()
@@ -127,7 +130,9 @@ public class ProjectUsersFragment extends Fragment
                     @Override
                     public void receiveData(RequestResult o)
                     {
-                        Toast.makeText(getContext(), "200", Toast.LENGTH_LONG).show();
+                        collaboratorsAdapter.notifyDataSetChanged();
+                        newCollaboratorsAdapter.clear();
+                        newCollaboratorsAdapter.notifyDataSetChanged();
                     }
                 });
             }
