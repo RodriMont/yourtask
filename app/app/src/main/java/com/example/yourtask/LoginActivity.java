@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                             else
-                                Toast.makeText(LoginActivity.this, "L'email inserita non esiste", Toast.LENGTH_LONG);
+                                Toast.makeText(LoginActivity.this, "L'email inserita non esiste", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
