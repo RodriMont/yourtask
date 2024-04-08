@@ -132,15 +132,12 @@ def get_task_utente():
 @app.route("/utenti_task")
 def get_utenti_task():
     id_task = request.args.get('id_task')
-    id_progetto = request.args.get('id_progetto')
 
     cursor.execute(f"""select utenti.id, utenti.username, utenti.email, utenti.password
                        from taskutente
                        inner join utenti
                        on taskutente.id_utente = utenti.id
-                       inner join task
-                       on taskutente.id_task = task.id
-                       where taskutente.id_task = {id_task} and task.id_progetto = {id_progetto}""")
+                       where taskutente.id_task = {id_task}""")
 
     rows = cursor.fetchall()
     utenti = []
