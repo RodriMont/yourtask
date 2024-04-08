@@ -80,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("password", utente.password);
                                     editor.apply();
 
-                                    Toast.makeText(LoginActivity.this, "200", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                 }

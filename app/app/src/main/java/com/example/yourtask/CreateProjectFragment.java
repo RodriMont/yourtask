@@ -114,16 +114,11 @@ public class CreateProjectFragment extends Fragment
                                     {
                                         if (o.code == 200)
                                         {
-                                            Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
                                             requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
                                         }
                                     }
                                 });
                             }
-                            else if (o.code == 400)
-                                Toast.makeText(getActivity(), "400", Toast.LENGTH_LONG).show();
-                            else if (o.code == 500)
-                                Toast.makeText(getActivity(), "500", Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -134,11 +129,8 @@ public class CreateProjectFragment extends Fragment
                         @Override
                         public void receiveData(RequestResult o) {
                             if (o.code == 200) {
-                                Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
                             }
-                            else if (o.code == 500)
-                                Toast.makeText(getActivity(), "500", Toast.LENGTH_LONG).show();
                         }
                     });
                 }

@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         if (sharedPreferences.getInt("id", 0) == 0)
         {
             startActivity(new Intent(this, LoginActivity.class));
-            return;
         }
 
         changeFragment(new HomepageFragment());

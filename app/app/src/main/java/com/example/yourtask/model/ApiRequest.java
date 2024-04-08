@@ -1,5 +1,7 @@
 package com.example.yourtask.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -133,18 +135,18 @@ public class ApiRequest {
     }
 
     //POST
-    public static void postUtente (User user, ReceiveDataCallback<Integer> callback) {
+    public static void postUtente (User user, ReceiveDataCallback<RequestResult> callback) {
 
-        Call<Integer> call = apiService.postUtente(user);
-        call.enqueue(new Callback<Integer>() {
+        Call<RequestResult> call = apiService.postUtente(user);
+        call.enqueue(new Callback<RequestResult>() {
             @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                callback.receiveData(response.code());
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                callback.receiveData(500);
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
             }
         });
     }

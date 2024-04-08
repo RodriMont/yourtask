@@ -58,14 +58,16 @@ public class SignUpActivity extends AppCompatActivity
                 else if (!passwordText.equals(repasswordText))
                     Toast.makeText(SignUpActivity.this, "Le password non coincidono", Toast.LENGTH_LONG).show();
                 else {
-                    ApiRequest.postUtente(new User(1, userText, emailText, passwordText), new ReceiveDataCallback<Integer>() {
+                    ApiRequest.postUtente(new User(1, userText, emailText, passwordText), new ReceiveDataCallback<RequestResult>() {
                         @Override
-                        public void receiveData(Integer o) {
-                            if (o == 200)
+                        public void receiveData(RequestResult o) {
+                            if (o.code == 200)
                             {
                                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                                 startActivity(intent);
                             }
+                            else if (o.code == 400)
+                                Toast.makeText(SignUpActivity.this, "L'email inserita è già in uso", Toast.LENGTH_LONG).show();
                         }
                     });
                 }

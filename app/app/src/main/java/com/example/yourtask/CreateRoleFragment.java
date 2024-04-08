@@ -72,11 +72,8 @@ public class CreateRoleFragment extends Fragment
                         {
                             if (o.code == 200)
                             {
-                                Toast.makeText(getContext(), "200", Toast.LENGTH_LONG).show();
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
                             }
-                            else if (o.code == 500)
-                                Toast.makeText(getContext(), "500", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
