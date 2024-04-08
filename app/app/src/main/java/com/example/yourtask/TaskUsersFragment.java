@@ -5,6 +5,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -45,10 +47,12 @@ public class TaskUsersFragment extends Fragment
         TextView projectName = (TextView)view.findViewById(R.id.task_users_name_title);
         projectName.setText(nome_task);
 
-        EditText newCollaboratorsEditText = (EditText)view.findViewById(R.id.task_users_add_collaborators_edittext);
+        AutoCompleteTextView newCollaboratorsAutocomplete = (AutoCompleteTextView)view.findViewById(R.id.task_users_add_collaborators_autocomplete);
         ListView newCollaboratorsListView = (ListView)view.findViewById(R.id.task_users_add_collaborators_listview);
         ListView collaboratorsListView = (ListView)view.findViewById(R.id.task_users_collaborators_listview);
         Button collaboratorsButton = (Button)view.findViewById(R.id.task_users_collaborators_listview_button);
+
+
 
         ArrayList<User> newCollaborators = new ArrayList<User>();
         CollaboratorsAdapter newCollaboratorsAdapter = new CollaboratorsAdapter(getContext(), newCollaborators, newCollaboratorsListView);
@@ -67,45 +71,38 @@ public class TaskUsersFragment extends Fragment
             }
         });
 
-        newCollaboratorsEditText.setOnKeyListener(new View.OnKeyListener()
+        newCollaboratorsAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event)
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
+                String item = newCollaboratorsAutocomplete.getText().toString();
+
+                if (!item.trim().equals(""))
                 {
-                    String item = newCollaboratorsEditText.getText().toString();
+                    newCollaboratorsAutocomplete.setText("");
 
-                    if (!item.trim().equals(""))
+                    ApiRequest.getUtente(item, new ReceiveDataCallback<ArrayList<User>>()
                     {
-                        newCollaboratorsEditText.setText("");
-
-                        ApiRequest.getUtente(item, new ReceiveDataCallback<ArrayList<User>>()
+                        @Override
+                        public void receiveData(ArrayList<User> o)
                         {
-                            @Override
-                            public void receiveData(ArrayList<User> o)
+                            if (o.size() == 0)
+                                newCollaborators.add(new User(-1, "", item, ""));
+                            else
+                                newCollaborators.add(o.get(0));
+
+                            if (newCollaborators.size() > 3)
                             {
-                                if (o.size() == 0)
-                                    newCollaborators.add(new User(-1, "", item, ""));
-                                else
-                                    newCollaborators.add(o.get(0));
-
-                                if (newCollaborators.size() > 3)
-                                {
-                                    ViewGroup.LayoutParams dimension = newCollaboratorsListView.getLayoutParams();
-                                    dimension.height = newCollaboratorsListView.getHeight();
-                                    newCollaboratorsListView.setLayoutParams(dimension);
-                                }
-
-                                newCollaboratorsAdapter.notifyDataSetChanged();
+                                ViewGroup.LayoutParams dimension = newCollaboratorsListView.getLayoutParams();
+                                dimension.height = newCollaboratorsListView.getHeight();
+                                newCollaboratorsListView.setLayoutParams(dimension);
                             }
-                        });
 
-                        return true;
-                    }
+                            newCollaboratorsAdapter.notifyDataSetChanged();
+                        }
+                    });
                 }
-
-                return false;
             }
         });
 

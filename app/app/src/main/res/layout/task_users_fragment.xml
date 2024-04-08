@@ -41,8 +41,8 @@
             android:maxHeight="100dp"
             android:divider="@null"/>
 
-        <EditText
-            android:id="@+id/task_users_add_collaborators_edittext"
+        <AutoCompleteTextView
+            android:id="@+id/task_users_add_collaborators_autocomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
