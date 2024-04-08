@@ -1,22 +1,28 @@
 package com.example.yourtask.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.yourtask.CreateTaskFragment;
 import com.example.yourtask.R;
 import com.example.yourtask.TaskUsersFragment;
 import com.example.yourtask.model.ApiRequest;
+import com.example.yourtask.model.Lavoro;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.Task;
@@ -27,9 +33,11 @@ public class TasksAdapter extends ArrayAdapter<Task>
 {
     private Context context;
     private String nome_progetto;
+    private ArrayList<Lavoro> completati;
 
     private class ViewHolder
     {
+        public GridLayout layout;
         public TextView task_name_label;
         public ImageView priority_icon;
         public ImageView options_icon;
@@ -41,17 +49,20 @@ public class TasksAdapter extends ArrayAdapter<Task>
         public TextView end_date;
     }
 
-    public TasksAdapter(Context context, ArrayList<Task> tasks, String nome_progetto)
+    private static ViewHolder viewHolder;
+
+    public TasksAdapter(Context context, ArrayList<Task> tasks, ArrayList<Lavoro> completati, String nome_progetto)
     {
         super(context, R.layout.tasks_listview, tasks);
         this.context = context;
         this.nome_progetto = nome_progetto;
+        this.completati = completati;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        ViewHolder viewHolder = null;
+        viewHolder = null;
 
         if (convertView == null)
         {
@@ -59,6 +70,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
             convertView = layoutInflater.inflate(R.layout.tasks_listview, parent, false);
 
             viewHolder = new ViewHolder();
+            viewHolder.layout = convertView.findViewById(R.id.tasks_listview_layout);
             viewHolder.task_name_label = convertView.findViewById(R.id.tasks_listview_task_name_label);
             viewHolder.priority_icon = convertView.findViewById(R.id.tasks_listview_priority_icon);
             viewHolder.options_icon = convertView.findViewById(R.id.tasks_listview_options_icon);
@@ -75,6 +87,19 @@ public class TasksAdapter extends ArrayAdapter<Task>
             viewHolder = (ViewHolder)convertView.getTag();
 
         Task task = getItem(position);
+
+        for (Lavoro lavoro : completati)
+        {
+            if (lavoro.id_task == task.id)
+            {
+                Drawable collaborators_listview_drawable = ContextCompat.getDrawable(context, R.drawable.rounded_frame).mutate();
+                GradientDrawable collaborators_listview_gradient = (GradientDrawable)collaborators_listview_drawable;
+
+                collaborators_listview_gradient.setColor(Color.rgb(144, 238, 144));
+
+                viewHolder.layout.setBackground(collaborators_listview_gradient);
+            }
+        }
 
         viewHolder.task_name_label.setText(task.nome_task);
         viewHolder.start_date.setText(task.data_avvio);
@@ -134,6 +159,25 @@ public class TasksAdapter extends ArrayAdapter<Task>
                             taskUsers.setArguments(bundle);
 
                             ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, taskUsers).commit();
+                        }
+                        else if (id == R.id.task_options_popup_menu_complete)
+                        {
+                            ApiRequest.postLavoro(new Lavoro(
+                                    context.getSharedPreferences("login", Context.MODE_PRIVATE).getInt("id", 0),
+                                    task.id_progetto,
+                                    task.id,
+                                    1), new ReceiveDataCallback<RequestResult>() {
+                                @Override
+                                public void receiveData(RequestResult o)
+                                {
+                                    Drawable collaborators_listview_drawable = ContextCompat.getDrawable(context, R.drawable.rounded_frame).mutate();
+                                    GradientDrawable collaborators_listview_gradient = (GradientDrawable)collaborators_listview_drawable;
+
+                                    collaborators_listview_gradient.setColor(Color.rgb(144, 238, 144));
+
+                                    viewHolder.layout.setBackground(collaborators_listview_gradient);
+                                }
+                            });
                         }
 
                         return true;

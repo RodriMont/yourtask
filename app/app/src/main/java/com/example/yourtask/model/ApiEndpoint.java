@@ -26,6 +26,9 @@ public interface ApiEndpoint {
         Call<ArrayList<User>> getUtentiProgetto(@Query("id_progetto")int id_progetto);
         @GET("/ruolo_utente")
         Call<ArrayList<Ruolo>> getRuoloUtente(@Query("id_utente")int id_utente, @Query("id_progetto")int id_progetto);
+        @GET("/lavori")
+        Call<ArrayList<Lavoro>> getLavori(@Query("id_utente")int id_utente, @Query("id_progetto")int id_progetto, @Query("id_ruolo")int id_ruolo);
+
 
         @POST("/utenti")
         Call<RequestResult> postUtente(@Body User user);

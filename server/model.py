@@ -76,7 +76,7 @@ class TaskUtente:
         self.id_task = id_task
         self.id_utente = id_utente
 
-class Lavori:
+class Lavoro:
     id_utente = None
     id_progetto = None
     id_task = None
@@ -86,4 +86,4 @@ class Lavori:
         self.id_utente = id_utente
         self.id_progetto = id_progetto
         self.id_task = id_task
-        self.id_ruolo
+        self.id_ruolo = id_ruolo

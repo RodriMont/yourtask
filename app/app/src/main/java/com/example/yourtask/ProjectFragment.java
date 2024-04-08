@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.yourtask.adapters.TasksAdapter;
 import com.example.yourtask.model.ApiRequest;
+import com.example.yourtask.model.Lavoro;
 import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.Task;
@@ -50,13 +51,23 @@ public class ProjectFragment extends Fragment
 
         if (id > 0) {
             progetto.setText(bundle.getString("nome_progetto", "nome_progetto"));
-            ApiRequest.getTaskUtente(id, bundle.getInt("id"), new ReceiveDataCallback<ArrayList<Task>>()
+
+            ApiRequest.getLavori(id, bundle.getInt("id"), 1, new ReceiveDataCallback<ArrayList<Lavoro>>()
             {
                 @Override
-                public void receiveData(ArrayList<Task> o)
+                public void receiveData(ArrayList<Lavoro> o)
                 {
-                    TasksAdapter tasks_adapter = new TasksAdapter(getContext(), o, bundle.getString("nome_progetto"));
-                    tasks_listview.setAdapter(tasks_adapter);
+                    ArrayList<Lavoro> lavori = o;
+
+                    ApiRequest.getTaskUtente(id, bundle.getInt("id"), new ReceiveDataCallback<ArrayList<Task>>()
+                    {
+                        @Override
+                        public void receiveData(ArrayList<Task> o)
+                        {
+                            TasksAdapter tasks_adapter = new TasksAdapter(getContext(), o, lavori, bundle.getString("nome_progetto"));
+                            tasks_listview.setAdapter(tasks_adapter);
+                        }
+                    });
                 }
             });
         }

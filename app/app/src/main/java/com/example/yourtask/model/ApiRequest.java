@@ -134,6 +134,22 @@ public class ApiRequest {
         });
     }
 
+    public static void getLavori (int id_utente, int id_progetto, int id_ruolo, ReceiveDataCallback<ArrayList<Lavoro>> callback) {
+
+        Call<ArrayList<Lavoro>> utenti = apiService.getLavori(id_utente, id_progetto, id_ruolo);
+        utenti.enqueue(new Callback<ArrayList<Lavoro>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Lavoro>> call, Response<ArrayList<Lavoro>> response) {
+                callback.receiveData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Lavoro>> call, Throwable t) {
+                callback.receiveData(null);
+            }
+        });
+    }
+
     //POST
     public static void postUtente (User user, ReceiveDataCallback<RequestResult> callback) {
 

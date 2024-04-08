@@ -207,6 +207,32 @@ def get_ruolo_utente():
 
     return json.dumps(ruoli)
 
+@app.route("/lavori")
+def get_lavori():
+    data = request.json
+
+    id_utente = request.args.get("id_utente")
+    id_progetto = request.args.get("id_progetto")
+    id_ruolo = request.args.get("id_ruolo")
+
+    cursor.execute(f"""select id_utente, id_progetto, id_task, id_ruolo
+                       from lavori
+                       where id_utente = {id_utente} and id_progetto = {id_progetto} and id_ruolo = {id_ruolo}""")
+
+    rows = cursor.fetchall()
+    lavori = []
+
+    for row in rows:
+        id_utente = row[0]
+        id_progetto = row[1]
+        id_task = row[2]
+        id_ruolo = row[3]
+
+        lavoro = Lavoro(id_utente, id_progetto, id_task, id_ruolo)
+        lavori.append(lavoro.__dict__)
+
+    return json.dumps(lavori)
+
 #=================================================================================================================================
 # POST
 #=================================================================================================================================    
