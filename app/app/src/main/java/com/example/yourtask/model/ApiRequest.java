@@ -248,6 +248,22 @@ public class ApiRequest {
         });
     }
 
+    public static void postLavoro (Lavoro lavoro, ReceiveDataCallback<RequestResult> callback) {
+
+        Call<RequestResult> postUtentiTask = apiService.postLavoro(lavoro);
+        postUtentiTask.enqueue(new Callback<RequestResult>() {
+            @Override
+            public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
+                callback.receiveData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RequestResult> call, Throwable t) {
+                callback.receiveData(new RequestResult(500, -1, "Internal server error"));
+            }
+        });
+    }
+
     //DELETE
     public static void deleteUtente (int id, ReceiveDataCallback<RequestResult> callback) {
         Call<RequestResult> canc = apiService.deleteUtente(id);

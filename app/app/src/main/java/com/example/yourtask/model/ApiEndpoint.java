@@ -41,6 +41,8 @@ public interface ApiEndpoint {
         Call<RequestResult> postUtentiProgetto(@Body ArrayList<UtentiProgetto> utentiProgetto);
         @POST("/utenti_task")
         Call<RequestResult> postUtentiTask(@Body ArrayList<UtentiTask> utentiTask);
+        @POST("/lavori")
+        Call<RequestResult> postLavoro(@Body Lavoro lavoro);
 
 
         @DELETE("/utenti/{id}")

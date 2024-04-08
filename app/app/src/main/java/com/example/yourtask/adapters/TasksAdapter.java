@@ -11,13 +11,9 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.yourtask.CreateProjectFragment;
 import com.example.yourtask.CreateTaskFragment;
-import com.example.yourtask.ProjectUsersFragment;
 import com.example.yourtask.R;
 import com.example.yourtask.TaskUsersFragment;
 import com.example.yourtask.model.ApiRequest;
@@ -89,7 +85,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
             public void onClick(View v)
             {
                 PopupMenu popupMenu = new PopupMenu(context, v);
-                popupMenu.getMenuInflater().inflate(R.menu.options_popup_menu, popupMenu.getMenu());
+                popupMenu.getMenuInflater().inflate(R.menu.task_options_popup_menu, popupMenu.getMenu());
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
                 {
@@ -98,7 +94,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
                     {
                         int id = item.getItemId();
 
-                        if (id == R.id.options_popup_menu_delete)
+                        if (id == R.id.task_options_popup_menu_delete)
                         {
                             ApiRequest.deleteTask(task.id, new ReceiveDataCallback<RequestResult>()
                             {
@@ -110,7 +106,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
                                 }
                             });
                         }
-                        else if (id == R.id.options_popup_menu_edit)
+                        else if (id == R.id.task_options_popup_menu_edit)
                         {
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("edit", true);
@@ -127,7 +123,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
 
                             ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createTask).commit();
                         }
-                        else if (id == R.id.options_popup_menu_show_users)
+                        else if (id == R.id.task_options_popup_menu_show_users)
                         {
                             Bundle bundle = new Bundle();
                             bundle.putInt("id", task.id);

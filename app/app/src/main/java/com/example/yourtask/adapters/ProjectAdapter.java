@@ -52,7 +52,7 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
             public void onClick(View v)
             {
                 PopupMenu popupMenu = new PopupMenu(context, v);
-                popupMenu.getMenuInflater().inflate(R.menu.options_popup_menu, popupMenu.getMenu());
+                popupMenu.getMenuInflater().inflate(R.menu.project_options_popup_menu, popupMenu.getMenu());
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
                 {
@@ -61,7 +61,7 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
                     {
                         int id = item.getItemId();
 
-                        if (id == R.id.options_popup_menu_delete) {
+                        if (id == R.id.project_options_popup_menu_delete) {
                             ApiRequest.deleteProgetto(project.id, new ReceiveDataCallback<RequestResult>() {
                                 @Override
                                 public void receiveData(RequestResult o) {
@@ -70,7 +70,7 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
                                 }
                             });
                         }
-                        else if (id == R.id.options_popup_menu_edit) {
+                        else if (id == R.id.project_options_popup_menu_edit) {
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("edit", true);
                             bundle.putInt("id", project.id);
@@ -84,7 +84,7 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
 
                             ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createProject).commit();
                         }
-                        else if (id == R.id.options_popup_menu_show_users)
+                        else if (id == R.id.project_options_popup_menu_show_users)
                         {
                             Bundle bundle = new Bundle();
                             bundle.putInt("id", project.id);
