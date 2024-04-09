@@ -26,6 +26,7 @@ import com.example.yourtask.model.Lavoro;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.Task;
+import com.example.yourtask.utility.DateFormatter;
 
 import java.util.ArrayList;
 
@@ -102,8 +103,8 @@ public class TasksAdapter extends ArrayAdapter<Task>
         }
 
         viewHolder.task_name_label.setText(task.nome_task);
-        viewHolder.start_date.setText(task.data_avvio);
-        viewHolder.end_date.setText(task.data_scadenza);
+        viewHolder.start_date.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, task.data_avvio));
+        viewHolder.end_date.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, task.data_scadenza));
 
         if (task.priorita == 1)
             viewHolder.priority_icon.setImageResource(R.drawable.prioritity_low);

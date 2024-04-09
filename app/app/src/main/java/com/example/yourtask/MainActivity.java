@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         ApiRequest.setup();
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        //sharedPreferences.edit().clear().commit();
 
         if (sharedPreferences.getInt("id", 0) == 0)
         {

@@ -72,6 +72,8 @@ public class CreateTaskFragment extends Fragment
 
             int priorita = bundle.getInt("priorita");
             priority_spinner.setSelection(Math.min(priorita, 3));
+
+            newTask.setText("Modifica");
         }
 
         priority_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

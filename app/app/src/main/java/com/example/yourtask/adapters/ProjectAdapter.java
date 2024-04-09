@@ -21,6 +21,7 @@ import com.example.yourtask.model.Progetto;
 import com.example.yourtask.R;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.RequestResult;
+import com.example.yourtask.utility.DateFormatter;
 
 import java.util.ArrayList;
 
@@ -107,8 +108,8 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
         assert project != null;
 
         nomeTextView.setText(project.nome_progetto);
-        startTextView.setText(project.data_avvio);
-        endTextView.setText(project.data_scadenza);
+        startTextView.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, project.data_avvio));
+        endTextView.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, project.data_scadenza));
 
         return convertView;
     }

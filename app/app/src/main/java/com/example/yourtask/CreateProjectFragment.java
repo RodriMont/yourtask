@@ -83,6 +83,10 @@ public class CreateProjectFragment extends Fragment
         });
 
         creaProgetto = view.findViewById(R.id.new_project_button);
+
+        if (bundle != null)
+            creaProgetto.setText("Modifica");
+
         creaProgetto.setOnClickListener(new View.OnClickListener() {
 
             @Override
