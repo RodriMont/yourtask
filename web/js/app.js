@@ -1,17 +1,15 @@
-import { fetchProgetto } from "./api/fetchProgetto.js";
+import { fetchProgetti } from "./api/fetchProgetti.js";
 
 const btnLogout = document.querySelector(".logout");
-
+ 
 
 btnLogout.addEventListener("click", (e) => {
-  e.stopPropagation();
+  e.stopPropagation();  
   localStorage.removeItem("userInfo");
   window.location.href = "./index.html";
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    fetchProgetto();
-})
+
 
 document.onreadystatechange = function () {
   if (document.readyState == "interactive") {
@@ -20,3 +18,10 @@ document.onreadystatechange = function () {
     if (!userInfo) window.location.href = "index.html";
   }
 };
+
+
+
+
+
+
+
