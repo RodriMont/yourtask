@@ -77,7 +77,7 @@ public class TaskUsersAdapter extends ArrayAdapter<User>
                 PopupMenu popupMenu = new PopupMenu(context, v);
                 popupMenu.getMenuInflater().inflate(R.menu.user_options_popup_menu, popupMenu.getMenu());
 
-                if (user.id == context.getSharedPreferences("mypref", Context.MODE_PRIVATE).getInt("id", 0))
+                if (user.id == context.getSharedPreferences("login", Context.MODE_PRIVATE).getInt("id", 0))
                 {
                     MenuItem item = popupMenu.getMenu().findItem(R.id.user_options_popup_menu_remove);
 
