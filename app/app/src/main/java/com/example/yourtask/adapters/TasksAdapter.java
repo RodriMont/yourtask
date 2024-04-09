@@ -50,8 +50,6 @@ public class TasksAdapter extends ArrayAdapter<Task>
         public TextView end_date;
     }
 
-    private static ViewHolder viewHolder;
-
     public TasksAdapter(Context context, ArrayList<Task> tasks, ArrayList<Lavoro> completati, String nome_progetto)
     {
         super(context, R.layout.tasks_listview, tasks);
@@ -63,7 +61,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        viewHolder = null;
+        ViewHolder viewHolder;
 
         if (convertView == null)
         {

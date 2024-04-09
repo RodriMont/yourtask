@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yourtask.adapters.CollaboratorsAdapter;
@@ -55,6 +56,9 @@ public class CreateProjectFragment extends Fragment
         EditText budgetEditText = view.findViewById(R.id.new_project_budget_editText);
 
         if (bundle != null) {
+            TextView title = view.findViewById(R.id.title_new_project_textView);
+            title.setText("Modifica progetto");
+
             nomeProgettoEditText.setText(bundle.getString("nome_progetto"));
             dataAvvioEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_avvio")));
             dataScandenzaEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_scadenza")));

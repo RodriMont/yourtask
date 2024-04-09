@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yourtask.adapters.CollaboratorsAdapter;
@@ -66,6 +67,9 @@ public class CreateTaskFragment extends Fragment
 
         if (bundle.containsKey("edit"))
         {
+            TextView title = view.findViewById(R.id.new_task_title);
+            title.setText("Modifica task");
+
             nomeTaskEditText.setText(bundle.getString("nome_task"));
             dataAvvioEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_avvio")));
             dataScandenzaEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_scadenza")));
