@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.Ruolo;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
@@ -64,18 +65,15 @@ public class CreateRoleFragment extends Fragment
                     Toast.makeText(getContext(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else
                 {
-                    ApiRequest.postRuolo(new Ruolo(1, role_text, Integer.toHexString(currentColor).substring(2).toUpperCase(), 1), new ReceiveDataCallback<Integer>()
+                    ApiRequest.postRuolo(new Ruolo(1, role_text, Integer.toHexString(currentColor).substring(2).toUpperCase(), 1), new ReceiveDataCallback<RequestResult>()
                     {
                         @Override
-                        public void receiveData(Integer o)
+                        public void receiveData(RequestResult o)
                         {
-                            if (o == 200)
+                            if (o.code == 200)
                             {
-                                Toast.makeText(getContext(), "200", Toast.LENGTH_LONG).show();
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
                             }
-                            else if (o == 500)
-                                Toast.makeText(getContext(), "500", Toast.LENGTH_LONG).show();
                         }
                     });
                 }

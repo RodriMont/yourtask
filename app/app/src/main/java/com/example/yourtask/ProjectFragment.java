@@ -1,5 +1,7 @@
 package com.example.yourtask;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,10 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yourtask.adapters.TasksAdapter;
 import com.example.yourtask.model.ApiRequest;
+import com.example.yourtask.model.Lavoro;
+import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.ReceiveDataCallback;
 import com.example.yourtask.model.Task;
 
@@ -31,53 +38,59 @@ public class ProjectFragment extends Fragment
     {
 
         View view = inflater.inflate(R.layout.fragment_project, container, false);
-
-        ImageView addTask = view.findViewById(R.id.add_new_task);
-
-        ListView tasks_listview = (ListView)view.findViewById(R.id.project_in_tasks_listview);
+        LinearLayout addTask = view.findViewById(R.id.project_new_task_layout);
+        LinearLayout addRole = view.findViewById(R.id.project_new_role_layout);
+        ListView tasks_listview = (ListView)view.findViewById(R.id.project_tasks_listview);
 
         Bundle bundle = getArguments();
 
-        ApiRequest.getTaskUtente(1, bundle.getInt("id"), new ReceiveDataCallback<ArrayList<Task>>()
-        {
-            @Override
-            public void receiveData(ArrayList<Task> o)
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        int id = sharedPreferences.getInt("id", 0);
+
+        TextView progetto = view.findViewById(R.id.project_title);
+
+        if (id > 0) {
+            progetto.setText(bundle.getString("nome_progetto", "nome_progetto"));
+
+            ApiRequest.getLavori(id, bundle.getInt("id"), 1, new ReceiveDataCallback<ArrayList<Lavoro>>()
             {
-                TasksAdapter tasks_adapter = new TasksAdapter(getContext(), o);
-                tasks_listview.setAdapter(tasks_adapter);
-            }
-        });
+                @Override
+                public void receiveData(ArrayList<Lavoro> o)
+                {
+                    ArrayList<Lavoro> lavori = o;
+
+                    ApiRequest.getTaskUtente(id, bundle.getInt("id"), new ReceiveDataCallback<ArrayList<Task>>()
+                    {
+                        @Override
+                        public void receiveData(ArrayList<Task> o)
+                        {
+                            TasksAdapter tasks_adapter = new TasksAdapter(getContext(), o, lavori, bundle.getString("nome_progetto"));
+                            tasks_listview.setAdapter(tasks_adapter);
+                        }
+                    });
+                }
+            });
+        }
 
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateTaskFragment()).commit();
+                Bundle giveBundle = new Bundle();
+                giveBundle.putInt("id_progetto", bundle.getInt("id"));
+                giveBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
+
+                CreateTaskFragment createTaskFragment = new CreateTaskFragment();
+                createTaskFragment.setArguments(giveBundle);
+
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createTaskFragment).commit();
             }
         });
 
-        tasks_listview.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        addRole.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Task item = (Task)parent.getItemAtPosition(position);
-
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("#EDIT", true);
-                bundle.putInt("id", item.id);
-                bundle.putString("nome_task", item.nome_task);
-                bundle.putString("data_avvio", item.data_avvio);
-                bundle.putString("data_scadenza", item.data_scadenza);
-                bundle.putInt("priorita", item.priorita);
-                bundle.putInt("id_progetto", item.id_progetto);
-
-                CreateTaskFragment createTaskFragment = new CreateTaskFragment();
-                createTaskFragment.setArguments(bundle);
-
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, createTaskFragment)
-                        .commit();
+            public void onClick(View v) {
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreateRoleFragment()).commit();
             }
         });
 

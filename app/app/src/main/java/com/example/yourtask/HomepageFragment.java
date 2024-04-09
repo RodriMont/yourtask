@@ -1,5 +1,7 @@
 package com.example.yourtask;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.yourtask.adapters.ProjectAdapter;
 import com.example.yourtask.model.ApiRequest;
@@ -21,17 +25,31 @@ import java.util.ArrayList;
 
 public class HomepageFragment extends Fragment
 {
+    SharedPreferences sharedPreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.homepage_fragment, container, false);
 
-        Button createProjectButton = (Button) view.findViewById(R.id.create_project_button);
+        TextView nomeUtente = view.findViewById(R.id.homepage_user_name);
+
+        sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username",null);
+        String email = sharedPreferences.getString("email", null);
+
+        if (username != null)
+        {
+            nomeUtente.setText(username);
+        }
+
+        LinearLayout createProjectButton = (LinearLayout) view.findViewById(R.id.homepage_create_project_button);
         createProjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,17 +59,19 @@ public class HomepageFragment extends Fragment
             }
         });
 
-        ListView listView = view.findViewById(R.id.task_list);
-        ApiRequest.getProgettiUtente(1, new ReceiveDataCallback<ArrayList<Progetto>>()
-        {
-            @Override
-            public void receiveData(ArrayList<Progetto> o)
-            {
-                ProjectAdapter projectArrayAdapter = new ProjectAdapter(getContext() , R.layout.project_item, o);
+        ListView listView = view.findViewById(R.id.homepage_projects_listview);
+        int id = sharedPreferences.getInt("id", 0);
 
-                listView.setAdapter(projectArrayAdapter);
-            }
-        });
+        if (id > 0) {
+            ApiRequest.getProgettiUtente(id, new ReceiveDataCallback<ArrayList<Progetto>>() {
+                @Override
+                public void receiveData(ArrayList<Progetto> o) {
+                    ProjectAdapter projectArrayAdapter = new ProjectAdapter(getContext(), R.layout.project_item, o);
+
+                    listView.setAdapter(projectArrayAdapter);
+                }
+            });
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,6 +79,7 @@ public class HomepageFragment extends Fragment
                 Progetto progetto = (Progetto) parent.getItemAtPosition(position);
 
                 Bundle bundle = new Bundle();
+                bundle.putString("nome_progetto",progetto.nome_progetto);
                 bundle.putInt("id", progetto.id);
 
                 ProjectFragment project = new ProjectFragment();

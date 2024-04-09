@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.User;
 
 public class ProfileFragment extends Fragment
@@ -37,9 +38,9 @@ public class ProfileFragment extends Fragment
             public void onClick(View v) {
                 String modificaUsername = modificaUsernameEditText.getText().toString();
 
-                ApiRequest.putUtente(1, new User(1, modificaUsername, "", ""), new ReceiveDataCallback<Integer>() {
+                ApiRequest.putUtente(1, new User(1, modificaUsername, "", ""), new ReceiveDataCallback<RequestResult>() {
                     @Override
-                    public void receiveData(Integer o) {
+                    public void receiveData(RequestResult o) {
                         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
 
                     }

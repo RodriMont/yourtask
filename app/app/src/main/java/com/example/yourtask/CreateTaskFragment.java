@@ -1,6 +1,8 @@
 package com.example.yourtask;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -23,7 +25,11 @@ import com.example.yourtask.adapters.CollaboratorsAdapter;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.Task;
+import com.example.yourtask.model.User;
+import com.example.yourtask.model.UtentiTask;
+import com.example.yourtask.utility.DateFormatter;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.time.LocalDate;
@@ -44,6 +50,11 @@ public class CreateTaskFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_create_task, container, false);
 
+        Bundle bundle = getArguments();
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("login", Context.MODE_PRIVATE);
+        int id_utente = sharedPreferences.getInt("id", 0);
+
         Button newTask = view.findViewById(R.id.new_task_create_button);
         EditText nomeTaskEditText = view.findViewById(R.id.new_task_name_edittext);
         EditText dataAvvioEditText = view.findViewById(R.id.new_task_start_date_edittext);
@@ -51,9 +62,19 @@ public class CreateTaskFragment extends Fragment
 
         ImageView start_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_start_date_calendar_icon);
         ImageView end_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_end_date_calendar_icon);
-        AutoCompleteTextView collaborators_autocomplete = (AutoCompleteTextView)view.findViewById(R.id.new_task_collaborators_autocomplete);
-        ListView collaborators_listview = (ListView)view.findViewById(R.id.new_task_collaborators_listview);
         Spinner priority_spinner = (Spinner)view.findViewById(R.id.new_task_priority_spinner);
+
+        if (bundle.containsKey("edit"))
+        {
+            nomeTaskEditText.setText(bundle.getString("nome_task"));
+            dataAvvioEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_avvio")));
+            dataScandenzaEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_scadenza")));
+
+            int priorita = bundle.getInt("priorita");
+            priority_spinner.setSelection(Math.min(priorita, 3));
+
+            newTask.setText("Modifica");
+        }
 
         priority_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -77,29 +98,59 @@ public class CreateTaskFragment extends Fragment
             @Override
             public void onClick(View v) {
                 String nomeTaskText = nomeTaskEditText.getText().toString();
-                String dataAvvioText = dataAvvioEditText.getText().toString();
-                String dataScadenzaText = dataScandenzaEditText.getText().toString();
+                String dataAvvioText = DateFormatter.format(DateFormatter.DateFormat.TICK, dataAvvioEditText.getText().toString());
+                String dataScadenzaText = DateFormatter.format(DateFormatter.DateFormat.TICK, dataScandenzaEditText.getText().toString());
 
-                String[] dataAvvioSplit = dataAvvioText.split("/");
-                String dataAvvio = String.format("%s-%s-%s", dataAvvioSplit[2], dataAvvioSplit[1], dataAvvioSplit[0]);
-
-                String[] dataScadenzaSplit = dataAvvioText.split("/");
-                String dataScadenza = String.format("%s-%s-%s", dataScadenzaSplit[2], dataScadenzaSplit[1], dataScadenzaSplit[0]);
-
-                if (nomeTaskText.equals("") || dataAvvioText.equals("") || dataScadenzaText.equals(""))
+                if (nomeTaskText.trim().equals("") || dataAvvioText.trim().equals("") || dataScadenzaText.trim().equals(""))
                     Toast.makeText(getActivity(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
-                else {
-                    ApiRequest.postTask(new Task(1, nomeTaskText, dataAvvio, dataScadenza, priorita, 1), new ReceiveDataCallback<Integer>() {
+                else if (!bundle.containsKey("edit")) {
+                    ApiRequest.postTask(new Task(bundle.getInt("id"), nomeTaskText, dataAvvioText, dataScadenzaText, priorita, bundle.getInt("id_progetto")), new ReceiveDataCallback<RequestResult>() {
+                        int id_task;
+
                         @Override
-                        public void receiveData(Integer o) {
-                            if (o == 200) {
-                                Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
-                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProjectFragment()).commit();
+                        public void receiveData(RequestResult o) {
+                            id_task = o.id;
+
+                            if (o.code == 200) {
+                                Bundle returnBundle = new Bundle();
+                                returnBundle.putInt("id", bundle.getInt("id_progetto"));
+                                returnBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
+
+                                ProjectFragment projectFragment = new ProjectFragment();
+                                projectFragment.setArguments(returnBundle);
+
+                                ArrayList<UtentiTask> utentiTask = new ArrayList<>();
+                                utentiTask.add(new UtentiTask(id_task, id_utente));
+                                ApiRequest.postUtentiTask(utentiTask, new ReceiveDataCallback<RequestResult>() {
+                                    @Override
+                                    public void receiveData(RequestResult o) {
+                                        if (o.code == 200)
+                                        {
+                                            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectFragment).commit();
+                                        }
+                                    }
+                                });
                             }
-                            else if (o == 400)
-                                Toast.makeText(getActivity(), "400", Toast.LENGTH_LONG).show();
-                            else if (o == 500)
-                                Toast.makeText(getActivity(), "500", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                else
+                {
+                    ApiRequest.putTask(bundle.getInt("id"), new Task(bundle.getInt("id"), bundle.getString("nome_task"), bundle.getString("data_avvio"), bundle.getString("data_scadenza"), bundle.getInt("priorita"), bundle.getInt("id_progetto")), new ReceiveDataCallback<RequestResult>() {
+                        @Override
+                        public void receiveData(RequestResult o)
+                        {
+                            if (o.code == 200)
+                            {
+                                Bundle returnBundle = new Bundle();
+                                returnBundle.putInt("id", bundle.getInt("id_progetto"));
+                                returnBundle.putString("nome_progetto", bundle.getString("nome_progetto"));
+
+                                ProjectFragment projectFragment = new ProjectFragment();
+                                projectFragment.setArguments(returnBundle);
+
+                                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectFragment).commit();
+                            }
                         }
                     });
                 }
@@ -112,24 +163,6 @@ public class CreateTaskFragment extends Fragment
                 new String[] { "Bassa", "Media", "Alta"});
 
         priority_spinner.setAdapter(priority_spinner_arrayAdapter);
-
-        CollaboratorsAdapter collaborators_autocomplete_adapter = new CollaboratorsAdapter(
-                getContext(),
-                new ArrayList<String>());
-        collaborators_listview.setAdapter(collaborators_autocomplete_adapter);
-
-        collaborators_autocomplete.setThreshold(1);
-
-        collaborators_autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                collaborators_autocomplete_adapter.add(parent.getItemAtPosition(position).toString());
-                collaborators_autocomplete_adapter.notifyDataSetChanged();
-                collaborators_autocomplete.setText("");
-            }
-        });
 
         start_date_calendar_icon.setOnClickListener(new View.OnClickListener()
         {

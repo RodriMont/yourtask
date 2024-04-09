@@ -1,38 +1,39 @@
 package com.example.yourtask;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yourtask.adapters.CollaboratorsAdapter;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
 import com.example.yourtask.model.ReceiveDataCallback;
-import com.example.yourtask.model.ResponseBody;
+import com.example.yourtask.model.RequestResult;
 import com.example.yourtask.model.User;
 import com.example.yourtask.model.UtentiProgetto;
+import com.example.yourtask.utility.DateFormatter;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class CreateProjectFragment extends Fragment
 {
@@ -43,48 +44,20 @@ public class CreateProjectFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.create_project_fragment, container, false);
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        int id_utente = sharedPreferences.getInt("id", 0);
+
         Bundle bundle = getArguments();
 
         EditText nomeProgettoEditText = view.findViewById(R.id.new_project_name_textView);
         EditText dataAvvioEditText = view.findViewById(R.id.new_project_start_date_edittext);
         EditText dataScandenzaEditText = view.findViewById(R.id.new_project_end_date_edittext);
         EditText budgetEditText = view.findViewById(R.id.new_project_budget_editText);
-        EditText collaboratorsEditText = view.findViewById(R.id.new_project_collaborators_edittext);
-        ListView collaboratorsListView = view.findViewById(R.id.new_project_collaborators_listview);
-
-        ArrayList<String> collaborators = new ArrayList<>();
-        CollaboratorsAdapter collaboratorsAdapter = new CollaboratorsAdapter(getContext(), collaborators);
-        collaboratorsListView.setAdapter(collaboratorsAdapter);
-
-        collaboratorsEditText.setOnKeyListener(new View.OnKeyListener()
-        {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event)
-            {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
-                {
-                    String item = collaboratorsEditText.getText().toString();
-
-                    if (!item.trim().equals(""))
-                    {
-                        collaborators.add(item);
-                        collaboratorsAdapter.notifyDataSetChanged();
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        });
 
         if (bundle != null) {
             nomeProgettoEditText.setText(bundle.getString("nome_progetto"));
-
-            String[] dataAvvioSplit = bundle.getString("data_avvio").split("-");
-            dataAvvioEditText.setText(String.format("%s/%s/%s", dataAvvioSplit[2], dataAvvioSplit[1], dataAvvioSplit[0]));
-
-            String[] dataScadenzaSplit = bundle.getString("data_scadenza").split("-");
-            dataScandenzaEditText.setText(String.format("%s/%s/%s", dataScadenzaSplit[2], dataScadenzaSplit[1], dataScadenzaSplit[0]));
+            dataAvvioEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_avvio")));
+            dataScandenzaEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_scadenza")));
 
             budgetEditText.setText(String.valueOf(bundle.getFloat("budget")));
         }
@@ -110,70 +83,58 @@ public class CreateProjectFragment extends Fragment
         });
 
         creaProgetto = view.findViewById(R.id.new_project_button);
+
+        if (bundle != null)
+            creaProgetto.setText("Modifica");
+
         creaProgetto.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-
                 String nomeProgettoText = nomeProgettoEditText.getText().toString();
-
-                String[] dataAvvioSplit = dataAvvioEditText.getText().toString().split("/");
-                String dataAvvioText = String.format("%s-%s-%s", dataAvvioSplit[2], dataAvvioSplit[1], dataAvvioSplit[0]);
-
-                String[] dataScadenzaSplit = dataScandenzaEditText.getText().toString().split("/");
-                String dataScadenzaText = String.format("%s-%s-%s", dataScadenzaSplit[2], dataScadenzaSplit[1], dataScadenzaSplit[0]);
-
+                String dataAvvioText = DateFormatter.format(DateFormatter.DateFormat.TICK, dataAvvioEditText.getText().toString());
+                String dataScadenzaText = DateFormatter.format(DateFormatter.DateFormat.TICK, dataScandenzaEditText.getText().toString());
                 String budgetText = budgetEditText.getText().toString();
 
-                if (nomeProgettoText.equals("") || dataAvvioText.equals("") || dataScadenzaText.equals("") || budgetText.equals(""))
+                if (nomeProgettoText.trim().equals("") || dataAvvioText.trim().equals("") || dataScadenzaText.trim().equals("") || budgetText.trim().equals(""))
                     Toast.makeText(getActivity(), "Campo obbligatorio", Toast.LENGTH_LONG).show();
                 else if (bundle == null) {
-                    ApiRequest.postProgetto(new Progetto(1, nomeProgettoText, dataAvvioText, dataScadenzaText, Float.parseFloat(budgetText)), new ReceiveDataCallback<ResponseBody>() {
-                        public int id;
+                    ApiRequest.postProgetto(new Progetto(1, nomeProgettoText, dataAvvioText, dataScadenzaText, Float.parseFloat(budgetText)), new ReceiveDataCallback<RequestResult>() {
+                        public int id_progetto;
+
                         @Override
-                        public void receiveData(ResponseBody o) {
-                            id = o.id;
-                            if (o.code == 200) {
-                                for (int i=0; i<collaborators.size();i++) {
-                                    Call<ArrayList<User>> call = ApiRequest.apiService.getUser(collaborators.get(i));
-                                    try {
-                                        Response<ArrayList<User>> response = call.execute();
-                                        ArrayList<User> utenti = response.body();
-                                        if (utenti.size() > 0) {
-                                            Call<User> call2 = ApiRequest.apiService.postUtentiProgetto(new UtentiProgetto(utenti.get(0).id, id));
-                                            Response<User> res = call2.execute();
+                        public void receiveData(RequestResult o) {
+                            id_progetto = o.id;
+
+                            if (o.code == 200)
+                            {
+                                ArrayList<UtentiProgetto> creatore = new ArrayList<>();
+                                creatore.add(new UtentiProgetto(id_utente, id_progetto));
+
+                                ApiRequest.postUtentiProgetto(creatore, new ReceiveDataCallback<RequestResult>()
+                                {
+                                    @Override
+                                    public void receiveData(RequestResult o)
+                                    {
+                                        if (o.code == 200)
+                                        {
+                                            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
                                         }
                                     }
-                                    catch(IOException e) {
-
-                                    }
-
-                                    Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
-                                    requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
-                                }
-
-
+                                });
                             }
-                            else if (o.code == 400)
-                                Toast.makeText(getActivity(), "400", Toast.LENGTH_LONG).show();
-                            else if (o.code == 500)
-                                Toast.makeText(getActivity(), "500", Toast.LENGTH_LONG).show();
                         }
                     });
 
                 }
                 else {
                     Progetto progetto = new Progetto(bundle.getInt("id"), nomeProgettoText, dataAvvioText, dataScadenzaText, Float.parseFloat(budgetText));
-                    ApiRequest.putProgetto(bundle.getInt("id"), progetto, new ReceiveDataCallback<Integer>() {
+                    ApiRequest.putProgetto(bundle.getInt("id"), progetto, new ReceiveDataCallback<RequestResult>() {
                         @Override
-                        public void receiveData(Integer o) {
-                            if (o == 200) {
-                                Toast.makeText(getActivity(), "200", Toast.LENGTH_LONG).show();
+                        public void receiveData(RequestResult o) {
+                            if (o.code == 200) {
                                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomepageFragment()).commit();
                             }
-                            else if (o == 500)
-                                Toast.makeText(getActivity(), "500", Toast.LENGTH_LONG).show();
                         }
                     });
                 }

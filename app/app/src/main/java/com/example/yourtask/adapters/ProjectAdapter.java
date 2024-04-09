@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -16,18 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yourtask.CreateProjectFragment;
-import com.example.yourtask.ProjectFragment;
+import com.example.yourtask.ProjectUsersFragment;
 import com.example.yourtask.model.ApiRequest;
 import com.example.yourtask.model.Progetto;
-import com.example.yourtask.model.Project;
 import com.example.yourtask.R;
 import com.example.yourtask.model.ReceiveDataCallback;
+import com.example.yourtask.model.RequestResult;
+import com.example.yourtask.utility.DateFormatter;
 
 import java.util.ArrayList;
 
 public class ProjectAdapter extends ArrayAdapter<Progetto> {
     private Context context;
-
 
     public ProjectAdapter(Context context, int resource, ArrayList<Progetto> objects) {
         super(context, resource, objects);
@@ -54,7 +53,7 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
             public void onClick(View v)
             {
                 PopupMenu popupMenu = new PopupMenu(context, v);
-                popupMenu.getMenuInflater().inflate(R.menu.options_popup_menu, popupMenu.getMenu());
+                popupMenu.getMenuInflater().inflate(R.menu.project_options_popup_menu, popupMenu.getMenu());
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
                 {
@@ -63,17 +62,16 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
                     {
                         int id = item.getItemId();
 
-                        if (id == R.id.options_popup_menu_delete) {
-                            ApiRequest.deleteProgetto(project.id, new ReceiveDataCallback<Integer>() {
+                        if (id == R.id.project_options_popup_menu_delete) {
+                            ApiRequest.deleteProgetto(project.id, new ReceiveDataCallback<RequestResult>() {
                                 @Override
-                                public void receiveData(Integer o) {
+                                public void receiveData(RequestResult o) {
                                     remove(project);
                                     notifyDataSetChanged();
                                 }
                             });
                         }
-
-                        else if (id == R.id.options_popup_menu_edit) {
+                        else if (id == R.id.project_options_popup_menu_edit) {
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("edit", true);
                             bundle.putInt("id", project.id);
@@ -87,6 +85,18 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
 
                             ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, createProject).commit();
                         }
+                        else if (id == R.id.project_options_popup_menu_show_users)
+                        {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("id", project.id);
+                            bundle.putString("nome_progetto", project.nome_progetto);
+
+                            ProjectUsersFragment projectUsers = new ProjectUsersFragment();
+                            projectUsers.setArguments(bundle);
+
+                            ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, projectUsers).commit();
+                        }
+
                         return true;
                     }
                 });
@@ -98,8 +108,8 @@ public class ProjectAdapter extends ArrayAdapter<Progetto> {
         assert project != null;
 
         nomeTextView.setText(project.nome_progetto);
-        startTextView.setText(project.data_avvio);
-        endTextView.setText(project.data_scadenza);
+        startTextView.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, project.data_avvio));
+        endTextView.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, project.data_scadenza));
 
         return convertView;
     }
