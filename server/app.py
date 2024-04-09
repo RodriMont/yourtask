@@ -121,6 +121,8 @@ def get_task_utente():
 
     rows = cursor.fetchall()
     tasks = []
+    
+    print(rows)
 
     for row in rows:
         id = row[0]
