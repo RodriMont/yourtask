@@ -31,8 +31,8 @@
 
         <ImageView
             android:id="@+id/tasks_listview_priority_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@id/tasks_listview_options_icon"
             android:src="@drawable/placeholder"/>

@@ -95,7 +95,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
                 Drawable collaborators_listview_drawable = ContextCompat.getDrawable(context, R.drawable.rounded_frame).mutate();
                 GradientDrawable collaborators_listview_gradient = (GradientDrawable)collaborators_listview_drawable;
 
-                collaborators_listview_gradient.setColor(Color.rgb(144, 238, 144));
+                collaborators_listview_gradient.setColor(Color.rgb(175, 225, 175));
 
                 viewHolder.layout.setBackground(collaborators_listview_gradient);
             }
@@ -104,6 +104,14 @@ public class TasksAdapter extends ArrayAdapter<Task>
         viewHolder.task_name_label.setText(task.nome_task);
         viewHolder.start_date.setText(task.data_avvio);
         viewHolder.end_date.setText(task.data_scadenza);
+
+        if (task.priorita == 1)
+            viewHolder.priority_icon.setImageResource(R.drawable.prioritity_low);
+        else if (task.priorita == 2)
+            viewHolder.priority_icon.setImageResource(R.drawable.priority_medium);
+        else if (task.priorita == 3)
+            viewHolder.priority_icon.setImageResource(R.drawable.priority_high);
+
         viewHolder.options_icon.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -173,7 +181,7 @@ public class TasksAdapter extends ArrayAdapter<Task>
                                     Drawable collaborators_listview_drawable = ContextCompat.getDrawable(context, R.drawable.rounded_frame).mutate();
                                     GradientDrawable collaborators_listview_gradient = (GradientDrawable)collaborators_listview_drawable;
 
-                                    collaborators_listview_gradient.setColor(Color.rgb(144, 238, 144));
+                                    collaborators_listview_gradient.setColor(Color.rgb(175, 225, 175));
 
                                     viewHolder.layout.setBackground(collaborators_listview_gradient);
                                 }

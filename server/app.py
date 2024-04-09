@@ -209,8 +209,6 @@ def get_ruolo_utente():
 
 @app.route("/lavori")
 def get_lavori():
-    data = request.json
-
     id_utente = request.args.get("id_utente")
     id_progetto = request.args.get("id_progetto")
     id_ruolo = request.args.get("id_ruolo")
@@ -223,12 +221,12 @@ def get_lavori():
     lavori = []
 
     for row in rows:
-        id_utente = row[0]
-        id_progetto = row[1]
-        id_task = row[2]
-        id_ruolo = row[3]
+        id_utente_ = row[0]
+        id_progetto_ = row[1]
+        id_task_ = row[2]
+        id_ruolo_ = row[3]
 
-        lavoro = Lavoro(id_utente, id_progetto, id_task, id_ruolo)
+        lavoro = Lavoro(id_utente_, id_progetto_, id_task_, id_ruolo_)
         lavori.append(lavoro.__dict__)
 
     return json.dumps(lavori)
