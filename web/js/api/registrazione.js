@@ -22,7 +22,6 @@ export async function registrazione() {
       data
     );
 
-    console.log(dataRequest)
 
     if (!dataRequest.ok) {
       alert(dataRequest["message"]);

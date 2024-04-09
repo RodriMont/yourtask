@@ -12,8 +12,15 @@ db = pymysql.connect(host="rest-api.clweu6iamvqi.eu-north-1.rds.amazonaws.com",
                     database="yourtask", 
                     autocommit=True)
 
+""" db = pymysql.connect(host="127.0.0.1", 
+                    port=3306, user="root", 
+                    password="1234", 
+                    database="yourtask", 
+                    autocommit=True) """
+
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
+
 cursor = db.cursor()
 
 #=================================================================================================================================
@@ -126,32 +133,55 @@ def get_utenti_task():
 
     return json.dumps(utenti)
 
+
+# restituice unico progetto 
+@app.route("/progetto")
+def get_unico_progetto():
+    with db.cursor() as cursor:
+        id = request.args.get("id")
+        sql = "SELECT * FROM progetti WHERE id=%s"
+        cursor.execute(sql, (id,))
+        result = cursor.fetchone()
+        
+        result = {
+            "id": result[0],
+            "nomeProgetto": result[1],
+            "dataAvvio": result[2],
+            "dataScadenza": result[3]
+        }
+        return jsonify(result)
+
 # Ritorna tutti gli utenti che partecipano in un determinato progetto, dato il suo id e l'id del progetto
-@app.route("/utenti_progetto")
+@app.route("/utenti_progetto", methods=['GET'])
 def get_utenti_progetto():
-    id_progetto = request.args.get('id_progetto')
+    try:
+        id_progetto = request.args.get('id_progetto')
+        cursor.execute(f"""select utenti.id, utenti.username, utenti.email, utenti.password
+                        from progettiutente
+                        inner join utenti
+                        on progettiutente.id_utente = utenti.id
+                        inner join progetti
+                        on progettiutente.id_progetto = progetti.id
+                        where progettiutente.id_progetto = {id_progetto}""")
 
-    cursor.execute(f"""select utenti.id, utenti.username, utenti.email, utenti.password
-                       from progettiutente
-                       inner join utenti
-                       on progettiutente.id_utente = utenti.id
-                       inner join progetti
-                       on progettiutente.id_progetto = progetti.id
-                       where progettiutente.id_progetto = {id_progetto}""")
+        rows = cursor.fetchall()
+        utenti = []
 
-    rows = cursor.fetchall()
-    utenti = []
+        for row in rows:
+            id = row[0]
+            username = row[1]
+            email = row[2]
+            password = row[3]
 
-    for row in rows:
-        id = row[0]
-        username = row[1]
-        email = row[2]
-        password = row[3]
+            utente = Utente(id, username, email, password)
+            utenti.append(utente.__dict__)
+            
 
-        utente = Utente(id, username, email, password)
-        utenti.append(utente.__dict__)
-
-    return json.dumps(utenti)
+        return json.dumps(utenti)
+    except: 
+        return jsonify({
+            "message": "Server error"
+        })
 
 @app.route("/ruolo_utente")
 def get_ruolo_utente():
@@ -191,7 +221,6 @@ def registrazione_utente():
     email = data["email"]
     password = data["password"]
 
-    print(email)
 
     res = {
         "ok": False,

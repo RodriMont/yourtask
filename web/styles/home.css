@@ -132,3 +132,10 @@ body{
 .progetto{
   margin-bottom: 2rem;
 }
+
+.progetto-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

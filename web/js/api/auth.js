@@ -21,7 +21,7 @@ export const login = async () => {
     try{
         const {data} = await axios.post("http://127.0.0.1:5000/login", {email, password});
 
-
+        console.log(data)
         if(!data.auth) {
             alert(data.message)
             return
@@ -40,6 +40,7 @@ export const login = async () => {
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
     }catch(e){
+        console.warn(e)
        alert("Server error");
     }
 }
