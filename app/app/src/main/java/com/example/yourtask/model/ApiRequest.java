@@ -16,7 +16,7 @@ public class ApiRequest {
     private static ApiEndpoint apiService;
 
     public static void setup () {
-        baseurl = "http://192.168.0.102:5000";
+        baseurl = "http://192.168.0.103:5000";
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseurl)
                 .addConverterFactory(GsonConverterFactory.create())
