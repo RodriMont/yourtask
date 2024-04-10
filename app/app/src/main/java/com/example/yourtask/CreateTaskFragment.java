@@ -65,6 +65,13 @@ public class CreateTaskFragment extends Fragment
         ImageView end_date_calendar_icon = (ImageView)view.findViewById(R.id.new_task_end_date_calendar_icon);
         Spinner priority_spinner = (Spinner)view.findViewById(R.id.new_task_priority_spinner);
 
+        ArrayAdapter<String> priority_spinner_arrayAdapter = new ArrayAdapter<String>(
+                getContext(),
+                android.R.layout.simple_spinner_item,
+                new String[] { "Bassa", "Media", "Alta"});
+
+        priority_spinner.setAdapter(priority_spinner_arrayAdapter);
+
         if (bundle.containsKey("edit"))
         {
             TextView title = view.findViewById(R.id.new_task_title);
@@ -74,8 +81,8 @@ public class CreateTaskFragment extends Fragment
             dataAvvioEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_avvio")));
             dataScandenzaEditText.setText(DateFormatter.format(DateFormatter.DateFormat.SLASH, bundle.getString("data_scadenza")));
 
-            int priorita = bundle.getInt("priorita");
-            priority_spinner.setSelection(Math.min(priorita, 3));
+            int prio = bundle.getInt("priorita");
+            priority_spinner.setSelection(Math.min(prio, 3) - 1);
 
             newTask.setText("Modifica");
         }
@@ -160,13 +167,6 @@ public class CreateTaskFragment extends Fragment
                 }
             }
         });
-
-        ArrayAdapter<String> priority_spinner_arrayAdapter = new ArrayAdapter<String>(
-                getContext(),
-                android.R.layout.simple_spinner_item,
-                new String[] { "Bassa", "Media", "Alta"});
-
-        priority_spinner.setAdapter(priority_spinner_arrayAdapter);
 
         start_date_calendar_icon.setOnClickListener(new View.OnClickListener()
         {
