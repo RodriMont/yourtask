@@ -140,7 +140,7 @@ public class CreateTaskFragment extends Fragment
                 }
                 else
                 {
-                    ApiRequest.putTask(bundle.getInt("id"), new Task(bundle.getInt("id"), bundle.getString("nome_task"), bundle.getString("data_avvio"), bundle.getString("data_scadenza"), bundle.getInt("priorita"), bundle.getInt("id_progetto")), new ReceiveDataCallback<RequestResult>() {
+                    ApiRequest.putTask(bundle.getInt("id"), new Task(bundle.getInt("id"), nomeTaskText, dataAvvioText, dataScadenzaText, priorita, bundle.getInt("id_progetto")), new ReceiveDataCallback<RequestResult>() {
                         @Override
                         public void receiveData(RequestResult o)
                         {

@@ -404,6 +404,7 @@ public class ApiRequest {
 
     public static void putTask (int id, Task task, ReceiveDataCallback<RequestResult> callback) {
         Call<RequestResult> putTask = apiService.putTask(id, task);
+
         putTask.enqueue(new Callback<RequestResult>() {
             @Override
             public void onResponse(Call<RequestResult> call, Response<RequestResult> response) {
